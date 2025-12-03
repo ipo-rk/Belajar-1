@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Bootstrap 5.3</title>
+
+
+    <!-- Bootstrap css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="bg-dark">
+
+    <!-- header -->
+    <header class="bg-dark text-light" style="background-image: url(assets/img/image\ \(6\).jpg);
+         background-repeat: no-repeat; background-size: cover; background-attachment: fixed; min-height: 50vh;">
+        <div class="container-fluid text-center text-light py-1 mt-1" style="background-color: rgba(0, 0, 0, 0.655);">
+            <div class="row align-items-center justify-content-center g-3">
+                <div class="col-12 col-md-6 order-md-1 d-flex flex-column align-items-center">
+                    <img src="assets/img/logo.png" alt="Enauto Coffee Logo"
+                        class="shadow-lg rounded-circle mt-lg-3 py-3 mb-3"
+                        style="width: 100%; max-width: 150px; height: auto;">
+                    <h1 class="my-2 display-1 fw-bold" style="font-size: clamp(1.5rem, 5vw, 3rem);">Enauto Coffe</h1>
+                    <p class="fs-4 mb-0" style="font-size: clamp(0.9rem, 2vw, 1.25rem);">Coffe Shop Terbaik di Indonesia
+                    </p>
+                </div>
+                <div
+                    class="col-12 col-md-6 order-md-2 py-lg-5 d-flex flex-column align-items-center justify-content-center gap-2">
+                    <a href="#" class="btn btn-dark btn-lg px-4 px-md-5 fw-semibold w-50"
+                        style="font-size: clamp(0.9rem, 2vw, 1.1rem);">Login</a>
+                    <a href="#" class="btn btn-dark btn-lg px-4 px-md-5 fw-semibold w-50"
+                        style="font-size: clamp(0.9rem, 2vw, 1.1rem);">Register</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- nav -->
+        <nav
+            class="navbar navbar-expand-lg bg-dark navbar-dark sticky-navbar  border-top border-bottom border-secondary ">
+            <div class="container-fluid my-lg-3">
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center mt-3" id="navbarNav">
+                    <ul class="navbar-nav fs-5 fw-semibold gap-2 gap-lg-3">
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-dark px-3 px-lg-4 active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-dark px-3 px-lg-4" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-dark px-3 px-lg-4" href="#features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-dark px-3 px-lg-4" href="#pricing">Pricing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-dark px-3 px-lg-4" href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- end nav -->
+    </header>
+    <!-- end header -->
+
+    <!-- main -->
+    <main>
+        <!-- About section -->
+        <section id="about"
+            style="background-image: url(assets/img/image\ \(1\).png); background-repeat: no-repeat; background-size: cover; background-attachment: fixed; min-height: 100vh; padding: 0;">
+            <div class="container-fluid "
+                style="background-color: rgba(0, 0, 0, 0.655); border-bottom: 2px solid; height: 100%; display: flex; align-items: center; justify-content: center;">
+                <div class="row py-lg-5 pb-md-5 px-3 px-md-5 mt-lg-5">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <div class="container-fluid text-center   text-light shadow-lg p-3 p-md-4 rounded">
+                            <h2 class="product-section-title display-1  shadow-lg"
+                                style="font-size: clamp(1.5rem, 7vw, 3.5rem);">About Us</h2>
+                            <p class="lead" style="font-size: clamp(0.9rem, 2vw, 1rem);">Enauto Coffe adalah Coffe Shop
+                                terbaik di Indonesia yang menyediakan berbagai macam kopi berkualitas tinggi dengan cita
+                                rasa yang nikmat dan pelayanan yang ramah. Sejak berdiri pada tahun 2015, kami telah
+                                melayani ribuan pelanggan setia dengan setiap biji kopi yang dipilih langsung dari
+                                petani terpercaya. Tim barista kami terlatih dan berpengalaman lebih dari 10 tahun
+                                menggunakan mesin espresso terkini untuk menghasilkan kopi terbaik. Suasana kedai kami
+                                dirancang untuk kenyamanan maksimal dengan menyediakan WiFi gratis untuk semua
+                                pengunjung. Kami menyediakan berbagai menu makanan ringan yang lezat dengan harga sangat
+                                kompetitif dan terjangkau untuk semua kalangan. Lokasi kedai kami strategis dan mudah
+                                diakses dari berbagai tempat dengan prioritas utama kebersihan dan kualitas hygienitas.
+                                Pelanggan dapat menikmati kopi di dalam kedai atau membawa pulang, serta mendapatkan
+                                poin reward dari setiap pembelian. Kami memiliki program loyalitas khusus untuk
+                                pelanggan setia dan terus membuka cabang baru di berbagai kota besar Indonesia. Tim
+                                customer service kami siap melayani dengan profesional dan memberikan yang terbaik untuk
+                                kepuasan pelanggan. Terima kasih telah mempercayai Enauto Coffe sebagai pilihan kedai
+                                kopi Anda.</p>
+                            <div class="col-12">
+                                <div class="row g-2 g-md-4">
+                                    <div class="col-12 col-md-6">
+                                        <div
+                                            class="product-card p-3 p-md-4 text-center bg-dark text-light shadow-lg rounded">
+                                            <i class="fas fa-seedling fa-2x fa-md-3x mb-2 mb-md-3"
+                                                style="font-size: clamp(1.5rem, 3vw, 3rem);"></i>
+                                            <h3 class="mb-2" style="font-size: clamp(1rem, 2vw, 1.5rem);">Quality Beans
+                                            </h3>
+                                            <p style="font-size: clamp(0.85rem, 1.5vw, 1rem);">Kami hanya menggunakan
+                                                biji kopi terbaik dari petani terpercaya.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div
+                                            class="product-card p-3 p-md-4 text-center bg-dark text-light shadow-lg rounded">
+                                            <i class="fas fa-users fa-2x fa-md-3x mb-2 mb-md-3"
+                                                style="font-size: clamp(1.5rem, 3vw, 3rem);"></i>
+                                            <h3 class="mb-2" style="font-size: clamp(1rem, 2vw, 1.5rem);">Experienced
+                                                Baristas</h3>
+                                            <p style="font-size: clamp(0.85rem, 1.5vw, 1rem);">Tim barista kami
+                                                berpengalaman lebih dari 10 tahun dalam menyeduh kopi.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--Features section  -->
+        <section id="features" class="product-section"
+            style="background-image: url(assets/img/image.jpg);
+         background-repeat: no-repeat; background-size: cover; background-attachment: fixed; min-height: 100vh; border: 2px solid; padding: 0">
+            <div class="container-fluid px-3 px-md-5 pt-0 mt-0 align-content-center justify-content-center text-light"
+                style="background-color: rgba(0, 0, 0, 0.655);">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h2 class="product-section-title display-1 my-3 my-md-5 py-3 py-md-5 shadow-lg"
+                            style="font-size: clamp(1.5rem, 7vw, 3.5rem);">Our Features</h2>
+                        <p class="lead" style="font-size: clamp(0.9rem, 2vw, 1.1rem);">Temukan fitur-fitur unik yang
+                            membedakan Enauto Coffe dari yang lain. Dari
+                            perpaduan kopi kami yang ahli hingga suasana nyaman, kami menawarkan pengalaman kopi yang
+                            tak tertandingi. Nikmati WiFi gratis, tempat duduk yang nyaman, dan berbagai pastry lezat
+                            untuk melengkapi minuman Anda. Barista kami yang ramah berdedikasi untuk memberikan layanan
+                            yang luar biasa, memastikan setiap kunjungan berkesan. Apakah Anda di sini untuk bekerja,
+                            bersantai, atau bersosialisasi, Enauto Coffe memiliki sesuatu untuk semua orang.</p>
+                    </div>
+                    <div class="col-12 bg-transparent rounded-3 shadow-lg  pt-2 pt-md-3">
+                        <div class="row g-2 g-md-4 mb-3 mb-md-5 my-3 my-md-5 px-3 px-md-0">
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div class="product-card p-3 p-md-4 text-center bg-dark text-light shadow-lg rounded"
+                                    style="border-top: 2px solid; border-right: 2px solid;">
+                                    <i class="fas fa-wifi fa-2x fa-md-3x mb-2 mb-md-3"
+                                        style="font-size: clamp(1.5rem, 3vw, 3rem);"></i>
+                                    <h3 class="mb-2" style="font-size: clamp(1rem, 2vw, 1.5rem);">Free WiFi</h3>
+                                    <p style="font-size: clamp(0.85rem, 1.5vw, 1rem);">Nikmati koneksi internet cepat
+                                        dan gratis di setiap sudut kedai kami.</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div class="product-card p-3 p-md-4 text-center bg-dark text-light shadow-lg rounded"
+                                    style="border-top: 2px solid; border-right: 2px solid;">
+                                    <i class="fas fa-coffee fa-2x fa-md-3x mb-2 mb-md-3"
+                                        style="font-size: clamp(1.5rem, 3vw, 3rem);"></i>
+                                    <h3 class="mb-2" style="font-size: clamp(1rem, 2vw, 1.5rem);">Premium Coffee</h3>
+                                    <p style="font-size: clamp(0.85rem, 1.5vw, 1rem);">Rasakan cita rasa kopi terbaik
+                                        yang diseduh dari biji kopi pilihan.</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4 mx-auto mx-md-0">
+                                <div class="product-card p-3 p-md-4 text-center bg-dark text-light shadow-lg rounded"
+                                    style="border-top: 2px solid; border-right: 2px solid;">
+                                    <i class="fas fa-mug-hot fa-2x fa-md-3x mb-2 mb-md-3"
+                                        style="font-size: clamp(1.5rem, 3vw, 3rem);"></i>
+                                    <h3 class="mb-2" style="font-size: clamp(1rem, 2vw, 1.5rem);">Cozy Atmosphere</h3>
+                                    <p style="font-size: clamp(0.85rem, 1.5vw, 1rem);">Rasakan suasana nyaman yang
+                                        membuat Anda betah berlama-lama di kedai kami.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!--Pricing section  -->
+        <section id="pricing" class="product-section border-top border-bottom border-secondary">
+            <div class="container-fluid py-3 py-md-5 px-3 px-md-5 text-light">
+                <div class="row w-100 align-items-center justify-content-center">
+                    <div class="col-12 text-center mb-4 mb-md-5">
+                        <h2 class="product-section-title display-1 shadow-lg p-3 p-md-5"
+                            style="font-size: clamp(1.5rem, 7vw, 3.5rem);">Our Pricing</h2>
+                        <p class="lead py-2 py-md-3" style="font-size: clamp(0.9rem, 2vw, 1.1rem);">Enauto Coffe
+                            menawarkan berbagai pilihan kopi berkualitas tinggi dengan
+                            harga
+                            yang kompetitif. Mulai dari kopi hitam klasik hingga minuman kopi spesial, kami memiliki
+                            sesuatu untuk setiap selera dan anggaran. Nikmati harga terjangkau tanpa mengorbankan rasa
+                            atau kualitas. Kami juga menyediakan paket langganan bulanan untuk pelanggan setia yang
+                            ingin menikmati kopi favorit mereka setiap hari dengan harga spesial. Kunjungi kedai kami
+                            atau pesan secara online untuk menikmati penawaran terbaik kami.</p>
+                    </div>
+                    <div class="col-12">
+                        <div class="row g-2 g-md-4">
+                            <div class="col-12 col-md-6">
+                                <div
+                                    class="product-card p-3 p-md-4 bg-dark text-light shadow-lg rounded d-flex align-items-center">
+                                    <img src="assets/img/product img/espresso.png" alt="Espresso"
+                                        class="img-fluid rounded"
+                                        style="width: 100px; height: 100px; object-fit: cover; margin-right: 1rem;">
+                                    <div>
+                                        <h3 style="font-size: clamp(1rem, 2vw, 1.3rem);">Espresso</h3>
+                                        <p class="fs-4 fw-bold" style="font-size: clamp(0.9rem, 2vw, 1.25rem);">$2.50
+                                        </p>
+                                        <p style="font-size: clamp(0.8rem, 1.5vw, 0.95rem);">Kopi hitam pekat dengan
+                                            cita rasa yang kuat dan aroma yang menggoda.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div
+                                    class="product-card p-3 p-md-4 bg-dark text-light shadow-lg rounded d-flex align-items-center">
+                                    <img src="assets/img/product img/cappuccino.png" alt="Cappuccino"
+                                        class="img-fluid rounded"
+                                        style="width: 100px; height: 100px; object-fit: cover; margin-right: 1rem;">
+                                    <div>
+                                        <h3 style="font-size: clamp(1rem, 2vw, 1.3rem);">Cappuccino</h3>
+                                        <p class="fs-4 fw-bold" style="font-size: clamp(0.9rem, 2vw, 1.25rem);">$3.50
+                                        </p>
+                                        <p style="font-size: clamp(0.8rem, 1.5vw, 0.95rem);">Perpaduan sempurna antara
+                                            espresso, susu panas, dan busa susu lembut.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div
+                                    class="product-card p-3 p-md-4 bg-dark text-light shadow-lg rounded d-flex align-items-center">
+                                    <img src="assets/img/product img/latte.png" alt="Latte" class="img-fluid rounded"
+                                        style="width: 100px; height: 100px; object-fit: cover; margin-right: 1rem;">
+                                    <div>
+                                        <h3 style="font-size: clamp(1rem, 2vw, 1.3rem);">Latte</h3>
+                                        <p class="fs-4 fw-bold" style="font-size: clamp(0.9rem, 2vw, 1.25rem);">$4.00
+                                        </p>
+                                        <p style="font-size: clamp(0.8rem, 1.5vw, 0.95rem);">Minuman kopi creamy dengan
+                                            lebih banyak susu dan sedikit busa di atasnya.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div
+                                    class="product-card p-3 p-md-4 bg-dark text-light shadow-lg rounded d-flex align-items-center">
+                                    <img src="assets/img/product img/Americano.png" alt="Americano"
+                                        class="img-fluid rounded"
+                                        style="width: 100px; height: 100px; object-fit: cover; margin-right: 1rem;">
+                                    <div>
+                                        <h3 style="font-size: clamp(1rem, 2vw, 1.3rem);">Americano</h3>
+                                        <p class="fs-4 fw-bold" style="font-size: clamp(0.9rem, 2vw, 1.25rem);">$3.00
+                                        </p>
+                                        <p style="font-size: clamp(0.8rem, 1.5vw, 0.95rem);">Kopi hitam yang diseduh
+                                            dengan menambahkan air panas untuk rasa yang lebih
+                                            ringan.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div
+                                    class="product-card p-3 p-md-4 bg-dark text-light shadow-lg rounded d-flex align-items-center">
+                                    <img src="assets/img/product img/creme latte.png" alt="Creme Latte"
+                                        class="img-fluid rounded"
+                                        style="width: 100px; height: 100px; object-fit: cover; margin-right: 1rem;">
+                                    <div>
+                                        <h3 style="font-size: clamp(1rem, 2vw, 1.3rem);">Creme Latte</h3>
+                                        <p class="fs-4 fw-bold" style="font-size: clamp(0.9rem, 2vw, 1.25rem);">$3.00
+                                        </p>
+                                        <p style="font-size: clamp(0.8rem, 1.5vw, 0.95rem);">Kopi hitam yang diseduh
+                                            dengan menambahkan air panas untuk rasa yang lebih
+                                            ringan.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div
+                                    class="product-card p-3 p-md-4 bg-dark text-light shadow-lg rounded d-flex align-items-center">
+                                    <img src="assets/img/product img/coffe.png" alt="Coffe" class="img-fluid rounded"
+                                        style="width: 100px; height: 100px; object-fit: cover; margin-right: 1rem;">
+                                    <div>
+                                        <h3 style="font-size: clamp(1rem, 2vw, 1.3rem);">Coffe</h3>
+                                        <p class="fs-4 fw-bold" style="font-size: clamp(0.9rem, 2vw, 1.25rem);">$3.00
+                                        </p>
+                                        <p style="font-size: clamp(0.8rem, 1.5vw, 0.95rem);">Kopi hitam yang diseduh
+                                            dengan menambahkan air panas untuk rasa yang lebih
+                                            ringan.
+                                    </div>
+                                </div>
+                            </div>
+        </section>
+
+        <!--Contact section  -->
+        </div>
+        </div>
+        </section>
+
+        <!--Contact section  -->
+        <section id="contact" class="product-section">
+            <div class="container-fluid border-3 px-3 px-md-5">
+                <div class="row w-100 align-items-center justify-content-center">
+                    <div class="col-12 text-center mb-4 mb-md-5">
+                        <h2 class="product-section-title text-light display-1 shadow-lg p-3 p-md-5"
+                            style="font-size: clamp(1.5rem, 7vw, 3.5rem);">Contact info</h2>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="text-light text-center fw-semibold shadow-lg rounded p-3 p-md-4">
+                            <h1 style="font-size: clamp(1.2rem, 3vw, 1.8rem);">Message</h1>
+                            <form class="py-3 py-md-5">
+                                <div class="row g-2 g-md-3">
+                                    <div class="col-12 col-md-6">
+                                        <input type="text" class="form-control" placeholder="First name"
+                                            aria-label="First name" required>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <input type="text" class="form-control" placeholder="Last name"
+                                            aria-label="Last name" required>
+                                    </div>
+                                </div>
+                                <div class="row g-2 g-md-3 py-2 py-md-3">
+                                    <div class="col-12 col-md-6">
+                                        <input type="email" class="form-control" placeholder="Email" aria-label="Email"
+                                            required>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <input type="tel" class="form-control" placeholder="Phone number"
+                                            aria-label="Phone" required>
+                                    </div>
+                                </div>
+                                <div class="py-2 py-md-3">
+                                    <textarea class="form-control" placeholder="Your message here" id="messageTextarea"
+                                        rows="4" required></textarea>
+
+                                </div>
+                                <button type="submit" class="btn btn-warning fw-bold w-100"
+                                    style="font-size: clamp(0.9rem, 2vw, 1rem);">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="text-light text-center fw-semibold shadow-lg rounded p-3 p-md-4">
+                            <h1 style="font-size: clamp(1.2rem, 3vw, 1.8rem);">Location</h1>
+                            <iframe class="shadow-lg rounded-5 mt-3 mt-md-4 w-100"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.822149047318!2d110.40615!3d-7.797068!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a57fb5c5c5c5d%3A0x5c5c5c5c5c5c5c5c!2sEnauto%20Coffe!5e0!3m2!1sen!2sid!4v1234567890"
+                                style="width: 100%; height: 400px; border: 0; display: block;" allowfullscreen=""
+                                loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <!-- end main -->
+
+    <!-- footer -->
+    <footer class="bg-dark mt-3 mt-md-5 border-top border-secondary">
+        <div class="container-fluid text-center p-3 p-md-4 bg-dark text-light">
+            <div class="row align-items-center justify-content-center g-2 g-md-3">
+                <div class="col-12 col-md-auto">
+                    <p class="mb-0" style="font-size: clamp(0.85rem, 1.5vw, 0.95rem);">&copy; 2024 Enauto Coffe. All
+                        rights reserved.</p>
+                </div>
+                <div class="col-12 col-md-auto">
+                    <span style="font-size: clamp(0.85rem, 1.5vw, 0.95rem);">•</span>
+                </div>
+                <div class="col-12 col-md-auto">
+                    <p class="mb-0" style="font-size: clamp(0.85rem, 1.5vw, 0.95rem);"><a href="#"
+                            class="text-light text-decoration-none fw-semibold hover-link">Design by Devp_Rick11</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- end footer -->
+
+
+
+
+
+
+
+
+
+
+    <!-- font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+
+    <!-- Sticky Navbar JS -->
+    <script src="assets/js/javascrip.js"></script>
+</body>
+
+</html>
