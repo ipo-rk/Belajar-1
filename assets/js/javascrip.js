@@ -354,81 +354,222 @@ document.addEventListener('DOMContentLoaded', function () {
     // Add loading animation class on page load
     window.addEventListener('load', function () {
         document.body.style.opacity = '1';
+        initializeCart();
     });
 
-    // Add to Cart functionality
+    // ===== CART FUNCTIONALITY =====
+    function initializeCart() {
+        // Initialize existing delete buttons
+        updateDeleteButtons();
+        // Calculate initial total
+        updateTotal();
+    }
+
+    // Add to Cart button click handler
     const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
     addToCartBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
             const productName = this.getAttribute('data-product');
             const productPrice = this.getAttribute('data-price');
-            
-            // Create new table row
-            const orderTable = document.querySelector('.order-table tbody');
+
+            addProductToCart(productName, productPrice);
+
+            // Show success message
+            showTemporaryMessage(`${productName} ditambahkan ke keranjang!`);
+
+            // Add ripple effect
+            createRippleEffect(this, e);
+        });
+    });
+
+    // Add product to cart table
+    function addProductToCart(productName, productPrice) {
+        const orderTable = document.querySelector('.order-table tbody');
+        const dataRows = Array.from(orderTable.querySelectorAll('tr')).slice(0, -1); // Exclude total row
+        
+        // Check if product already exists
+        let existingRow = null;
+        for (let row of dataRows) {
+            const menuCell = row.querySelector('td:nth-child(2)');
+            if (menuCell && menuCell.textContent.includes(productName)) {
+                existingRow = row;
+                break;
+            }
+        }
+
+        if (existingRow) {
+            // Increase quantity if product already in cart
+            const quantityInput = existingRow.querySelector('.quantity-input');
+            if (quantityInput) {
+                quantityInput.value = parseInt(quantityInput.value) + 1;
+            }
+        } else {
+            // Create new row
+            const newRowNumber = dataRows.length + 1;
             const newRow = document.createElement('tr');
+            newRow.className = 'align-middle border-bottom border-secondary';
             newRow.innerHTML = `
+                <td class="fw-semibold">${newRowNumber}</td>
                 <td>
-                    <img src="assets/img/product img/${productName.toLowerCase().replace(/\s+/g, '_')}.png" 
-                         alt="${productName}" class="order-table-img" 
-                         onerror="this.src='assets/img/product img/espresso.png'">
+                    <div class="d-flex align-items-center gap-2">
+                        <img src="assets/img/product img/${productName.toLowerCase().replace(/\s+/g, ' ')}.png" 
+                             alt="${productName}" class="order-table-img rounded" 
+                             onerror="this.src='assets/img/product img/espresso.png'">
+                        <span>${productName}</span>
+                    </div>
                 </td>
-                <td>${productName}</td>
-                <td>$${productPrice}</td>
+                <td class="fw-semibold">$${productPrice}</td>
                 <td>
-                    <input type="number" class="form-control quantity-input" value="1" min="1">
+                    <input type="number" class="form-control form-control-sm quantity-input" value="1" min="1" max="99">
                 </td>
+                <td class="fw-bold text-warning">$${productPrice}</td>
                 <td>
-                    <button class="btn btn-sm btn-outline-danger" onclick="this.closest('tr').remove(); updateTotal();">
+                    <button class="btn btn-sm btn-outline-danger delete-btn" title="Hapus">
                         <i class="fas fa-trash"></i>
                     </button>
                 </td>
             `;
-            
-            orderTable.appendChild(newRow);
-            updateTotal();
-            
-            // Show success message
-            showTemporaryMessage(`${productName} ditambahkan ke keranjang!`);
-            
-            // Add ripple effect
-            const rect = this.getBoundingClientRect();
-            const ripple = document.createElement('span');
-            ripple.style.position = 'absolute';
-            ripple.style.borderRadius = '50%';
-            ripple.style.background = 'rgba(255, 255, 255, 0.6)';
-            ripple.style.width = ripple.style.height = '20px';
-            ripple.style.left = (event.clientX - rect.left - 10) + 'px';
-            ripple.style.top = (event.clientY - rect.top - 10) + 'px';
-            ripple.style.pointerEvents = 'none';
-            ripple.style.animation = 'ripple-effect 0.6s ease-out';
-            this.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 600);
+
+            // Insert before total row
+            const totalRow = orderTable.querySelector('tr:last-child');
+            totalRow.parentNode.insertBefore(newRow, totalRow);
+
+            // Add event listener to new delete button
+            const deleteBtn = newRow.querySelector('.delete-btn');
+            deleteBtn.addEventListener('click', function () {
+                newRow.remove();
+                updateRowNumbers();
+                updateTotal();
+            });
+        }
+
+        updateTotal();
+    }
+
+    // Update row numbers
+    function updateRowNumbers() {
+        const rows = document.querySelectorAll('.order-table tbody tr:not(:last-child)');
+        rows.forEach((row, index) => {
+            row.querySelector('td:first-child').textContent = index + 1;
         });
-    });
+    }
 
     // Update total price in order table
     function updateTotal() {
-        const rows = document.querySelectorAll('.order-table tbody tr');
+        const rows = document.querySelectorAll('.order-table tbody tr:not(:last-child)');
         let total = 0;
-        
+        let itemCount = 0;
+
         rows.forEach(row => {
-            const price = parseFloat(row.querySelector('td:nth-child(3)').textContent.replace('$', ''));
-            const quantity = parseInt(row.querySelector('.quantity-input').value) || 1;
-            total += price * quantity;
+            const priceCell = row.querySelector('td:nth-child(3)');
+            const quantityInput = row.querySelector('.quantity-input');
+
+            if (priceCell && quantityInput) {
+                const price = parseFloat(priceCell.textContent.replace('$', ''));
+                const quantity = parseInt(quantityInput.value) || 1;
+                const itemTotal = price * quantity;
+
+                // Update total cell (5th column)
+                const totalCell = row.querySelector('td:nth-child(5)');
+                if (totalCell) {
+                    totalCell.textContent = '$' + itemTotal.toFixed(2);
+                }
+
+                total += itemTotal;
+                itemCount++;
+            }
         });
-        
-        // Update total row if it exists
+
+        // Update total row
         const totalRow = document.querySelector('.order-table tbody tr:last-child');
-        if (totalRow && totalRow.querySelector('td:nth-child(2)').textContent === 'TOTAL') {
-            totalRow.querySelector('td:nth-child(3)').textContent = '$' + total.toFixed(2);
+        if (totalRow) {
+            const totalCell = totalRow.querySelector('td:nth-child(5)');
+            if (totalCell) {
+                totalCell.textContent = '$' + total.toFixed(2);
+            }
         }
     }
 
+    // Update delete button handlers
+    function updateDeleteButtons() {
+        document.querySelectorAll('.order-table tbody .delete-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const row = this.closest('tr');
+                row.remove();
+                updateRowNumbers();
+                updateTotal();
+            });
+        });
+    }
+
     // Update total when quantity changes
-    document.addEventListener('change', function(e) {
+    document.addEventListener('change', function (e) {
         if (e.target.classList.contains('quantity-input')) {
             updateTotal();
         }
     });
+
+    // Update total when quantity input value changes
+    document.addEventListener('input', function (e) {
+        if (e.target.classList.contains('quantity-input')) {
+            const value = parseInt(e.target.value);
+            if (value < 1) {
+                e.target.value = 1;
+            } else if (value > 99) {
+                e.target.value = 99;
+            }
+            updateTotal();
+        }
+    });
+
+    // Create ripple effect for button clicks
+    function createRippleEffect(button, event) {
+        const rect = button.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.style.position = 'absolute';
+        ripple.style.borderRadius = '50%';
+        ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+        ripple.style.width = ripple.style.height = '20px';
+        ripple.style.left = (event.clientX - rect.left - 10) + 'px';
+        ripple.style.top = (event.clientY - rect.top - 10) + 'px';
+        ripple.style.pointerEvents = 'none';
+        ripple.style.animation = 'ripple-effect 0.6s ease-out';
+        button.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+    }
+
+    // Checkout button functionality
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', function () {
+            const rows = document.querySelectorAll('.order-table tbody tr:not(:last-child)');
+            if (rows.length === 0) {
+                showTemporaryMessage('Keranjang masih kosong. Pilih produk terlebih dahulu!');
+                return;
+            }
+
+            const totalCell = document.querySelector('.order-table tbody tr:last-child td:nth-child(5)');
+            const total = totalCell ? totalCell.textContent : '$0.00';
+
+            showTemporaryMessage(`Checkout berhasil! Total: ${total}`);
+            setTimeout(() => {
+                // Clear table (except sample data if needed, or keep it)
+                // For now, just show message
+            }, 1500);
+        });
+    }
+
+    // Clear cart button (if exists)
+    const clearCartBtn = document.getElementById('clearCartBtn');
+    if (clearCartBtn) {
+        clearCartBtn.addEventListener('click', function () {
+            const table = document.querySelector('.order-table tbody');
+            const rows = table.querySelectorAll('tr:not(:last-child)');
+            rows.forEach(row => row.remove());
+            updateTotal();
+            showTemporaryMessage('Keranjang telah dikosongkan');
+        });
+    }
 });
 
