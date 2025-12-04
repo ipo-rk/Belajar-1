@@ -414,10 +414,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const newRowNumber = dataRows.length + 1;
             const newRow = document.createElement('tr');
             newRow.className = 'align-middle border-bottom border-secondary';
-            
+
             // Format product name untuk path gambar
             const imgFileName = productName.toLowerCase().replace(/\s+/g, ' ');
-            
+
             newRow.innerHTML = `
                 <td class="fw-semibold">${newRowNumber}</td>
                 <td>
@@ -599,7 +599,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!table) return;
 
             const rows = table.querySelectorAll('tr:not(:last-child)');
-            
+
             if (rows.length === 0) {
                 showTemporaryMessage('Keranjang sudah kosong');
                 return;
@@ -618,7 +618,7 @@ document.addEventListener('DOMContentLoaded', function () {
         checkoutBtn.addEventListener('click', function (e) {
             e.preventDefault();
             const rows = document.querySelectorAll('.order-table tbody tr:not(:last-child)');
-            
+
             if (rows.length === 0) {
                 showTemporaryMessage('⚠ Keranjang masih kosong. Pilih produk terlebih dahulu!');
                 return;
