@@ -387,7 +387,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addProductToCart(productName, productPrice) {
         const orderTable = document.querySelector('.order-table tbody');
         const dataRows = Array.from(orderTable.querySelectorAll('tr')).slice(0, -1); // Exclude total row
-        
+
         // Check if product already exists
         let existingRow = null;
         for (let row of dataRows) {
@@ -481,13 +481,19 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Update total row
+        // Update total row di tabel
         const totalRow = document.querySelector('.order-table tbody tr:last-child');
         if (totalRow) {
             const totalCell = totalRow.querySelector('td:nth-child(5)');
             if (totalCell) {
                 totalCell.textContent = '$' + total.toFixed(2);
             }
+        }
+
+        // Update total pesanan dengan ID yang spesifik
+        const totalPesananElement = document.getElementById('totalPesanan');
+        if (totalPesananElement) {
+            totalPesananElement.textContent = '$' + total.toFixed(2);
         }
     }
 
@@ -549,14 +555,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            const totalCell = document.querySelector('.order-table tbody tr:last-child td:nth-child(5)');
-            const total = totalCell ? totalCell.textContent : '$0.00';
+            // Get total from ID element
+            const totalPesananElement = document.getElementById('totalPesanan');
+            const total = totalPesananElement ? totalPesananElement.textContent : '$0.00';
 
             showTemporaryMessage(`Checkout berhasil! Total: ${total}`);
-            setTimeout(() => {
-                // Clear table (except sample data if needed, or keep it)
-                // For now, just show message
-            }, 1500);
         });
     }
 
