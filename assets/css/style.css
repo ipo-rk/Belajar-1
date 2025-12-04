@@ -623,6 +623,57 @@ header .btn:hover {
   }
 }
 
+/* Desktop (large) overrides to ensure Bootstrap column widths behave as expected
+   for contact section (message + map). Prevents columns from collapsing to a
+   narrow centered layout and scales form/map sizes for better desktop presence. */
+@media (min-width: 1200px) {
+  /* Let columns align naturally and stretch vertically instead of centering content */
+  .row > [class*="col-"] {
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+
+  /* Ensure contact two-column layout uses full 50% width and stretches */
+  #contact .col-lg-6 {
+    align-self: stretch;
+    display: block; /* let bootstrap control sizing */
+  }
+
+  /* Increase padding and minimum height so message card and map feel balanced */
+  #contact .text-light {
+    padding: 2rem;
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Larger iframe on desktop for better visibility */
+  #contact iframe {
+    height: 480px;
+  }
+
+  /* Slightly larger headings and form controls on desktop */
+  #contact h1 {
+    font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+    margin-bottom: 1rem;
+  }
+
+  #contact form {
+    width: 100%;
+  }
+
+  #contact form .form-control {
+    font-size: 1rem;
+    padding: 0.85rem 0.9rem;
+  }
+
+  #contact form .btn {
+    font-size: 1rem;
+    padding: 0.9rem 1rem;
+  }
+}
+
 /* Small adjustments for section spacing on narrow screens */
 @media (max-width: 767px) {
   #about .container-fluid,
@@ -1865,62 +1916,62 @@ footer a:hover {
     }
   }
 
-/* ===========================
+  /* ===========================
    DESKTOP SCALE TWEAKS (1200px+)
    Make typography, cards and images larger and more spacious on large screens
    =========================== */
-@media (min-width: 1200px) {
-  /* Headings */
-  .product-section-title {
-    font-size: clamp(2rem, 4.5vw, 3.5rem) !important;
-    letter-spacing: 0.5px;
-  }
+  @media (min-width: 1200px) {
+    /* Headings */
+    .product-section-title {
+      font-size: clamp(2rem, 4.5vw, 3.5rem) !important;
+      letter-spacing: 0.5px;
+    }
 
-  header h1.header-title {
-    font-size: clamp(2rem, 5.5vw, 4rem) !important;
-  }
+    header h1.header-title {
+      font-size: clamp(2rem, 5.5vw, 4rem) !important;
+    }
 
-  /* Lead paragraphs slightly larger for desktop */
-  .product-section .lead {
-    font-size: clamp(1rem, 1.6vw, 1.15rem) !important;
-    line-height: 1.9;
-    max-width: 1000px;
-  }
+    /* Lead paragraphs slightly larger for desktop */
+    .product-section .lead {
+      font-size: clamp(1rem, 1.6vw, 1.15rem) !important;
+      line-height: 1.9;
+      max-width: 1000px;
+    }
 
-  /* Cards bigger and more spacious */
-  .product-card {
-    min-height: 300px;
-    padding: 1.5rem !important;
-  }
+    /* Cards bigger and more spacious */
+    .product-card {
+      min-height: 300px;
+      padding: 1.5rem !important;
+    }
 
-  /* Small cards wrapper on desktop can be wider */
-  .about-cards-wrapper {
-    max-width: 900px;
-  }
+    /* Small cards wrapper on desktop can be wider */
+    .about-cards-wrapper {
+      max-width: 900px;
+    }
 
-  /* Pricing product thumbnails larger */
-  .product-thumb {
-    width: 150px;
-    height: 150px;
-    margin-right: 2rem;
-  }
+    /* Pricing product thumbnails larger */
+    .product-thumb {
+      width: 150px;
+      height: 150px;
+      margin-right: 2rem;
+    }
 
-  .product-card h3 {
-    font-size: clamp(1.1rem, 2vw, 1.6rem);
-  }
+    .product-card h3 {
+      font-size: clamp(1.1rem, 2vw, 1.6rem);
+    }
 
-  .product-card p {
-    font-size: clamp(0.95rem, 1.4vw, 1rem);
-  }
+    .product-card p {
+      font-size: clamp(0.95rem, 1.4vw, 1rem);
+    }
 
-  /* Ensure containers use the larger max-width */
-  .container,
-  .product-section > .container-fluid,
-  #about .container-fluid,
-  #features .container-fluid,
-  #pricing .container-fluid,
-  #contact .container-fluid {
-    max-width: 1400px;
+    /* Ensure containers use the larger max-width */
+    .container,
+    .product-section > .container-fluid,
+    #about .container-fluid,
+    #features .container-fluid,
+    #pricing .container-fluid,
+    #contact .container-fluid {
+      max-width: 1400px;
+    }
   }
-}
 }
