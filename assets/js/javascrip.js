@@ -263,6 +263,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 showTemporaryMessage(`Login berhasil: ${id}`);
 
                 // mark user as logged in and enable cart buttons
+                try { localStorage.setItem('enauto_user', id); } catch (e) { }
                 setLoggedInState(true);
 
                 // hide modal
@@ -343,7 +344,8 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => {
                 showTemporaryMessage(`Registrasi berhasil: ${name}`);
 
-                // mark user as logged in and enable cart buttons
+                // save user name and mark user as logged in
+                try { localStorage.setItem('enauto_user', name); } catch (e) { }
                 setLoggedInState(true);
 
                 const modalEl = document.getElementById('registerModal');
