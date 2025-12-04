@@ -426,7 +426,7 @@ header .btn:hover {
 #about {
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding-top: 100px;
   scroll-margin-top: 120px;
@@ -453,10 +453,6 @@ header .btn:hover {
   background-color: rgba(0, 0, 0, 0.655);
   border-bottom: 3px solid;
   border-image: linear-gradient(90deg, #ffc107 0%, #ff9800 50%, #ffc107 100%) 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   max-width: 100%;
   padding: 0 !important;
@@ -466,49 +462,43 @@ header .btn:hover {
 
 #about .row {
   width: 100%;
-  align-items: center;
-  justify-content: center;
 }
 
-#about .col-12 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#about .text-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+#about h2.product-section-title {
+  animation: fadeInDown 0.8s ease-out;
+  color: #ffc107;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 #about .lead {
   line-height: 1.8;
   color: #e0e0e0;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
   font-size: clamp(0.9rem, 2vw, 1.1rem) !important;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
-#about .bg-transparent {
-  background: transparent !important;
-  box-shadow: none !important;
-  border-radius: 0.5rem !important;
+#about .col-12 {
+  width: 100%;
 }
 
 #about .product-card {
   min-height: 150px;
   border: 2px solid rgba(255, 193, 7, 0.2);
   background: rgba(0, 0, 0, 0.5) !important;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+  transition: all 0.3s ease;
 }
 
 #about .product-card:hover {
   border-color: rgba(255, 193, 7, 0.6);
   background: rgba(0, 0, 0, 0.7) !important;
+  transform: translateY(-5px);
 }
 
 #about .row.g-2 {
   width: 100%;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 
 /* ===========================
