@@ -66,8 +66,11 @@
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
   gap: clamp(1.5rem, 4vw, 3rem) !important;
-  max-width: 100% !important;
+  max-width: 1000px !important;
   width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 clamp(0.5rem, 2vw, 1rem) !important;
+  box-sizing: border-box !important;
 }
 
 .about-cards-wrapper > [class*="col-"] {
@@ -78,6 +81,7 @@
   width: 100% !important;
   max-width: 500px !important;
   flex: none !important;
+  margin: 0 auto !important;
 }
 
 /* Force section header blocks to stack h2 above paragraph and center them */
@@ -110,7 +114,7 @@
 /* Constrain smaller cards so they visually center and stay compact */
 #about .product-card,
 #features .product-card {
-  max-width: none;
+  max-width: none !important;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -837,9 +841,23 @@ header .btn:hover {
     align-items: stretch !important;
   }
 
+  /* About cards wrapper - optimize for desktop */
+  .about-cards-wrapper {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: clamp(1.5rem, 4vw, 3rem) !important;
+    max-width: 1100px !important;
+    padding: 0 1rem !important;
+    margin: 0 auto !important;
+  }
+
+  .about-cards-wrapper > [class*="col-"] {
+    max-width: 500px !important;
+    margin: 0 auto !important;
+  }
+
   #about .product-card {
     width: 100% !important;
-    max-width: 480px !important;
+    max-width: 500px !important;
     min-height: 200px !important;
   }
 }
@@ -891,12 +909,12 @@ header .btn:hover {
     rgba(0, 0, 0, 0.6) 0%,
     rgba(0, 0, 0, 0.4) 100%
   );
+  background-color: rgba(0, 0, 0, 0.655);
   pointer-events: none;
   z-index: 1;
 }
 
 #about .container-fluid {
-  background-color: rgba(0, 0, 0, 0.655);
   border-bottom: 3px solid;
   border-image: linear-gradient(90deg, #ffc107 0%, #ff9800 50%, #ffc107 100%) 1;
   width: 100%;
@@ -946,10 +964,10 @@ header .btn:hover {
   transform: translateY(-5px);
 }
 
-  #about .row.g-2 {
-    width: 100%;
-    margin-top: 2rem;
-  }/* ===========================
+#about .row.g-2 {
+  width: 100%;
+  margin-top: 2rem;
+} /* ===========================
    FEATURES SECTION
    =========================== */
 
@@ -1313,18 +1331,22 @@ footer a:hover {
   .about-cards-wrapper {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: clamp(1rem, 2vw, 1.5rem) !important;
-    max-width: 100% !important;
+    gap: clamp(1.2rem, 3vw, 2.5rem) !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    padding: 0 1rem !important;
   }
 
   .about-cards-wrapper > [class*="col-"] {
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: 420px !important;
+    margin: 0 auto !important;
   }
 
   #about .product-card {
-    padding: 1.25rem !important;
-    min-height: 140px;
+    padding: 1.5rem !important;
+    min-height: 170px !important;
+    max-width: 420px !important;
   }
 
   #about .row.g-2 {
@@ -1417,7 +1439,21 @@ footer a:hover {
   .about-cards-wrapper {
     display: grid !important;
     grid-template-columns: 1fr !important;
-    gap: clamp(1rem, 2vw, 1.5rem) !important;
+    gap: clamp(1rem, 3vw, 1.5rem) !important;
+    max-width: 100% !important;
+    padding: 0 0.75rem !important;
+    margin: 0 auto !important;
+  }
+
+  .about-cards-wrapper > [class*="col-"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  #about .product-card {
+    padding: 1.25rem !important;
+    min-height: 140px !important;
     max-width: 100% !important;
   }
 
@@ -1832,6 +1868,18 @@ footer a:hover {
 
   #about .row.g-2 {
     gap: 0.75rem !important;
+  }
+
+  /* About cards wrapper - single column on small phones */
+  .about-cards-wrapper {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+    max-width: 100% !important;
+    padding: 0 0.5rem !important;
+  }
+
+  .about-cards-wrapper > [class*="col-"] {
+    max-width: 100% !important;
   }
 
   /* Features Section */
