@@ -264,6 +264,38 @@ body {
   }
 }
 
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 15px rgba(255, 193, 7, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+  }
+}
+
+@keyframes shimmerFlow {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ===========================
    RIPPLE EFFECT
    =========================== */
@@ -294,11 +326,26 @@ header {
   background-position: center;
   position: relative;
   animation: fadeInUp 1s ease-out;
+  overflow: hidden;
+}
+
+header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 70% 70%, rgba(255, 152, 0, 0.08) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 header .container {
   max-width: 100%;
   padding: 0 !important;
+  position: relative;
+  z-index: 1;
 }
 
 header .row {
@@ -314,11 +361,13 @@ header img {
   height: auto;
   object-fit: contain;
   animation: scaleIn 0.8s ease-out;
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 0 20px rgba(255, 193, 7, 0.2));
 }
 
 header img:hover {
-  transform: scale(1.1) rotate(2deg);
+  transform: scale(1.15) rotate(3deg);
+  filter: drop-shadow(0 0 30px rgba(255, 193, 7, 0.4));
 }
 
 header h1 {
@@ -326,7 +375,7 @@ header h1 {
   word-wrap: break-word;
   overflow-wrap: break-word;
   animation: slideInLeft 0.8s ease-out 0.2s both;
-  background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+  background: linear-gradient(135deg, #ffc107 0%, #ff9800 50%, #ffc107 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -403,8 +452,14 @@ header .p-5 {
 header .btn {
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   animation: scaleIn 0.8s ease-out 0.4s both;
+  background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+  border: 2px solid rgba(255, 193, 7, 0.3);
+  box-shadow: 0 10px 30px rgba(255, 193, 7, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 header .btn::before {
@@ -414,22 +469,37 @@ header .btn::before {
   left: 50%;
   width: 0;
   height: 0;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.4);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
+  transition: width 0.7s, height 0.7s;
+  z-index: 0;
 }
 
 header .btn:hover::before {
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  height: 400px;
 }
 
 header .btn:hover {
-  background-color: #ffc107 !important;
+  background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
   color: #000 !important;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(255, 193, 7, 0.3);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 20px 50px rgba(255, 193, 7, 0.35),
+              0 0 40px rgba(255, 193, 7, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+}
+
+header .btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 /* ===========================
@@ -438,8 +508,9 @@ header .btn:hover {
 
 .navbar {
   padding: 1rem 0 !important;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   animation: slideDown 0.5s ease-out;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(15, 15, 15, 0.9) 100%);
 }
 
 .navbar .container {
@@ -458,14 +529,16 @@ header .btn:hover {
   z-index: 1030;
   left: 0;
   right: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+              0 0 30px rgba(255, 193, 7, 0.1);
   animation: slideDown 0.3s ease-out;
   background: linear-gradient(
     135deg,
     rgba(0, 0, 0, 0.95) 0%,
-    rgba(0, 0, 0, 0.85) 100%
+    rgba(10, 10, 10, 0.95) 100%
   );
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 193, 7, 0.1);
 }
 
 @keyframes slideDown {
@@ -488,10 +561,12 @@ header .btn:hover {
 .navbar-nav .nav-link {
   padding: 0.5rem 1rem !important;
   margin: 0.25rem !important;
-  border-radius: 0.25rem;
-  transition: all 0.3s ease;
+  border-radius: 6px;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .navbar-nav .nav-link::after {
@@ -500,9 +575,9 @@ header .btn:hover {
   bottom: 0;
   left: -100%;
   width: 100%;
-  height: 2px;
+  height: 3px;
   background: linear-gradient(90deg, #ffc107, #ff9800);
-  transition: left 0.3s ease;
+  transition: left 0.4s ease;
 }
 
 .navbar-nav .nav-link:hover::after {
@@ -510,8 +585,9 @@ header .btn:hover {
 }
 
 .navbar-nav .nav-link:hover {
-  background-color: rgba(255, 193, 7, 0.2) !important;
-  transform: translateX(5px);
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.25) 0%, rgba(255, 152, 0, 0.15) 100%) !important;
+  transform: translateX(6px) translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 193, 7, 0.15);
 }
 
 /* ===========================
@@ -523,8 +599,12 @@ header .btn:hover {
   height: 100%;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 193, 7, 0.1);
+  border: 2px solid rgba(255, 193, 7, 0.15);
   animation: fadeInUp 0.8s ease-out both;
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(30, 30, 30, 0.8) 100%);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 193, 7, 0.1);
 }
 
 .product-card::before {
@@ -537,10 +617,10 @@ header .btn:hover {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 193, 7, 0.2),
+    rgba(255, 193, 7, 0.15),
     transparent
   );
-  transition: left 0.5s ease;
+  transition: left 0.6s ease;
 }
 
 .product-card:hover::before {
@@ -548,41 +628,51 @@ header .btn:hover {
 }
 
 .product-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(255, 193, 7, 0.2) !important;
-  border-color: rgba(255, 193, 7, 0.5);
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 25px 50px rgba(255, 193, 7, 0.25), 
+              0 0 30px rgba(255, 193, 7, 0.15),
+              inset 0 1px 0 rgba(255, 193, 7, 0.2) !important;
+  border-color: rgba(255, 193, 7, 0.6);
+  background: linear-gradient(135deg, rgba(25, 25, 25, 0.95) 0%, rgba(35, 35, 35, 0.9) 100%);
 }
 
 .product-card i {
   color: #ffc107;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   animation: float 3s ease-in-out infinite;
+  text-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
 }
 
 .product-card:hover i {
-  transform: scale(1.2) rotate(10deg);
-  filter: drop-shadow(0 0 10px #ffc107);
+  transform: scale(1.3) rotate(12deg);
+  filter: drop-shadow(0 0 15px rgba(255, 193, 7, 0.6));
+  animation: none;
 }
 
 .product-card h3 {
   margin: 1rem 0 0.5rem 0;
-  font-weight: 600;
-  transition: color 0.3s ease;
+  font-weight: 700;
+  transition: all 0.4s ease;
+  letter-spacing: 0.5px;
+  color: #fff;
 }
 
 .product-card:hover h3 {
   color: #ffc107;
-  text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+  text-shadow: 0 0 15px rgba(255, 193, 7, 0.6);
+  transform: translateY(-2px);
 }
 
 .product-card p {
   font-size: 0.95rem;
-  line-height: 1.5;
-  transition: color 0.3s ease;
+  line-height: 1.6;
+  transition: all 0.4s ease;
+  color: #e8e8e8;
 }
 
 .product-card:hover p {
-  color: #e0e0e0;
+  color: #f0f0f0;
+  transform: translateY(-1px);
 }
 
 /* ===========================
@@ -601,6 +691,7 @@ header .btn:hover {
   padding-top: 80px;
   scroll-margin-top: 120px;
   position: relative;
+  overflow: hidden;
 }
 
 .product-section::before {
@@ -612,26 +703,39 @@ header .btn:hover {
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(0, 0, 0, 0.5) 0%,
-    rgba(0, 0, 0, 0.3) 100%
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.45) 50%,
+    rgba(0, 0, 0, 0.55) 100%
   );
+  pointer-events: none;
+}
+
+.product-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(255, 193, 7, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 80% 50%, rgba(255, 152, 0, 0.05) 0%, transparent 50%);
   pointer-events: none;
 }
 
 .product-section-title {
   word-wrap: break-word;
   overflow-wrap: break-word;
-  font-weight: 700;
+  font-weight: 800;
   margin-top: 20px;
-  margin-bottom: 0; /* make titles match About Us (mb-0) */
+  margin-bottom: 0;
   position: relative;
   animation: fadeInDown 0.8s ease-out;
-  color: #ffc107; /* gold color like About Us */
-  -webkit-text-fill-color: #ffc107;
-  background: none !important; /* remove gradient text so color shows */
-  -webkit-background-clip: initial !important;
-  background-clip: initial !important;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #ffc107 0%, #ff9800 50%, #ffc107 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(255, 193, 7, 0.2);
+  letter-spacing: 1px;
 }
 
 /* Responsive overrides to keep section titles consistent like About Us */
@@ -1267,10 +1371,11 @@ header .btn:hover {
 
 footer {
   padding: 1.5rem 0;
-  background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
   margin-top: auto;
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(10px);
 }
 
 footer::before {
@@ -1279,8 +1384,20 @@ footer::before {
   top: 0;
   left: 0;
   right: 0;
-  height: 1px;
+  height: 2px;
   background: linear-gradient(90deg, transparent, #ffc107, transparent);
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
+}
+
+footer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(255, 193, 7, 0.05) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 footer .container-fluid {
@@ -1304,21 +1421,24 @@ footer p {
 }
 
 footer a {
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   color: #ffc107 !important;
   text-decoration: none !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 footer a::before {
   content: "";
   position: absolute;
-  bottom: -2px;
+  bottom: -3px;
   left: 0;
   width: 0;
-  height: 2px;
+  height: 3px;
   background: linear-gradient(90deg, #ffc107, #ff9800);
-  transition: width 0.3s ease;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
 }
 
 footer a:hover::before {
@@ -1327,7 +1447,8 @@ footer a:hover::before {
 
 footer a:hover {
   color: #ff9800 !important;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
 }
 
 .hover-link {
