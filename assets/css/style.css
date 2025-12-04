@@ -780,6 +780,21 @@ header .btn:hover {
     font-size: 1rem;
     padding: 0.9rem 1rem;
   }
+
+  /* Restore original About card desktop styling */
+  #about .product-card {
+    min-height: 180px;
+    padding: 1.75rem !important;
+  }
+
+  #about .row.g-2 {
+    gap: 2rem !important;
+  }
+
+  #about .lead {
+    font-size: 1.05rem !important;
+    line-height: 1.8;
+  }
 }
 
 /* Small adjustments for section spacing on narrow screens */
