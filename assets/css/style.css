@@ -2558,8 +2558,28 @@ footer a:hover {
     width: 150px !important;
     height: 150px !important;
   }
+}
 
-  .modal-dialog {
-    max-width: 680px !important;
+/* Ensure About cards use the exact same max-width behavior as Features cards
+   so card widths match across responsive breakpoints (tablet & desktop). */
+#about .product-card {
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@media (min-width: 481px) and (max-width: 991px) {
+  /* match features card compact width on tablet */
+  #about .product-card {
+    max-width: 420px !important;
   }
 }
+
+@media (min-width: 1200px) {
+  /* match features card sizing on desktop as well */
+  #about .product-card {
+    max-width: 420px !important;
+  }
+}
+
+  
