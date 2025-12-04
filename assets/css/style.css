@@ -30,7 +30,7 @@
   box-sizing: border-box;
 }
 
-/* Make rows center their columns - ALL section rows */
+/* Make rows center their columns */
 .product-section .row,
 #about .row,
 #features .row,
@@ -39,25 +39,11 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: stretch;
-  width: 100%;
-  margin-left: 0;
-  margin-right: 0;
+  align-items: center;
 }
 
 /* Ensure each bootstrap column centers its content */
 .row > [class*="col-"] {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Strongly center section content blocks */
-#about .row > .col-12,
-#features .row > .col-12,
-#pricing .row > .col-12,
-#contact .row > .col-12 {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,28 +58,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
   gap: 0.5rem;
   padding-left: clamp(0.5rem, 2vw, 1rem);
   padding-right: clamp(0.5rem, 2vw, 1rem);
-  padding-top: clamp(0.5rem, 2vw, 1.5rem);
-  padding-bottom: clamp(0.5rem, 2vw, 1.5rem);
   box-sizing: border-box;
-  width: 100%;
 }
 
 /* Constrain intro paragraphs and center them so they don't span full width */
 .product-section .lead,
 .product-section p.lead {
   max-width: 900px;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
-  padding-left: clamp(0.75rem, 2.5vw, 1.5rem);
-  padding-right: clamp(0.75rem, 2.5vw, 1.5rem);
+  margin: 0.25rem auto 1rem auto;
+  padding-left: clamp(0.5rem, 2vw, 1rem);
+  padding-right: clamp(0.5rem, 2vw, 1rem);
   box-sizing: border-box;
   text-align: center;
 }
@@ -105,8 +83,6 @@
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
   text-align: center;
   align-items: center;
 }
@@ -117,8 +93,6 @@
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
 }
 
 /* Ensure product-card content is centered by default */
@@ -1220,6 +1194,55 @@ footer a:hover {
    =========================== */
 
 @media (min-width: 768px) and (max-width: 991px) {
+  /* Ensure all rows are centered on tablet */
+  .product-section .row,
+  #about .row,
+  #features .row,
+  #pricing .row,
+  #contact .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Ensure all columns center their content on tablet */
+  .row > .col-12,
+  .row > [class*="col-md-"],
+  .row > [class*="col-lg-"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  /* Container centering on tablet */
+  .product-section > .container-fluid,
+  #about .container-fluid,
+  #features .container-fluid,
+  #pricing .container-fluid,
+  #contact .container-fluid {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(0.75rem, 3vw, 1.5rem) !important;
+    padding-right: clamp(0.75rem, 3vw, 1.5rem) !important;
+  }
+
+  /* Header blocks centered on tablet */
+  .product-section .col-12.text-center,
+  #about .col-12.text-center,
+  #features .col-12.text-center,
+  #pricing .col-12.text-center,
+  #contact .col-12.text-center {
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   /* About Section */
   #about .lead {
     font-size: 0.95rem !important;
@@ -1254,6 +1277,65 @@ footer a:hover {
    =========================== */
 
 @media (max-width: 767px) {
+  /* CRITICAL: Ensure all section rows are centered on mobile */
+  .product-section .row,
+  #about .row,
+  #features .row,
+  #pricing .row,
+  #contact .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* All columns centered and full-width on mobile */
+  .row > .col-12,
+  .row > [class*="col-"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  /* Container fluid centered on mobile */
+  .product-section > .container-fluid,
+  #about .container-fluid,
+  #features .container-fluid,
+  #pricing .container-fluid,
+  #contact .container-fluid {
+    max-width: 100%;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(0.5rem, 2vw, 1rem) !important;
+    padding-right: clamp(0.5rem, 2vw, 1rem) !important;
+    box-sizing: border-box;
+  }
+
+  /* Header blocks centered on mobile */
+  .product-section .col-12.text-center,
+  #about .col-12.text-center,
+  #features .col-12.text-center,
+  #pricing .col-12.text-center,
+  #contact .col-12.text-center {
+    width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   body {
     scroll-padding-top: 100px;
   }
@@ -1466,6 +1548,52 @@ footer a:hover {
    =========================== */
 
 @media (max-width: 480px) {
+  /* CRITICAL: Ensure all rows centered on small phones */
+  .product-section .row,
+  #about .row,
+  #features .row,
+  #pricing .row,
+  #contact .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* All columns centered on small phones */
+  .row > .col-12,
+  .row > [class*="col-"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+  /* Container centered on small phones */
+  .product-section > .container-fluid,
+  #about .container-fluid,
+  #features .container-fluid,
+  #pricing .container-fluid,
+  #contact .container-fluid {
+    max-width: 100%;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    box-sizing: border-box;
+  }
+
   body {
     scroll-padding-top: 90px;
   }
