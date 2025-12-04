@@ -1,0 +1,27 @@
+/* Backup of the full original style.css including all media queries
+   Created automatically before cleaning. Restore if needed.
+   Original content starts below.
+*/
+
+/* ===========================
+  CENTERING + LAYOUT FIXES
+  Ensures containers and cards are horizontally centered
+  =========================== */
+
+/* Center main section containers and add responsive horizontal padding */
+#about .container-fluid,
+#features .container,
+#pricing .container,
+#contact .container,
+.container {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(0.75rem, 2.5vw, 2rem);
+  padding-right: clamp(0.75rem, 2.5vw, 2rem);
+  box-sizing: border-box;
+}
+
+/* The full original file was archived. If you need the exact original file
+   content, restore this file's contents back to `style.css`.
+*/

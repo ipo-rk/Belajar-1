@@ -672,7 +672,7 @@ header .btn:hover {
   /* Larger product cards on ultra-wide */
   #about .product-card,
   #features .product-card {
-    max-width: 520px;
+    max-width: 900px;
   }
 
   #pricing .product-card {
@@ -2436,5 +2436,130 @@ footer a:hover {
         max-width: 1400px;
       }
     }
+  }
+}
+
+/* ===========================
+   CONSOLIDATED BREAKPOINT OVERRIDES
+   Only three responsive sizes:
+     - Small: up to 480px
+     - Tablet: 481px to 991px
+     - Desktop: 1200px and above
+   These rules are intentionally specific and use !important where needed
+   to ensure they take precedence over previous, more granular queries.
+   =========================== */
+
+/* Small screens: up to 480px */
+@media (max-width: 480px) {
+  .about-cards-wrapper {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    padding: 0.5rem !important;
+    max-width: 100% !important;
+  }
+
+  .product-card {
+    padding: 0.75rem !important;
+    min-height: auto !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .logo-img {
+    max-width: 100px !important;
+  }
+  .header-title {
+    font-size: clamp(1.25rem, 7vw, 2rem) !important;
+  }
+  .header-btn {
+    font-size: 0.95rem !important;
+    padding: 0.4rem 0.7rem !important;
+  }
+
+  .navbar .nav-link {
+    padding: 0.35rem 0.6rem !important;
+    font-size: 0.95rem !important;
+  }
+
+  .product-thumb {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  /* Make modals full width on very small screens */
+  .modal-dialog {
+    max-width: calc(100% - 2rem) !important;
+    margin: 1rem auto !important;
+  }
+}
+
+/* Tablet: 481px - 991px */
+@media (min-width: 481px) and (max-width: 991px) {
+  .about-cards-wrapper {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: clamp(1rem, 3vw, 2rem) !important;
+    max-width: 800px !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  .product-card {
+    padding: 1rem !important;
+  }
+
+  .navbar .nav-link {
+    padding: 0.5rem 1rem !important;
+    font-size: 1rem !important;
+  }
+
+  .header-title {
+    font-size: clamp(1.6rem, 5vw, 3rem) !important;
+  }
+  .logo-img {
+    max-width: 130px !important;
+  }
+
+  .product-thumb {
+    width: 110px !important;
+    height: 110px !important;
+  }
+
+  .modal-dialog {
+    max-width: 580px !important;
+  }
+}
+
+/* Desktop: 1200px and above */
+@media (min-width: 1200px) {
+  .about-cards-wrapper {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: clamp(1.5rem, 4vw, 3rem) !important;
+    max-width: 1000px !important;
+    padding: 0 1rem !important;
+  }
+
+  .product-card {
+    padding: 1.5rem !important;
+    min-height: 300px !important;
+  }
+
+  .navbar .nav-link {
+    padding: 0.6rem 1.25rem !important;
+    font-size: 1.05rem !important;
+  }
+
+  .header-title {
+    font-size: clamp(2.2rem, 5.5vw, 4rem) !important;
+  }
+  .logo-img {
+    max-width: 150px !important;
+  }
+
+  .product-thumb {
+    width: 150px !important;
+    height: 150px !important;
+  }
+
+  .modal-dialog {
+    max-width: 680px !important;
   }
 }
