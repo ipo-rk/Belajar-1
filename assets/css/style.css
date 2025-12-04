@@ -485,6 +485,7 @@ header .btn:hover {
   max-width: 100%;
   padding: 2rem 1.5rem !important;
   animation: slideInLeft 0.8s ease-out;
+  text-align: center;
 }
 
 #about > .container-fluid > .row > .col-12 > .container-fluid:hover {
@@ -517,9 +518,14 @@ header .btn:hover {
   background: rgba(0, 0, 0, 0.7) !important;
 }
 
-#about .row.g-2 {
+#about > .container-fluid > .row > .col-12 > .col-12 {
   width: 100%;
-  margin-top: 1.5rem;
+  padding: 0;
+}
+
+#about > .container-fluid > .row > .col-12 > .col-12 .row {
+  width: 100%;
+  margin-top: 2rem;
 }
 
 /* ===========================
@@ -848,7 +854,7 @@ footer a:hover {
     min-height: 140px;
   }
 
-  #about .row.g-2 {
+  #about > .container-fluid > .row > .col-12 > .col-12 .row {
     gap: 1.5rem !important;
   }
 
@@ -972,6 +978,7 @@ footer a:hover {
   #about > .container-fluid > .row > .col-12 > .container-fluid {
     padding: 1.5rem 1rem !important;
     margin: 1rem 0.5rem !important;
+    border-radius: 0.75rem;
   }
 
   #about h2 {
@@ -1249,7 +1256,7 @@ footer a:hover {
     font-size: 0.8rem !important;
   }
 
-  #about .row.g-2 {
+  #about > .container-fluid > .row > .col-12 > .col-12 .row {
     gap: 0.75rem !important;
   }
 
@@ -1654,7 +1661,7 @@ footer a:hover {
       padding: 1.75rem !important;
     }
 
-    #about .row.g-2 {
+    #about > .container-fluid > .row > .col-12 > .col-12 .row {
       gap: 2rem !important;
     }
 
