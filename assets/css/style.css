@@ -1,4 +1,127 @@
 /* ===========================
+  CENTERING + LAYOUT FIXES
+  Ensures containers and cards are horizontally centered
+  =========================== */
+
+/* Center main section containers and add responsive horizontal padding */
+#about .container-fluid,
+#features .container,
+#pricing .container,
+#contact .container,
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(0.75rem, 2.5vw, 2rem);
+  padding-right: clamp(0.75rem, 2.5vw, 2rem);
+  box-sizing: border-box;
+}
+
+/* Ensure container-fluid inside product-sections also centers (override inline px- classes) */
+.product-section > .container-fluid,
+#features .container-fluid,
+#pricing .container-fluid,
+#contact .container-fluid {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(0.75rem, 2.5vw, 2rem) !important;
+  padding-right: clamp(0.75rem, 2.5vw, 2rem) !important;
+  box-sizing: border-box;
+}
+
+/* Make rows center their columns */
+.product-section .row,
+#about .row,
+#features .row,
+#pricing .row,
+#contact .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ensure each bootstrap column centers its content */
+.row > [class*="col-"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Force section header blocks to stack h2 above paragraph and center them */
+.product-section .col-12.text-center,
+#about .col-12.text-center,
+#features .col-12.text-center,
+#pricing .col-12.text-center,
+#contact .col-12.text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding-left: clamp(0.5rem, 2vw, 1rem);
+  padding-right: clamp(0.5rem, 2vw, 1rem);
+  box-sizing: border-box;
+}
+
+/* Constrain intro paragraphs and center them so they don't span full width */
+.product-section .lead,
+.product-section p.lead {
+  max-width: 900px;
+  margin: 0.25rem auto 1rem auto;
+  padding-left: clamp(0.5rem, 2vw, 1rem);
+  padding-right: clamp(0.5rem, 2vw, 1rem);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Constrain smaller cards so they visually center and stay compact */
+#about .product-card,
+#features .product-card {
+  max-width: 360px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  align-items: center;
+}
+
+/* Keep pricing cards wider but centered */
+#pricing .product-card {
+  max-width: 900px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Ensure product-card content is centered by default */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Mobile adjustments: let cards be full-width on very small screens */
+@media (max-width: 480px) {
+  #about .product-card,
+  #features .product-card,
+  #pricing .product-card {
+    max-width: none;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .row > [class*="col-"] {
+    justify-content: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* ===========================
    GLOBAL STYLES
    =========================== */
 
@@ -417,65 +540,6 @@ header .btn:hover {
   -webkit-background-clip: initial !important;
   background-clip: initial !important;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-/* ===========================
-   CONTAINER CENTERING + RESPONSIVE SIDING
-   Ensures section content is centered with responsive left/right padding
-   =========================== */
-.site-container,
-.product-section .container-fluid,
-#about .container-fluid,
-#features .container-fluid,
-#pricing .container-fluid,
-#contact .container-fluid {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: clamp(0.75rem, 4vw, 3rem);
-  padding-right: clamp(0.75rem, 4vw, 3rem);
-  box-sizing: border-box;
-}
-
-/* Keep rows centered inside sections */
-.product-section .row,
-#about .row,
-#features .row,
-#pricing .row,
-#contact .row {
-  justify-content: center;
-}
-
-/* Narrow screens: reduce max-width and padding so content fills viewport comfortably */
-@media (max-width: 991px) {
-  .site-container,
-  .product-section .container-fluid,
-  #about .container-fluid,
-  #features .container-fluid,
-  #pricing .container-fluid,
-  #contact .container-fluid {
-    max-width: 980px;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-  }
-}
-
-@media (max-width: 767px) {
-  .site-container,
-  .product-section .container-fluid,
-  #about .container-fluid,
-  #features .container-fluid,
-  #pricing .container-fluid,
-  #contact .container-fluid {
-    max-width: 100%;
-    padding-left: 0.875rem !important;
-    padding-right: 0.875rem !important;
-  }
-  /* Ensure title blocks and content are visually centered */
-  .col-12.text-center {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
 }
 
 /* Responsive overrides to keep section titles consistent like About Us */
@@ -1745,61 +1809,3 @@ footer a:hover {
     }
   }
 }
-
-/* ===========================
-   CENTER CARDS + COLUMNS
-   Make sure columns and cards are visually centered across sections
-   =========================== */
-
-/* Ensure every section container centers its content horizontally */
-.product-section .container-fluid,
-#about .container-fluid,
-#features .container-fluid,
-#pricing .container-fluid,
-#contact .container-fluid {
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-}
-
-/* Center columns inside rows for consistent alignment */
-.product-section .row > [class*="col-"] {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Limit width of small feature/about cards and center them */
-#about .product-card,
-#features .product-card {
-  max-width: 360px;
-  width: 100%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Pricing cards should remain full-width inside their column */
-#pricing .product-card {
-  max-width: 100%;
-  width: 100%;
-}
-
-/* For small screens relax max-width so cards fill available space */
-@media (max-width: 767px) {
-  #about .product-card,
-  #features .product-card {
-    max-width: 100%;
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
-  }
-
-  /* ensure title blocks are centered without extra side padding */
-  .col-12.text-center {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-}
-
