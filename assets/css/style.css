@@ -50,23 +50,24 @@
   flex-direction: column;
 }
 
-/* EXCEPTION: About cards wrapper - allow col-md-6 to display side-by-side */
+/* EXCEPTION: About cards wrapper - use CSS Grid for true 2-column layout */
 .col-12.d-flex.justify-content-center > .about-cards-wrapper {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  justify-content: space-evenly !important;
-  align-items: center !important;
-  max-width: 100% !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: clamp(1rem, 3vw, 2rem) !important;
+  max-width: 900px !important;
   width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  place-items: center !important;
 }
 
 .about-cards-wrapper {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  justify-content: space-evenly !important;
-  align-items: center !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: clamp(1rem, 3vw, 2rem) !important;
+  max-width: 100% !important;
+  width: 100% !important;
 }
 
 .about-cards-wrapper > [class*="col-"] {
@@ -74,10 +75,9 @@
   justify-content: center !important;
   align-items: stretch !important;
   flex-direction: column !important;
-  width: 45% !important;
-  max-width: 45% !important;
-  flex: 0 0 45% !important;
-  padding: 0 0.5rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: none !important;
 }
 
 /* Force section header blocks to stack h2 above paragraph and center them */
@@ -1308,18 +1308,17 @@ footer a:hover {
     line-height: 1.7;
   }
 
-  /* About cards wrapper - force side-by-side on tablet */
+  /* About cards wrapper - force 2-column grid on tablet */
   .about-cards-wrapper {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: space-evenly !important;
-    align-items: center !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: clamp(1rem, 2vw, 1.5rem) !important;
+    max-width: 100% !important;
   }
 
   .about-cards-wrapper > [class*="col-"] {
-    width: 45% !important;
-    max-width: 45% !important;
-    flex: 0 0 45% !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   #about .product-card {
@@ -1411,6 +1410,14 @@ footer a:hover {
 
   body {
     scroll-padding-top: 100px;
+  }
+
+  /* About cards wrapper - stack single column on mobile */
+  .about-cards-wrapper {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: clamp(1rem, 2vw, 1.5rem) !important;
+    max-width: 100% !important;
   }
 
   .product-section {
