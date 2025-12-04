@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
         rootMargin: '0px 0px -100px 0px'
     };
 
-    const observer = new IntersectionObserver(function(entries) {
+    const observer = new IntersectionObserver(function (entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add ripple effect to buttons
     document.querySelectorAll('.btn').forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             let ripple = document.createElement('span');
             let rect = this.getBoundingClientRect();
             let size = Math.max(rect.width, rect.height);
@@ -121,11 +121,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Smooth scroll untuk form inputs
     const formInputs = document.querySelectorAll('.form-control');
     formInputs.forEach(input => {
-        input.addEventListener('focus', function() {
+        input.addEventListener('focus', function () {
             this.style.transform = 'scale(1.02)';
             this.style.boxShadow = '0 0 15px rgba(255, 193, 7, 0.4)';
         });
-        input.addEventListener('blur', function() {
+        input.addEventListener('blur', function () {
             this.style.transform = 'scale(1)';
             this.style.boxShadow = '0 0 0 0.2rem rgba(255, 193, 7, 0.25)';
         });
@@ -152,16 +152,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // Header image animation
     const headerImg = document.querySelector('header img');
     if (headerImg) {
-        headerImg.addEventListener('mouseenter', function() {
+        headerImg.addEventListener('mouseenter', function () {
             this.style.filter = 'drop-shadow(0 0 20px rgba(255, 193, 7, 0.6))';
         });
-        headerImg.addEventListener('mouseleave', function() {
+        headerImg.addEventListener('mouseleave', function () {
             this.style.filter = 'drop-shadow(0 0 0px rgba(255, 193, 7, 0))';
         });
     }
 
     // Add loading animation class on page load
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
         document.body.style.opacity = '1';
     });
 });
