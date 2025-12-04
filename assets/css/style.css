@@ -408,16 +408,59 @@ header .btn:hover {
   overflow-wrap: break-word;
   font-weight: 700;
   margin-top: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 0; /* make titles match About Us (mb-0) */
   position: relative;
-  animation: slideInLeft 1s ease-out;
-  background: linear-gradient(135deg, #ffc107 0%, #ff9800 50%, #ffc107 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-size: 300% 300%;
-  animation: slideInLeft 1s ease-out, shimmer 3s ease-in-out infinite;
+  animation: fadeInDown 0.8s ease-out;
+  color: #ffc107; /* gold color like About Us */
+  -webkit-text-fill-color: #ffc107;
+  background: none !important; /* remove gradient text so color shows */
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
+/* Responsive overrides to keep section titles consistent like About Us */
+@media (max-width: 767px) {
+  .product-section-title {
+    font-size: clamp(1.6rem, 6vw, 2.2rem) !important;
+    padding: 0.75rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-section-title {
+    font-size: clamp(1.4rem, 5.5vw, 1.8rem) !important;
+    padding: 0.5rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .product-section-title {
+    font-size: clamp(1.8rem, 6.5vw, 3.5rem);
+    margin-bottom: 0 !important;
+    padding: 0.5rem 0 !important;
+  }
+}
+
+/* Small adjustments for section spacing on narrow screens */
+@media (max-width: 767px) {
+  #about .container-fluid,
+  #features .container-fluid,
+  #pricing .container-fluid,
+  #contact .container-fluid {
+    padding: 1rem !important;
+  }
+
+  #about .col-12.text-center,
+  #features .col-12.text-center,
+  #pricing .col-12.text-center,
+  #contact .col-12.text-center {
+    padding: 0.5rem 0 !important;
+  }
+}
+
 
 /* ===========================
    ABOUT SECTION
