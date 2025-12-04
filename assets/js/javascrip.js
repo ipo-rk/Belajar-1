@@ -262,6 +262,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 // simple success simulation
                 showTemporaryMessage(`Login berhasil: ${id}`);
 
+                // mark user as logged in and enable cart buttons
+                setLoggedInState(true);
+
                 // hide modal
                 const modalEl = document.getElementById('loginModal');
                 if (modalEl) {
@@ -339,6 +342,10 @@ document.addEventListener('DOMContentLoaded', function () {
             // simulate server
             setTimeout(() => {
                 showTemporaryMessage(`Registrasi berhasil: ${name}`);
+
+                // mark user as logged in and enable cart buttons
+                setLoggedInState(true);
+
                 const modalEl = document.getElementById('registerModal');
                 if (modalEl) {
                     const bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
@@ -365,11 +372,82 @@ document.addEventListener('DOMContentLoaded', function () {
         updateTotal();
     }
 
+    // ===== AUTH / CART GATING HELPERS =====
+    function isUserLoggedIn() {
+        try {
+            return localStorage.getItem('enauto_logged') === '1';
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function setLoggedInState(state) {
+        try {
+            if (state) {
+                localStorage.setItem('enauto_logged', '1');
+                enableCartButtons();
+            } else {
+                localStorage.removeItem('enauto_logged');
+                disableCartButtons();
+            }
+        } catch (e) {
+            // ignore storage errors
+        }
+    }
+
+    function enableCartButtons() {
+        document.querySelectorAll('.add-to-cart-btn').forEach(b => {
+            b.disabled = false;
+            b.classList.remove('disabled');
+            b.style.pointerEvents = '';
+            b.style.opacity = '';
+        });
+        const cb = document.getElementById('checkoutBtn');
+        if (cb) cb.disabled = false;
+        const clear = document.getElementById('clearCartBtn');
+        if (clear) clear.disabled = false;
+    }
+
+    function disableCartButtons() {
+        document.querySelectorAll('.add-to-cart-btn').forEach(b => {
+            b.disabled = true;
+            b.classList.add('disabled');
+            b.style.pointerEvents = 'none';
+            b.style.opacity = '0.6';
+        });
+        const cb = document.getElementById('checkoutBtn');
+        if (cb) cb.disabled = true;
+        const clear = document.getElementById('clearCartBtn');
+        if (clear) clear.disabled = true;
+    }
+
+    function showAuthModal(prefer) {
+        // prefer: 'login' or 'register' - default to login
+        const which = prefer === 'register' ? 'registerModal' : 'loginModal';
+        const modalEl = document.getElementById(which);
+        if (!modalEl) return;
+        const bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+        bsModal.show();
+    }
+
+    // Ensure cart buttons reflect stored login state on init
+    if (isUserLoggedIn()) {
+        enableCartButtons();
+    } else {
+        disableCartButtons();
+    }
+
     // Add to Cart button click handler
     const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
     addToCartBtns.forEach(btn => {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
+            // If user not logged in, show auth modal first
+            if (!isUserLoggedIn()) {
+                showAuthModal('login');
+                return;
+            }
+
             const productName = this.getAttribute('data-product');
             const productPrice = this.getAttribute('data-price');
 
@@ -617,6 +695,12 @@ document.addEventListener('DOMContentLoaded', function () {
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', function (e) {
             e.preventDefault();
+            // Ensure user is logged in before checkout
+            if (!isUserLoggedIn()) {
+                showAuthModal('login');
+                return;
+            }
+
             const rows = document.querySelectorAll('.order-table tbody tr:not(:last-child)');
 
             if (rows.length === 0) {
