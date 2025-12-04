@@ -1042,14 +1042,18 @@ header .btn:hover {
 #about .product-card {
   border: 2px solid rgba(255, 193, 7, 0.2) !important;
   position: relative;
-  background: rgba(0,0,0,0.0) !important;
+  background: rgba(0, 0, 0, 0) !important;
 }
 
 #about .product-card::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, transparent 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 193, 7, 0.1) 0%,
+    transparent 100%
+  );
   opacity: 0;
   transition: opacity 0.3s ease;
   border-radius: 0.5rem;
@@ -1059,8 +1063,6 @@ header .btn:hover {
 #about .product-card:hover::after {
   opacity: 1;
 }
-
-
 
 /* Make containers consistent with Features (padding, centering) */
 #about .container-fluid,
@@ -1081,7 +1083,6 @@ header .btn:hover {
     min-height: 160px;
   }
 }
-
 
 /* ===========================
    PRICING SECTION
