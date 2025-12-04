@@ -204,6 +204,42 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Password toggle and strength helpers
+    function togglePasswordVisibility(button) {
+        const target = button.getAttribute('data-target');
+        if (!target) return;
+        const input = document.querySelector(target);
+        if (!input) return;
+        const icon = button.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            if (icon) icon.className = 'fas fa-eye-slash';
+        } else {
+            input.type = 'password';
+            if (icon) icon.className = 'fas fa-eye';
+        }
+    }
+
+    // Basic password strength evaluation (returns score 0-5)
+    function evaluatePasswordStrength(pw) {
+        if (!pw) return 0;
+        let score = 0;
+        if (pw.length >= 8) score++;
+        if (pw.length >= 12) score++;
+        if (/[A-Z]/.test(pw)) score++;
+        if (/[0-9]/.test(pw)) score++;
+        if (/[^A-Za-z0-9]/.test(pw)) score++;
+        return score; // 0..5
+    }
+
+    // Wire up any toggle buttons present
+    document.querySelectorAll('.btn-toggle-pwd').forEach(btn => {
+        btn.addEventListener('click', function () {
+            togglePasswordVisibility(this);
+        });
+    });
+
+
     if (loginForm) {
         loginForm.addEventListener('submit', function (e) {
             e.preventDefault();
@@ -242,6 +278,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
+        // Password strength UI wiring
+        const pwInput = registerForm.querySelector('#registerPassword');
+        const pwBar = document.getElementById('pwStrengthBar');
+        const pwText = document.getElementById('pwStrengthText');
+        if (pwInput) {
+            pwInput.addEventListener('input', function () {
+                const score = evaluatePasswordStrength(this.value);
+                const percent = Math.min(100, Math.round((score / 5) * 100));
+                if (pwBar) {
+                    pwBar.style.width = percent + '%';
+                    pwBar.classList.remove('bg-danger', 'bg-warning', 'bg-success');
+                    if (score <= 1) pwBar.classList.add('bg-danger');
+                    else if (score <= 3) pwBar.classList.add('bg-warning');
+                    else pwBar.classList.add('bg-success');
+                }
+                if (pwText) {
+                    const txt = score <= 1 ? 'Sangat lemah' : (score <= 3 ? 'Sedang' : 'Kuat');
+                    pwText.querySelector('span').textContent = txt;
+                }
+            });
+        }
         registerForm.addEventListener('submit', function (e) {
             e.preventDefault();
             const name = registerForm.querySelector('input[name="register-name"]').value.trim();
@@ -265,6 +322,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (pw1 !== pw2) {
                 showTemporaryMessage('Password dan konfirmasi tidak cocok.');
+                return;
+            }
+
+            // Enforce minimum password strength (score 0..5)
+            const pwScore = evaluatePasswordStrength(pw1);
+            if (pwScore < 3) {
+                showTemporaryMessage('Password terlalu lemah. Gunakan kombinasi huruf besar, angka, dan simbol.');
                 return;
             }
 
