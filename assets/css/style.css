@@ -54,8 +54,8 @@
 .col-12.d-flex.justify-content-center > .about-cards-wrapper {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
-  gap: clamp(1rem, 3vw, 2rem) !important;
-  max-width: 900px !important;
+  gap: clamp(1.5rem, 4vw, 3rem) !important;
+  max-width: 1000px !important;
   width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -65,7 +65,7 @@
 .about-cards-wrapper {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
-  gap: clamp(1rem, 3vw, 2rem) !important;
+  gap: clamp(1.5rem, 4vw, 3rem) !important;
   max-width: 100% !important;
   width: 100% !important;
 }
@@ -76,7 +76,7 @@
   align-items: stretch !important;
   flex-direction: column !important;
   width: 100% !important;
-  max-width: 100% !important;
+  max-width: 500px !important;
   flex: none !important;
 }
 
@@ -839,7 +839,8 @@ header .btn:hover {
 
   #about .product-card {
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: 480px !important;
+    min-height: 200px !important;
   }
 }
 
