@@ -30,7 +30,7 @@
   box-sizing: border-box;
 }
 
-/* Make rows center their columns */
+/* Make rows center their columns - ALL section rows */
 .product-section .row,
 #about .row,
 #features .row,
@@ -39,11 +39,25 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /* Ensure each bootstrap column centers its content */
 .row > [class*="col-"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Strongly center section content blocks */
+#about .row > .col-12,
+#features .row > .col-12,
+#pricing .row > .col-12,
+#contact .row > .col-12 {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,20 +72,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   gap: 0.5rem;
   padding-left: clamp(0.5rem, 2vw, 1rem);
   padding-right: clamp(0.5rem, 2vw, 1rem);
+  padding-top: clamp(0.5rem, 2vw, 1.5rem);
+  padding-bottom: clamp(0.5rem, 2vw, 1.5rem);
   box-sizing: border-box;
+  width: 100%;
 }
 
 /* Constrain intro paragraphs and center them so they don't span full width */
 .product-section .lead,
 .product-section p.lead {
   max-width: 900px;
-  margin: 0.25rem auto 1rem auto;
-  padding-left: clamp(0.5rem, 2vw, 1rem);
-  padding-right: clamp(0.5rem, 2vw, 1rem);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding-left: clamp(0.75rem, 2.5vw, 1.5rem);
+  padding-right: clamp(0.75rem, 2.5vw, 1.5rem);
   box-sizing: border-box;
   text-align: center;
 }
@@ -83,6 +105,8 @@
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   text-align: center;
   align-items: center;
 }
@@ -93,6 +117,8 @@
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Ensure product-card content is centered by default */
@@ -730,7 +756,6 @@ header .btn:hover {
     padding: 1rem !important;
   }
 }
-
 
 /* Desktop (large) overrides to ensure Bootstrap column widths behave as expected
    for contact section (message + map). Prevents columns from collapsing to a
@@ -1475,14 +1500,19 @@ footer a:hover {
 
   /* Header */
   header {
-    min-height: 70vh;
+    min-height: 60vh;
+
+    margin: 7rem 0;
   }
 
   header .container {
+    margin: auto;
     padding: 0 !important;
   }
 
   header img {
+    margin-top: 100px;
+    padding-top: 10px;
     width: 80px;
   }
 
@@ -1504,9 +1534,10 @@ footer a:hover {
 
   header .btn {
     width: 100%;
-    padding: 0.5rem 1rem !important;
+    padding: 1rem 1rem !important;
     margin: 0.25rem 0 !important;
     font-size: 0.9rem !important;
+    border-radius: 0.25rem;
   }
 
   /* Navigation */
