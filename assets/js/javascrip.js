@@ -188,24 +188,55 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Handle modern Login / Register form submissions inside modals
     const loginForm = document.getElementById('loginForm');
+    // Helper: set loading state on a button (spinner + disabled)
+    function setButtonLoading(btn, loading, label) {
+        if (!btn) return;
+        if (loading) {
+            btn.dataset.orig = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>' + (label || 'Loading...');
+        } else {
+            btn.disabled = false;
+            if (btn.dataset.orig) {
+                btn.innerHTML = btn.dataset.orig;
+                delete btn.dataset.orig;
+            }
+        }
+    }
+
     if (loginForm) {
         loginForm.addEventListener('submit', function (e) {
             e.preventDefault();
             const id = loginForm.querySelector('input[name="login-identifier"]').value.trim();
             const pwd = loginForm.querySelector('input[name="login-password"]').value;
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
+            const cancelBtn = loginForm.querySelector('button[data-bs-dismiss]');
+
             if (!id || !pwd) {
                 showTemporaryMessage('Mohon isi semua field login.');
                 return;
             }
-            // Simulate login success (replace with real auth later)
-            showTemporaryMessage(`Login berhasil: ${id}`);
-            // hide modal
-            const modalEl = document.getElementById('loginModal');
-            if (modalEl) {
-                const bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-                bsModal.hide();
-            }
-            loginForm.reset();
+
+            // set loading state
+            setButtonLoading(submitBtn, true, 'Masuk...');
+            if (cancelBtn) cancelBtn.disabled = true;
+
+            // simulate async request (replace with fetch/ajax)
+            setTimeout(() => {
+                // simple success simulation
+                showTemporaryMessage(`Login berhasil: ${id}`);
+
+                // hide modal
+                const modalEl = document.getElementById('loginModal');
+                if (modalEl) {
+                    const bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                    bsModal.hide();
+                }
+                loginForm.reset();
+                // restore buttons
+                setButtonLoading(submitBtn, false);
+                if (cancelBtn) cancelBtn.disabled = false;
+            }, 1200);
         });
     }
 
@@ -217,21 +248,42 @@ document.addEventListener('DOMContentLoaded', function () {
             const email = registerForm.querySelector('input[name="register-email"]').value.trim();
             const pw1 = registerForm.querySelector('input[name="register-password"]').value;
             const pw2 = registerForm.querySelector('input[name="register-password2"]').value;
+            const submitBtn = registerForm.querySelector('button[type="submit"]');
+            const cancelBtn = registerForm.querySelector('button[data-bs-dismiss]');
+
             if (!name || !email || !pw1 || !pw2) {
                 showTemporaryMessage('Mohon isi semua field registrasi.');
                 return;
             }
+
+            // basic email check
+            const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRe.test(email)) {
+                showTemporaryMessage('Alamat email tidak valid.');
+                return;
+            }
+
             if (pw1 !== pw2) {
                 showTemporaryMessage('Password dan konfirmasi tidak cocok.');
                 return;
             }
-            showTemporaryMessage(`Registrasi berhasil: ${name}`);
-            const modalEl = document.getElementById('registerModal');
-            if (modalEl) {
-                const bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-                bsModal.hide();
-            }
-            registerForm.reset();
+
+            // Loading
+            setButtonLoading(submitBtn, true, 'Mendaftar...');
+            if (cancelBtn) cancelBtn.disabled = true;
+
+            // simulate server
+            setTimeout(() => {
+                showTemporaryMessage(`Registrasi berhasil: ${name}`);
+                const modalEl = document.getElementById('registerModal');
+                if (modalEl) {
+                    const bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                    bsModal.hide();
+                }
+                registerForm.reset();
+                setButtonLoading(submitBtn, false);
+                if (cancelBtn) cancelBtn.disabled = false;
+            }, 1300);
         });
     }
 
