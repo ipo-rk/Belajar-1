@@ -1864,4 +1864,63 @@ footer a:hover {
       height: 450px;
     }
   }
+
+/* ===========================
+   DESKTOP SCALE TWEAKS (1200px+)
+   Make typography, cards and images larger and more spacious on large screens
+   =========================== */
+@media (min-width: 1200px) {
+  /* Headings */
+  .product-section-title {
+    font-size: clamp(2rem, 4.5vw, 3.5rem) !important;
+    letter-spacing: 0.5px;
+  }
+
+  header h1.header-title {
+    font-size: clamp(2rem, 5.5vw, 4rem) !important;
+  }
+
+  /* Lead paragraphs slightly larger for desktop */
+  .product-section .lead {
+    font-size: clamp(1rem, 1.6vw, 1.15rem) !important;
+    line-height: 1.9;
+    max-width: 1000px;
+  }
+
+  /* Cards bigger and more spacious */
+  .product-card {
+    min-height: 300px;
+    padding: 1.5rem !important;
+  }
+
+  /* Small cards wrapper on desktop can be wider */
+  .about-cards-wrapper {
+    max-width: 900px;
+  }
+
+  /* Pricing product thumbnails larger */
+  .product-thumb {
+    width: 150px;
+    height: 150px;
+    margin-right: 2rem;
+  }
+
+  .product-card h3 {
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+  }
+
+  .product-card p {
+    font-size: clamp(0.95rem, 1.4vw, 1rem);
+  }
+
+  /* Ensure containers use the larger max-width */
+  .container,
+  .product-section > .container-fluid,
+  #about .container-fluid,
+  #features .container-fluid,
+  #pricing .container-fluid,
+  #contact .container-fluid {
+    max-width: 1400px;
+  }
+}
 }
