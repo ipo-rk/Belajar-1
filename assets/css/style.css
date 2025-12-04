@@ -51,13 +51,19 @@
 }
 
 /* EXCEPTION: About cards wrapper - allow col-md-6 to display side-by-side */
+.about-cards-wrapper {
+  justify-content: space-evenly !important;
+  max-width: 100%;
+}
+
 .about-cards-wrapper > [class*="col-"] {
   display: flex !important;
   justify-content: center !important;
   align-items: stretch !important;
   flex-direction: column !important;
-  max-width: 50% !important;
-  flex: 0 0 50% !important;
+  max-width: 45% !important;
+  flex: 0 0 45% !important;
+  padding: 0 1rem !important;
 }
 
 /* Force section header blocks to stack h2 above paragraph and center them */
@@ -928,7 +934,6 @@ header .btn:hover {
   #about .row.g-2 {
     width: 100%;
     margin-top: 2rem;
-    justify-content: space-around !important;
   }/* ===========================
    FEATURES SECTION
    =========================== */
