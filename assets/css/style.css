@@ -39,14 +39,25 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
-/* Ensure each bootstrap column centers its content */
+/* Ensure each bootstrap column centers its content (but NOT inside About cards wrapper) */
 .row > [class*="col-"] {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+/* EXCEPTION: About cards wrapper - allow col-md-6 to display side-by-side */
+.about-cards-wrapper > [class*="col-"] {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  flex-direction: column !important;
+  max-width: 50% !important;
+  flex: 0 0 50% !important;
 }
 
 /* Force section header blocks to stack h2 above paragraph and center them */
@@ -79,7 +90,7 @@
 /* Constrain smaller cards so they visually center and stay compact */
 #about .product-card,
 #features .product-card {
-  max-width: 420px;
+  max-width: none;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -785,6 +796,7 @@ header .btn:hover {
   #about .product-card {
     min-height: 180px;
     padding: 1.75rem !important;
+    max-width: 100% !important;
   }
 
   #about .row.g-2 {
@@ -794,6 +806,20 @@ header .btn:hover {
   #about .lead {
     font-size: 1.05rem !important;
     line-height: 1.8;
+  }
+
+  /* Desktop About cards - 2 column layout side-by-side */
+  #about .col-md-6 {
+    max-width: 50% !important;
+    flex: 0 0 50% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+  }
+
+  #about .product-card {
+    width: 100% !important;
+    max-width: 100% !important;
   }
 }
 
@@ -899,12 +925,11 @@ header .btn:hover {
   transform: translateY(-5px);
 }
 
-#about .row.g-2 {
-  width: 100%;
-  margin-top: 2rem;
-}
-
-/* ===========================
+  #about .row.g-2 {
+    width: 100%;
+    margin-top: 2rem;
+    justify-content: space-around !important;
+  }/* ===========================
    FEATURES SECTION
    =========================== */
 
