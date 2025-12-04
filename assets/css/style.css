@@ -1019,6 +1019,71 @@ header .btn:hover {
 }
 
 /* ===========================
+   MAKE ABOUT MATCH FEATURES
+   Duplicate key feature styles for About section to ensure identical appearance
+   =========================== */
+
+/* Container & layout parity */
+#about .container {
+  max-width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+#about .row {
+  width: 100%;
+}
+
+#about .col-md-12 {
+  padding: 1rem;
+}
+
+/* Product card visuals (copy of #features) */
+#about .product-card {
+  border: 2px solid rgba(255, 193, 7, 0.2) !important;
+  position: relative;
+  background: rgba(0,0,0,0.0) !important;
+}
+
+#about .product-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 0.5rem;
+  pointer-events: none;
+}
+
+#about .product-card:hover::after {
+  opacity: 1;
+}
+
+
+
+/* Make containers consistent with Features (padding, centering) */
+#about .container-fluid,
+#about .container {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(0.75rem, 2.5vw, 2rem) !important;
+  padding-right: clamp(0.75rem, 2.5vw, 2rem) !important;
+  box-sizing: border-box;
+}
+
+/* Responsive: keep About's grid & cards parity already handled by general rules; add explicit overrides where necessary */
+@media (min-width: 992px) {
+  #about .product-card,
+  #features .product-card {
+    padding: 1.5rem !important;
+    min-height: 160px;
+  }
+}
+
+
+/* ===========================
    PRICING SECTION
    =========================== */
 
@@ -1456,918 +1521,919 @@ footer a:hover {
     max-width: none !important;
     padding: 1.75rem !important;
 
-  .product-section {
-    padding-top: 60px;
-    scroll-margin-top: 100px;
-  }
-
-  .product-section-title {
-    margin-top: 15px;
-    margin-bottom: 20px;
-  }
-
-  #about,
-  #features,
-  #pricing,
-  #contact {
-    padding-top: 80px;
-    scroll-margin-top: 100px;
-  }
-
-  /* Header */
-  header {
-    min-height: 60vh;
-  }
-
-  header .container {
-    padding: 0 !important;
-  }
-
-  header img {
-    width: 100px;
-    margin: 1rem 0;
-  }
-
-  header h1 {
-    font-size: 2rem;
-    margin: 0.5rem 0;
-  }
-
-  header p {
-    font-size: 1rem;
-  }
-
-  header .p-5 {
-    padding: 1rem !important;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  header .btn {
-    width: 100%;
-    padding: 0.75rem 1.5rem !important;
-    margin: 0.25rem 0 !important;
-  }
-
-  /* Navigation */
-  .navbar-nav {
-    gap: 0.25rem;
-  }
-
-  .navbar-nav .nav-link {
-    padding: 0.5rem 1rem !important;
-    margin: 0.25rem auto !important;
-    max-width: 90%;
-  }
-
-  .sticky-navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1030;
-  }
-
-  /* Section Titles */
-  .product-section-title {
-    font-size: 2rem !important;
-    padding: 1rem !important;
-  }
-
-  /* Sections */
-  #about .container,
-  #features .container,
-  #pricing .container,
-  #contact .container {
-    max-width: 100%;
-    padding: 0 !important;
-  }
-
-  #about .row,
-  #features .row,
-  #pricing .row,
-  #contact .row {
-    padding: 0 1rem;
-  }
-
-  /* About Section */
-  #about > .container-fluid > .row > .col-12 > .container-fluid {
-    padding: 1.5rem 1rem !important;
-    margin: 1rem 0.5rem !important;
-    border-radius: 0.75rem;
-  }
-
-  #about h2 {
-    font-size: 1.8rem !important;
-    margin-bottom: 1rem;
-  }
-
-  #about .lead {
-    font-size: 0.9rem !important;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-  }
-
-  #about .product-card {
-    margin: 0.5rem 0;
-    min-height: auto;
-    padding: 1rem !important;
-  }
-
-  #about .product-card i {
-    font-size: 2rem !important;
-  }
-
-  #about .row.g-2 {
-    gap: 1rem !important;
-    margin-top: 1rem !important;
-  }
-
-  /* Features Section */
-  #features .col-md-12 {
-    padding: 0.5rem;
-  }
-
-  #features .product-card {
-    margin: 0.5rem 0;
-  }
-
-  /* Ensure full viewport height on tablet */
-  #about,
-  #features,
-  #pricing,
-  #contact {
-    min-height: 100vh;
-  }
-
-  /* Pricing Section */
-  #pricing .product-card {
-    flex-direction: column !important;
-    text-align: center;
-    min-height: auto;
-  }
-
-  #pricing .product-card img {
-    width: 100px;
-    height: 100px;
-    margin-right: 0;
-    margin-bottom: 1rem;
-  }
-
-  #pricing .product-card div {
-    text-align: center;
-  }
-
-  /* Contact Section */
-  #contact .row {
-    gap: 1rem;
-    padding: 0 1rem;
-  }
-
-  #contact .col {
-    padding: 1rem;
-  }
-
-  #contact form .row {
-    gap: 0.5rem;
-  }
-
-  #contact form .col-md-6 {
-    width: 100% !important;
-  }
-
-  #contact iframe {
-    height: 250px;
-  }
-
-  /* Footer */
-  footer .row {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  footer .col {
-    text-align: center;
-  }
-
-  /* General */
-  body {
-    font-size: 0.95rem;
-  }
-
-  .shadow-lg {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
-  }
-}
-
-/* ===========================
-   MOBILE PHONE STYLES (480px and below)
-   =========================== */
-
-@media (max-width: 480px) {
-  /* CRITICAL: Ensure all rows centered on small phones */
-  .product-section .row,
-  #about .row,
-  #features .row,
-  #pricing .row,
-  #contact .row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  /* All columns centered on small phones */
-  .row > .col-12,
-  .row > [class*="col-"] {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
-  }
-
-  /* Container centered on small phones */
-  .product-section > .container-fluid,
-  #about .container-fluid,
-  #features .container-fluid,
-  #pricing .container-fluid,
-  #contact .container-fluid {
-    max-width: 100%;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 0.5rem !important;
-    padding-right: 0.5rem !important;
-    box-sizing: border-box;
-  }
-
-  body {
-    scroll-padding-top: 90px;
-  }
-
-  .product-section {
-    padding-top: 50px;
-    scroll-margin-top: 90px;
-  }
-
-  .product-section-title {
-    margin-top: 10px;
-    margin-bottom: 15px;
-  }
-
-  #about,
-  #features,
-  #pricing,
-  #contact {
-    padding-top: 70px;
-    scroll-margin-top: 90px;
-  }
-
-  /* General */
-  body {
-    font-size: 0.9rem;
-  }
-
-  .container {
-    max-width: 100% !important;
-    padding: 0 0.75rem !important;
-  }
-
-  /* Header */
-  header {
-    min-height: 60vh;
-
-    margin: 7rem 0;
-  }
-
-  header .container {
-    margin: auto;
-    padding: 0 !important;
-  }
-
-  header img {
-    margin-top: 100px;
-    padding-top: 10px;
-    width: 80px;
-  }
-
-  header h1 {
-    font-size: 1.5rem;
-    margin: 0.25rem 0;
-    word-break: break-word;
-  }
-
-  header p {
-    font-size: 0.9rem;
-    margin: 0.5rem 0;
-  }
-
-  header .p-5 {
-    padding: 0.5rem !important;
-    flex-direction: column;
-  }
-
-  header .btn {
-    width: 100%;
-    padding: 1rem 1rem !important;
-    margin: 0.25rem 0 !important;
-    font-size: 0.9rem !important;
-    border-radius: 0.25rem;
-  }
-
-  /* Navigation */
-  .navbar {
-    padding: 0.5rem 0 !important;
-  }
-
-  .navbar-nav {
-    gap: 0;
-  }
-
-  .navbar-nav .nav-link {
-    padding: 0.4rem 0.75rem !important;
-    margin: 0.2rem auto !important;
-    font-size: 0.9rem !important;
-  }
-
-  .sticky-navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1030;
-    left: 0;
-    right: 0;
-  }
-
-  /* Section Titles */
-  .product-section-title {
-    font-size: 1.5rem !important;
-    padding: 0.75rem !important;
-    margin: 0.5rem 0 !important;
-  }
-
-  .lead {
-    font-size: 0.9rem !important;
-    line-height: 1.4;
-  }
-
-  /* Product Cards */
-  .product-card {
-    padding: 1rem !important;
-    margin: 0.5rem 0;
-  }
-
-  .product-card i {
-    font-size: 2rem !important;
-  }
-
-  .product-card h3 {
-    font-size: 1.1rem;
-    margin: 0.5rem 0 0.25rem 0;
-  }
-
-  .product-card p {
-    font-size: 0.85rem;
-    line-height: 1.4;
-  }
-
-  /* About Section */
-  #about {
-    padding-top: 60px;
-    scroll-margin-top: 90px;
-    min-height: 100vh;
-  }
-
-  #about .product-card {
-    min-height: auto;
-    margin: 0.5rem 0;
-    padding: 0.75rem !important;
-  }
-
-  #about .product-card i {
-    font-size: 1.75rem !important;
-  }
-
-  #about .product-card h3 {
-    font-size: 1rem !important;
-  }
-
-  #about .product-card p {
-    font-size: 0.8rem !important;
-  }
-
-  #about .row.g-2 {
-    gap: 0.75rem !important;
-  }
-
-  /* About cards wrapper - single column on small phones */
-  .about-cards-wrapper {
-    grid-template-columns: 1fr !important;
-    gap: 0.75rem !important;
-    max-width: 100% !important;
-    padding: 0 0.5rem !important;
-  }
-
-  .about-cards-wrapper > [class*="col-"] {
-    max-width: 100% !important;
-  }
-
-  /* Features Section */
-  #features {
-    min-height: 40vh;
-  }
-
-  #features .col-md-12 {
-    padding: 0.5rem;
-  }
-
-  /* Ensure proper height on mobile */
-  #about,
-  #pricing,
-  #contact {
-    min-height: 100vh;
-  }
-
-  /* Pricing Section */
-  #pricing .product-card {
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center;
-    min-height: auto;
-    padding: 1rem !important;
-    position: relative;
-  }
-
-  #pricing .product-card::after {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
-    border-radius: 0.5rem;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  #pricing .product-card:hover::after {
-    opacity: 0.2;
-  }
-
-  #pricing .product-card img {
-    width: 80px;
-    height: 80px;
-    margin-right: 0;
-    margin-bottom: 0.75rem;
-    transition: all 0.3s ease;
-  }
-
-  #pricing .product-card:hover img {
-    transform: scale(1.15) rotate(-5deg);
-    filter: drop-shadow(0 0 15px rgba(255, 193, 7, 0.5));
-  }
-
-  #pricing .product-card div {
-    text-align: center;
-  }
-
-  #pricing .product-card h3 {
-    font-size: 1rem;
-  }
-
-  #pricing .product-card p {
-    font-size: 0.8rem;
-  }
-
-  /* Contact Section */
-  #contact .product-section-title {
-    font-size: 1.25rem !important;
-    padding: 0.75rem !important;
-  }
-
-  #contact .row {
-    gap: 0.5rem;
-    padding: 0;
-  }
-
-  #contact .col {
-    padding: 0.75rem;
-    border-radius: 0.25rem;
-  }
-
-  #contact h1 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-  }
-
-  #contact form {
-    padding: 0 !important;
-  }
-
-  #contact form .row {
-    gap: 0.5rem;
-  }
-
-  #contact form .col-md-6 {
-    width: 100% !important;
-  }
-
-  #contact form .form-control {
-    font-size: 0.9rem;
-    padding: 0.5rem;
-  }
-
-  #contact form .btn {
-    width: 100%;
-    padding: 0.5rem !important;
-    font-size: 0.9rem !important;
-  }
-
-  #contact iframe {
-    height: 200px;
-  }
-
-  /* Footer */
-  footer {
-    padding: 1rem 0;
-  }
-
-  footer .container {
-    padding: 0 0.75rem !important;
-  }
-
-  footer .row {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  footer .col {
-    text-align: center;
-    font-size: 0.85rem;
-  }
-
-  footer {
-    padding: 1rem 0;
-  }
-
-  footer .container-fluid {
-    padding: 0 0.75rem !important;
-  }
-
-  footer .row {
-    gap: 0.5rem;
-  }
-
-  footer p {
-    margin-bottom: 0;
-    font-size: clamp(0.75rem, 1.2vw, 0.85rem);
-  }
-
-  footer a::after {
-    display: none;
-  }
-
-  /* Utilities */
-  .g-4 {
-    gap: 0.75rem !important;
-  }
-
-  .g-3 {
-    gap: 0.5rem !important;
-  }
-
-  .shadow-lg {
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15) !important;
-  }
-
-  .display-1 {
-    font-size: 1.5rem !important;
-  }
-
-  .fs-4 {
-    font-size: 1rem !important;
-  }
-
-  .fs-5 {
-    font-size: 0.95rem !important;
-  }
-
-  .p-4 {
-    padding: 0.75rem !important;
-  }
-
-  .p-3 {
-    padding: 0.5rem !important;
-  }
-
-  .px-5 {
-    padding-left: 0.5rem !important;
-    padding-right: 0.5rem !important;
-  }
-
-  .mx-5 {
-    margin-left: 0.25rem !important;
-    margin-right: 0.25rem !important;
-  }
-
-  .my-5 {
-    margin-top: 1rem !important;
-    margin-bottom: 1rem !important;
-  }
-
-  .my-4 {
-    margin-top: 0.75rem !important;
-    margin-bottom: 0.75rem !important;
-  }
-
-  .my-3 {
-    margin-top: 0.5rem !important;
-    margin-bottom: 0.5rem !important;
-  }
-
-  .mb-5 {
-    margin-bottom: 1rem !important;
-  }
-
-  .mt-5 {
-    margin-top: 1rem !important;
-  }
-
-  .pt-0 {
-    padding-top: 0 !important;
-  }
-
-  .mt-0 {
-    margin-top: 0 !important;
-  }
-
-  .py-5 {
-    padding-top: 1rem !important;
-    padding-bottom: 1rem !important;
-  }
-
-  .py-3 {
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
-  }
-
-  .py-lg-5 {
-    padding-top: 1rem !important;
-    padding-bottom: 1rem !important;
-  }
-
-  /* Stagger animation for cards */
-  .product-card:nth-child(1) {
-    animation-delay: 0.1s;
-  }
-  .product-card:nth-child(2) {
-    animation-delay: 0.2s;
-  }
-  .product-card:nth-child(3) {
-    animation-delay: 0.3s;
-  }
-  .product-card:nth-child(4) {
-    animation-delay: 0.4s;
-  }
-  .product-card:nth-child(5) {
-    animation-delay: 0.5s;
-  }
-  .product-card:nth-child(6) {
-    animation-delay: 0.6s;
-  }
-
-  /* ===========================
-   SMALL MOBILE (Below 480px)
-   =========================== */
-
-  @media (max-width: 479px) {
-    #contact .col-lg-6 {
-      padding: 0.75rem;
+    .product-section {
+      padding-top: 60px;
+      scroll-margin-top: 100px;
+    }
+
+    .product-section-title {
+      margin-top: 15px;
+      margin-bottom: 20px;
+    }
+
+    #about,
+    #features,
+    #pricing,
+    #contact {
+      padding-top: 80px;
+      scroll-margin-top: 100px;
+    }
+
+    /* Header */
+    header {
+      min-height: 60vh;
+    }
+
+    header .container {
+      padding: 0 !important;
+    }
+
+    header img {
+      width: 100px;
+      margin: 1rem 0;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin: 0.5rem 0;
+    }
+
+    header p {
+      font-size: 1rem;
+    }
+
+    header .p-5 {
+      padding: 1rem !important;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    header .btn {
+      width: 100%;
+      padding: 0.75rem 1.5rem !important;
+      margin: 0.25rem 0 !important;
+    }
+
+    /* Navigation */
+    .navbar-nav {
+      gap: 0.25rem;
+    }
+
+    .navbar-nav .nav-link {
+      padding: 0.5rem 1rem !important;
+      margin: 0.25rem auto !important;
+      max-width: 90%;
+    }
+
+    .sticky-navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1030;
+    }
+
+    /* Section Titles */
+    .product-section-title {
+      font-size: 2rem !important;
+      padding: 1rem !important;
+    }
+
+    /* Sections */
+    #about .container,
+    #features .container,
+    #pricing .container,
+    #contact .container {
+      max-width: 100%;
+      padding: 0 !important;
+    }
+
+    #about .row,
+    #features .row,
+    #pricing .row,
+    #contact .row {
+      padding: 0 1rem;
+    }
+
+    /* About Section */
+    #about > .container-fluid > .row > .col-12 > .container-fluid {
+      padding: 1.5rem 1rem !important;
+      margin: 1rem 0.5rem !important;
+      border-radius: 0.75rem;
+    }
+
+    #about h2 {
+      font-size: 1.8rem !important;
       margin-bottom: 1rem;
     }
 
-    #contact .product-section-title {
-      font-size: clamp(1.25rem, 3vw, 1.75rem);
-      padding: 0.75rem;
+    #about .lead {
+      font-size: 0.9rem !important;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
     }
 
-    #contact form .form-control {
-      font-size: 0.85rem;
+    #about .product-card {
+      margin: 0.5rem 0;
+      min-height: auto;
+      padding: 1rem !important;
+    }
+
+    #about .product-card i {
+      font-size: 2rem !important;
+    }
+
+    #about .row.g-2 {
+      gap: 1rem !important;
+      margin-top: 1rem !important;
+    }
+
+    /* Features Section */
+    #features .col-md-12 {
       padding: 0.5rem;
+    }
+
+    #features .product-card {
+      margin: 0.5rem 0;
+    }
+
+    /* Ensure full viewport height on tablet */
+    #about,
+    #features,
+    #pricing,
+    #contact {
+      min-height: 100vh;
+    }
+
+    /* Pricing Section */
+    #pricing .product-card {
+      flex-direction: column !important;
+      text-align: center;
+      min-height: auto;
+    }
+
+    #pricing .product-card img {
+      width: 100px;
+      height: 100px;
+      margin-right: 0;
+      margin-bottom: 1rem;
+    }
+
+    #pricing .product-card div {
+      text-align: center;
+    }
+
+    /* Contact Section */
+    #contact .row {
+      gap: 1rem;
+      padding: 0 1rem;
+    }
+
+    #contact .col {
+      padding: 1rem;
+    }
+
+    #contact form .row {
+      gap: 0.5rem;
+    }
+
+    #contact form .col-md-6 {
+      width: 100% !important;
     }
 
     #contact iframe {
       height: 250px;
     }
 
-    #contact .text-light {
-      padding: 1rem;
-    }
-  }
-
-  /* ===========================
-   EXTRA SMALL DEVICES (Below 360px)
-   =========================== */
-
-  @media (max-width: 360px) {
-    header h1 {
-      font-size: 1.25rem;
+    /* Footer */
+    footer .row {
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
-    .product-section-title {
-      font-size: 1.25rem !important;
+    footer .col {
+      text-align: center;
     }
 
-    #contact form .row {
-      gap: 0.25rem;
-    }
-
-    #contact .col-lg-6 {
-      padding: 0.5rem !important;
-    }
-
-    #contact .product-section-title {
-      font-size: 1.1rem !important;
-      padding: 0.5rem !important;
-    }
-
-    #contact iframe {
-      height: 200px;
-    }
-  }
-
-  /* ===========================
-   LARGE DESKTOP (1200px and up)
-   =========================== */
-
-  /* ===========================
-   MOBILE PHONE (480px to 767px)
-   =========================== */
-
-  @media (min-width: 480px) and (max-width: 767px) {
-    #contact .col-lg-6 {
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    #contact .product-section-title {
-      font-size: clamp(1.5rem, 4vw, 2rem);
-      padding: 1rem;
-    }
-
-    #contact form .form-control {
-      font-size: 0.9rem;
-    }
-
-    #contact iframe {
-      height: 300px;
-    }
-  }
-
-  /* ===========================
-   TABLET (768px to 991px)
-   =========================== */
-
-  @media (min-width: 768px) and (max-width: 991px) {
-    #contact .col-lg-6 {
-      padding: 1.5rem;
-    }
-
-    #contact .product-section-title {
-      font-size: clamp(1.75rem, 5vw, 2.5rem);
-    }
-
-    #contact form .form-control {
+    /* General */
+    body {
       font-size: 0.95rem;
     }
 
-    #contact iframe {
-      height: 350px;
+    .shadow-lg {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
     }
   }
 
   /* ===========================
-   LARGE DESKTOP (1200px and up)
+   MOBILE PHONE STYLES (480px and below)
    =========================== */
 
-  @media (min-width: 1200px) {
-    /* About Section */
-    #about .lead {
-      font-size: 1.05rem !important;
-      line-height: 1.8;
-    }
-
-    #about .product-card {
-      min-height: 180px;
-      padding: 1.75rem !important;
-    }
-
-    #about .row.g-2 {
-      gap: 2rem !important;
-    }
-
-    header .p-5 {
+  @media (max-width: 480px) {
+    /* CRITICAL: Ensure all rows centered on small phones */
+    .product-section .row,
+    #about .row,
+    #features .row,
+    #pricing .row,
+    #contact .row {
       display: flex;
-      gap: 2rem;
-      justify-content: flex-end;
+      flex-wrap: wrap;
+      justify-content: center;
       align-items: center;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 0;
+      padding-right: 0;
     }
 
-    header .btn {
-      padding: 0.75rem 3rem !important;
+    /* All columns centered on small phones */
+    .row > .col-12,
+    .row > [class*="col-"] {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
     }
 
-    .product-card {
-      min-height: 250px;
-    }
-
-    #pricing .product-card img {
-      width: 150px;
-      height: 150px;
-      margin-right: 2rem;
-    }
-
-    #contact .col-lg-6 {
-      padding: 2rem;
-    }
-
-    #contact .product-section-title {
-      font-size: clamp(2rem, 5vw, 3rem);
-    }
-
-    #contact form .form-control {
-      font-size: 1rem;
-    }
-
-    #contact iframe {
-      height: 450px;
-    }
-  }
-
-  /* ===========================
-   DESKTOP SCALE TWEAKS (1200px+)
-   Make typography, cards and images larger and more spacious on large screens
-   =========================== */
-  @media (min-width: 1200px) {
-    /* Headings */
-    .product-section-title {
-      font-size: clamp(2rem, 4.5vw, 3.5rem) !important;
-      letter-spacing: 0.5px;
-    }
-
-    header h1.header-title {
-      font-size: clamp(2rem, 5.5vw, 4rem) !important;
-    }
-
-    /* Lead paragraphs slightly larger for desktop */
-    .product-section .lead {
-      font-size: clamp(1rem, 1.6vw, 1.15rem) !important;
-      line-height: 1.9;
-      max-width: 1000px;
-    }
-
-    /* Cards bigger and more spacious */
-    .product-card {
-      min-height: 300px;
-      padding: 1.5rem !important;
-    }
-
-    /* Small cards wrapper on desktop can be wider */
-    .about-cards-wrapper {
-      max-width: 900px;
-    }
-
-    /* Pricing product thumbnails larger */
-    .product-thumb {
-      width: 150px;
-      height: 150px;
-      margin-right: 2rem;
-    }
-
-    .product-card h3 {
-      font-size: clamp(1.1rem, 2vw, 1.6rem);
-    }
-
-    .product-card p {
-      font-size: clamp(0.95rem, 1.4vw, 1rem);
-    }
-
-    /* Ensure containers use the larger max-width */
-    .container,
+    /* Container centered on small phones */
     .product-section > .container-fluid,
     #about .container-fluid,
     #features .container-fluid,
     #pricing .container-fluid,
     #contact .container-fluid {
-      max-width: 1400px;
+      max-width: 100%;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
+      box-sizing: border-box;
+    }
+
+    body {
+      scroll-padding-top: 90px;
+    }
+
+    .product-section {
+      padding-top: 50px;
+      scroll-margin-top: 90px;
+    }
+
+    .product-section-title {
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
+
+    #about,
+    #features,
+    #pricing,
+    #contact {
+      padding-top: 70px;
+      scroll-margin-top: 90px;
+    }
+
+    /* General */
+    body {
+      font-size: 0.9rem;
+    }
+
+    .container {
+      max-width: 100% !important;
+      padding: 0 0.75rem !important;
+    }
+
+    /* Header */
+    header {
+      min-height: 60vh;
+
+      margin: 7rem 0;
+    }
+
+    header .container {
+      margin: auto;
+      padding: 0 !important;
+    }
+
+    header img {
+      margin-top: 100px;
+      padding-top: 10px;
+      width: 80px;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      margin: 0.25rem 0;
+      word-break: break-word;
+    }
+
+    header p {
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+    }
+
+    header .p-5 {
+      padding: 0.5rem !important;
+      flex-direction: column;
+    }
+
+    header .btn {
+      width: 100%;
+      padding: 1rem 1rem !important;
+      margin: 0.25rem 0 !important;
+      font-size: 0.9rem !important;
+      border-radius: 0.25rem;
+    }
+
+    /* Navigation */
+    .navbar {
+      padding: 0.5rem 0 !important;
+    }
+
+    .navbar-nav {
+      gap: 0;
+    }
+
+    .navbar-nav .nav-link {
+      padding: 0.4rem 0.75rem !important;
+      margin: 0.2rem auto !important;
+      font-size: 0.9rem !important;
+    }
+
+    .sticky-navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1030;
+      left: 0;
+      right: 0;
+    }
+
+    /* Section Titles */
+    .product-section-title {
+      font-size: 1.5rem !important;
+      padding: 0.75rem !important;
+      margin: 0.5rem 0 !important;
+    }
+
+    .lead {
+      font-size: 0.9rem !important;
+      line-height: 1.4;
+    }
+
+    /* Product Cards */
+    .product-card {
+      padding: 1rem !important;
+      margin: 0.5rem 0;
+    }
+
+    .product-card i {
+      font-size: 2rem !important;
+    }
+
+    .product-card h3 {
+      font-size: 1.1rem;
+      margin: 0.5rem 0 0.25rem 0;
+    }
+
+    .product-card p {
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    /* About Section */
+    #about {
+      padding-top: 60px;
+      scroll-margin-top: 90px;
+      min-height: 100vh;
+    }
+
+    #about .product-card {
+      min-height: auto;
+      margin: 0.5rem 0;
+      padding: 0.75rem !important;
+    }
+
+    #about .product-card i {
+      font-size: 1.75rem !important;
+    }
+
+    #about .product-card h3 {
+      font-size: 1rem !important;
+    }
+
+    #about .product-card p {
+      font-size: 0.8rem !important;
+    }
+
+    #about .row.g-2 {
+      gap: 0.75rem !important;
+    }
+
+    /* About cards wrapper - single column on small phones */
+    .about-cards-wrapper {
+      grid-template-columns: 1fr !important;
+      gap: 0.75rem !important;
+      max-width: 100% !important;
+      padding: 0 0.5rem !important;
+    }
+
+    .about-cards-wrapper > [class*="col-"] {
+      max-width: 100% !important;
+    }
+
+    /* Features Section */
+    #features {
+      min-height: 40vh;
+    }
+
+    #features .col-md-12 {
+      padding: 0.5rem;
+    }
+
+    /* Ensure proper height on mobile */
+    #about,
+    #pricing,
+    #contact {
+      min-height: 100vh;
+    }
+
+    /* Pricing Section */
+    #pricing .product-card {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center;
+      min-height: auto;
+      padding: 1rem !important;
+      position: relative;
+    }
+
+    #pricing .product-card::after {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+      border-radius: 0.5rem;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    #pricing .product-card:hover::after {
+      opacity: 0.2;
+    }
+
+    #pricing .product-card img {
+      width: 80px;
+      height: 80px;
+      margin-right: 0;
+      margin-bottom: 0.75rem;
+      transition: all 0.3s ease;
+    }
+
+    #pricing .product-card:hover img {
+      transform: scale(1.15) rotate(-5deg);
+      filter: drop-shadow(0 0 15px rgba(255, 193, 7, 0.5));
+    }
+
+    #pricing .product-card div {
+      text-align: center;
+    }
+
+    #pricing .product-card h3 {
+      font-size: 1rem;
+    }
+
+    #pricing .product-card p {
+      font-size: 0.8rem;
+    }
+
+    /* Contact Section */
+    #contact .product-section-title {
+      font-size: 1.25rem !important;
+      padding: 0.75rem !important;
+    }
+
+    #contact .row {
+      gap: 0.5rem;
+      padding: 0;
+    }
+
+    #contact .col {
+      padding: 0.75rem;
+      border-radius: 0.25rem;
+    }
+
+    #contact h1 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    #contact form {
+      padding: 0 !important;
+    }
+
+    #contact form .row {
+      gap: 0.5rem;
+    }
+
+    #contact form .col-md-6 {
+      width: 100% !important;
+    }
+
+    #contact form .form-control {
+      font-size: 0.9rem;
+      padding: 0.5rem;
+    }
+
+    #contact form .btn {
+      width: 100%;
+      padding: 0.5rem !important;
+      font-size: 0.9rem !important;
+    }
+
+    #contact iframe {
+      height: 200px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 1rem 0;
+    }
+
+    footer .container {
+      padding: 0 0.75rem !important;
+    }
+
+    footer .row {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    footer .col {
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    footer {
+      padding: 1rem 0;
+    }
+
+    footer .container-fluid {
+      padding: 0 0.75rem !important;
+    }
+
+    footer .row {
+      gap: 0.5rem;
+    }
+
+    footer p {
+      margin-bottom: 0;
+      font-size: clamp(0.75rem, 1.2vw, 0.85rem);
+    }
+
+    footer a::after {
+      display: none;
+    }
+
+    /* Utilities */
+    .g-4 {
+      gap: 0.75rem !important;
+    }
+
+    .g-3 {
+      gap: 0.5rem !important;
+    }
+
+    .shadow-lg {
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .display-1 {
+      font-size: 1.5rem !important;
+    }
+
+    .fs-4 {
+      font-size: 1rem !important;
+    }
+
+    .fs-5 {
+      font-size: 0.95rem !important;
+    }
+
+    .p-4 {
+      padding: 0.75rem !important;
+    }
+
+    .p-3 {
+      padding: 0.5rem !important;
+    }
+
+    .px-5 {
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
+    }
+
+    .mx-5 {
+      margin-left: 0.25rem !important;
+      margin-right: 0.25rem !important;
+    }
+
+    .my-5 {
+      margin-top: 1rem !important;
+      margin-bottom: 1rem !important;
+    }
+
+    .my-4 {
+      margin-top: 0.75rem !important;
+      margin-bottom: 0.75rem !important;
+    }
+
+    .my-3 {
+      margin-top: 0.5rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    .mb-5 {
+      margin-bottom: 1rem !important;
+    }
+
+    .mt-5 {
+      margin-top: 1rem !important;
+    }
+
+    .pt-0 {
+      padding-top: 0 !important;
+    }
+
+    .mt-0 {
+      margin-top: 0 !important;
+    }
+
+    .py-5 {
+      padding-top: 1rem !important;
+      padding-bottom: 1rem !important;
+    }
+
+    .py-3 {
+      padding-top: 0.5rem !important;
+      padding-bottom: 0.5rem !important;
+    }
+
+    .py-lg-5 {
+      padding-top: 1rem !important;
+      padding-bottom: 1rem !important;
+    }
+
+    /* Stagger animation for cards */
+    .product-card:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+    .product-card:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    .product-card:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+    .product-card:nth-child(4) {
+      animation-delay: 0.4s;
+    }
+    .product-card:nth-child(5) {
+      animation-delay: 0.5s;
+    }
+    .product-card:nth-child(6) {
+      animation-delay: 0.6s;
+    }
+
+    /* ===========================
+   SMALL MOBILE (Below 480px)
+   =========================== */
+
+    @media (max-width: 479px) {
+      #contact .col-lg-6 {
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+      }
+
+      #contact .product-section-title {
+        font-size: clamp(1.25rem, 3vw, 1.75rem);
+        padding: 0.75rem;
+      }
+
+      #contact form .form-control {
+        font-size: 0.85rem;
+        padding: 0.5rem;
+      }
+
+      #contact iframe {
+        height: 250px;
+      }
+
+      #contact .text-light {
+        padding: 1rem;
+      }
+    }
+
+    /* ===========================
+   EXTRA SMALL DEVICES (Below 360px)
+   =========================== */
+
+    @media (max-width: 360px) {
+      header h1 {
+        font-size: 1.25rem;
+      }
+
+      .product-section-title {
+        font-size: 1.25rem !important;
+      }
+
+      #contact form .row {
+        gap: 0.25rem;
+      }
+
+      #contact .col-lg-6 {
+        padding: 0.5rem !important;
+      }
+
+      #contact .product-section-title {
+        font-size: 1.1rem !important;
+        padding: 0.5rem !important;
+      }
+
+      #contact iframe {
+        height: 200px;
+      }
+    }
+
+    /* ===========================
+   LARGE DESKTOP (1200px and up)
+   =========================== */
+
+    /* ===========================
+   MOBILE PHONE (480px to 767px)
+   =========================== */
+
+    @media (min-width: 480px) and (max-width: 767px) {
+      #contact .col-lg-6 {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      #contact .product-section-title {
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        padding: 1rem;
+      }
+
+      #contact form .form-control {
+        font-size: 0.9rem;
+      }
+
+      #contact iframe {
+        height: 300px;
+      }
+    }
+
+    /* ===========================
+   TABLET (768px to 991px)
+   =========================== */
+
+    @media (min-width: 768px) and (max-width: 991px) {
+      #contact .col-lg-6 {
+        padding: 1.5rem;
+      }
+
+      #contact .product-section-title {
+        font-size: clamp(1.75rem, 5vw, 2.5rem);
+      }
+
+      #contact form .form-control {
+        font-size: 0.95rem;
+      }
+
+      #contact iframe {
+        height: 350px;
+      }
+    }
+
+    /* ===========================
+   LARGE DESKTOP (1200px and up)
+   =========================== */
+
+    @media (min-width: 1200px) {
+      /* About Section */
+      #about .lead {
+        font-size: 1.05rem !important;
+        line-height: 1.8;
+      }
+
+      #about .product-card {
+        min-height: 180px;
+        padding: 1.75rem !important;
+      }
+
+      #about .row.g-2 {
+        gap: 2rem !important;
+      }
+
+      header .p-5 {
+        display: flex;
+        gap: 2rem;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      header .btn {
+        padding: 0.75rem 3rem !important;
+      }
+
+      .product-card {
+        min-height: 250px;
+      }
+
+      #pricing .product-card img {
+        width: 150px;
+        height: 150px;
+        margin-right: 2rem;
+      }
+
+      #contact .col-lg-6 {
+        padding: 2rem;
+      }
+
+      #contact .product-section-title {
+        font-size: clamp(2rem, 5vw, 3rem);
+      }
+
+      #contact form .form-control {
+        font-size: 1rem;
+      }
+
+      #contact iframe {
+        height: 450px;
+      }
+    }
+
+    /* ===========================
+   DESKTOP SCALE TWEAKS (1200px+)
+   Make typography, cards and images larger and more spacious on large screens
+   =========================== */
+    @media (min-width: 1200px) {
+      /* Headings */
+      .product-section-title {
+        font-size: clamp(2rem, 4.5vw, 3.5rem) !important;
+        letter-spacing: 0.5px;
+      }
+
+      header h1.header-title {
+        font-size: clamp(2rem, 5.5vw, 4rem) !important;
+      }
+
+      /* Lead paragraphs slightly larger for desktop */
+      .product-section .lead {
+        font-size: clamp(1rem, 1.6vw, 1.15rem) !important;
+        line-height: 1.9;
+        max-width: 1000px;
+      }
+
+      /* Cards bigger and more spacious */
+      .product-card {
+        min-height: 300px;
+        padding: 1.5rem !important;
+      }
+
+      /* Small cards wrapper on desktop can be wider */
+      .about-cards-wrapper {
+        max-width: 900px;
+      }
+
+      /* Pricing product thumbnails larger */
+      .product-thumb {
+        width: 150px;
+        height: 150px;
+        margin-right: 2rem;
+      }
+
+      .product-card h3 {
+        font-size: clamp(1.1rem, 2vw, 1.6rem);
+      }
+
+      .product-card p {
+        font-size: clamp(0.95rem, 1.4vw, 1rem);
+      }
+
+      /* Ensure containers use the larger max-width */
+      .container,
+      .product-section > .container-fluid,
+      #about .container-fluid,
+      #features .container-fluid,
+      #pricing .container-fluid,
+      #contact .container-fluid {
+        max-width: 1400px;
+      }
     }
   }
 }
