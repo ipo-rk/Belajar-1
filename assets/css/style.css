@@ -1745,3 +1745,61 @@ footer a:hover {
     }
   }
 }
+
+/* ===========================
+   CENTER CARDS + COLUMNS
+   Make sure columns and cards are visually centered across sections
+   =========================== */
+
+/* Ensure every section container centers its content horizontally */
+.product-section .container-fluid,
+#about .container-fluid,
+#features .container-fluid,
+#pricing .container-fluid,
+#contact .container-fluid {
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* Center columns inside rows for consistent alignment */
+.product-section .row > [class*="col-"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Limit width of small feature/about cards and center them */
+#about .product-card,
+#features .product-card {
+  max-width: 360px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Pricing cards should remain full-width inside their column */
+#pricing .product-card {
+  max-width: 100%;
+  width: 100%;
+}
+
+/* For small screens relax max-width so cards fill available space */
+@media (max-width: 767px) {
+  #about .product-card,
+  #features .product-card {
+    max-width: 100%;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  /* ensure title blocks are centered without extra side padding */
+  .col-12.text-center {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
