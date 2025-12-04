@@ -161,6 +161,81 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Add loading animation class on page load
+    // Helper: show a temporary toast message in bottom-right
+    function showTemporaryMessage(message, timeout = 3000) {
+        const id = 'tmp-toast-msg';
+        // create container
+        const toast = document.createElement('div');
+        toast.className = 'tmp-toast';
+        toast.textContent = message;
+        toast.style.position = 'fixed';
+        toast.style.right = '1rem';
+        toast.style.bottom = '1rem';
+        toast.style.background = 'rgba(0,0,0,0.8)';
+        toast.style.color = '#fff';
+        toast.style.padding = '0.6rem 0.9rem';
+        toast.style.borderRadius = '0.5rem';
+        toast.style.boxShadow = '0 6px 18px rgba(0,0,0,0.4)';
+        toast.style.zIndex = 2000;
+        toast.style.fontSize = '0.95rem';
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.transition = 'opacity 0.25s ease';
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, timeout);
+    }
+
+    // Handle modern Login / Register form submissions inside modals
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const id = loginForm.querySelector('input[name="login-identifier"]').value.trim();
+            const pwd = loginForm.querySelector('input[name="login-password"]').value;
+            if (!id || !pwd) {
+                showTemporaryMessage('Mohon isi semua field login.');
+                return;
+            }
+            // Simulate login success (replace with real auth later)
+            showTemporaryMessage(`Login berhasil: ${id}`);
+            // hide modal
+            const modalEl = document.getElementById('loginModal');
+            if (modalEl) {
+                const bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                bsModal.hide();
+            }
+            loginForm.reset();
+        });
+    }
+
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+        registerForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = registerForm.querySelector('input[name="register-name"]').value.trim();
+            const email = registerForm.querySelector('input[name="register-email"]').value.trim();
+            const pw1 = registerForm.querySelector('input[name="register-password"]').value;
+            const pw2 = registerForm.querySelector('input[name="register-password2"]').value;
+            if (!name || !email || !pw1 || !pw2) {
+                showTemporaryMessage('Mohon isi semua field registrasi.');
+                return;
+            }
+            if (pw1 !== pw2) {
+                showTemporaryMessage('Password dan konfirmasi tidak cocok.');
+                return;
+            }
+            showTemporaryMessage(`Registrasi berhasil: ${name}`);
+            const modalEl = document.getElementById('registerModal');
+            if (modalEl) {
+                const bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                bsModal.hide();
+            }
+            registerForm.reset();
+        });
+    }
+
+    // Add loading animation class on page load
     window.addEventListener('load', function () {
         document.body.style.opacity = '1';
     });

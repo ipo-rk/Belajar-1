@@ -35,8 +35,10 @@
                 </div>
                 <div
                     class="col-12 col-md-6 order-md-2 py-lg-5 d-flex flex-column align-items-center justify-content-center gap-2">
-                    <a href="#" class="btn btn-dark btn-lg px-4 px-md-5 fw-semibold w-50 header-btn">Login</a>
-                    <a href="#" class="btn btn-dark btn-lg px-4 px-md-5 fw-semibold w-50 header-btn">Register</a>
+                    <button type="button" class="btn btn-dark btn-lg px-4 px-md-5 fw-semibold w-50 header-btn"
+                        data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                    <button type="button" class="btn btn-dark btn-lg px-4 px-md-5 fw-semibold w-50 header-btn"
+                        data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
                 </div>
             </div>
         </div>
@@ -388,6 +390,64 @@
 
     <!-- Sticky Navbar JS -->
     <script src="assets/js/javascrip.js"></script>
+    <!-- Login / Register Modals -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="loginForm" class="modal-body">
+                    <div class="mb-3">
+                        <label for="loginIdentifier" class="form-label">Email atau Username</label>
+                        <input type="text" class="form-control" id="loginIdentifier" name="login-identifier" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" name="login-password" required>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-end">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-warning">Masuk</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="registerForm" class="modal-body">
+                    <div class="mb-3">
+                        <label for="registerName" class="form-label">Nama Lengkap</label>
+                        <input type="text" class="form-control" id="registerName" name="register-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="registerEmail" name="register-email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="registerPassword" name="register-password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPassword2" class="form-label">Konfirmasi Password</label>
+                        <input type="password" class="form-control" id="registerPassword2" name="register-password2" required>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-end">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-warning">Daftar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
