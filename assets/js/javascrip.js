@@ -355,4 +355,80 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('load', function () {
         document.body.style.opacity = '1';
     });
+
+    // Add to Cart functionality
+    const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
+    addToCartBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const productName = this.getAttribute('data-product');
+            const productPrice = this.getAttribute('data-price');
+            
+            // Create new table row
+            const orderTable = document.querySelector('.order-table tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>
+                    <img src="assets/img/product img/${productName.toLowerCase().replace(/\s+/g, '_')}.png" 
+                         alt="${productName}" class="order-table-img" 
+                         onerror="this.src='assets/img/product img/espresso.png'">
+                </td>
+                <td>${productName}</td>
+                <td>$${productPrice}</td>
+                <td>
+                    <input type="number" class="form-control quantity-input" value="1" min="1">
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-danger" onclick="this.closest('tr').remove(); updateTotal();">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            
+            orderTable.appendChild(newRow);
+            updateTotal();
+            
+            // Show success message
+            showTemporaryMessage(`${productName} ditambahkan ke keranjang!`);
+            
+            // Add ripple effect
+            const rect = this.getBoundingClientRect();
+            const ripple = document.createElement('span');
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+            ripple.style.width = ripple.style.height = '20px';
+            ripple.style.left = (event.clientX - rect.left - 10) + 'px';
+            ripple.style.top = (event.clientY - rect.top - 10) + 'px';
+            ripple.style.pointerEvents = 'none';
+            ripple.style.animation = 'ripple-effect 0.6s ease-out';
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Update total price in order table
+    function updateTotal() {
+        const rows = document.querySelectorAll('.order-table tbody tr');
+        let total = 0;
+        
+        rows.forEach(row => {
+            const price = parseFloat(row.querySelector('td:nth-child(3)').textContent.replace('$', ''));
+            const quantity = parseInt(row.querySelector('.quantity-input').value) || 1;
+            total += price * quantity;
+        });
+        
+        // Update total row if it exists
+        const totalRow = document.querySelector('.order-table tbody tr:last-child');
+        if (totalRow && totalRow.querySelector('td:nth-child(2)').textContent === 'TOTAL') {
+            totalRow.querySelector('td:nth-child(3)').textContent = '$' + total.toFixed(2);
+        }
+    }
+
+    // Update total when quantity changes
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('quantity-input')) {
+            updateTotal();
+        }
+    });
 });
+
