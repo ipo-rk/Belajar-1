@@ -419,6 +419,65 @@ header .btn:hover {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* ===========================
+   CONTAINER CENTERING + RESPONSIVE SIDING
+   Ensures section content is centered with responsive left/right padding
+   =========================== */
+.site-container,
+.product-section .container-fluid,
+#about .container-fluid,
+#features .container-fluid,
+#pricing .container-fluid,
+#contact .container-fluid {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(0.75rem, 4vw, 3rem);
+  padding-right: clamp(0.75rem, 4vw, 3rem);
+  box-sizing: border-box;
+}
+
+/* Keep rows centered inside sections */
+.product-section .row,
+#about .row,
+#features .row,
+#pricing .row,
+#contact .row {
+  justify-content: center;
+}
+
+/* Narrow screens: reduce max-width and padding so content fills viewport comfortably */
+@media (max-width: 991px) {
+  .site-container,
+  .product-section .container-fluid,
+  #about .container-fluid,
+  #features .container-fluid,
+  #pricing .container-fluid,
+  #contact .container-fluid {
+    max-width: 980px;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .site-container,
+  .product-section .container-fluid,
+  #about .container-fluid,
+  #features .container-fluid,
+  #pricing .container-fluid,
+  #contact .container-fluid {
+    max-width: 100%;
+    padding-left: 0.875rem !important;
+    padding-right: 0.875rem !important;
+  }
+  /* Ensure title blocks and content are visually centered */
+  .col-12.text-center {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
 /* Responsive overrides to keep section titles consistent like About Us */
 @media (max-width: 767px) {
   .product-section-title {
@@ -460,7 +519,6 @@ header .btn:hover {
     padding: 0.5rem 0 !important;
   }
 }
-
 
 /* ===========================
    ABOUT SECTION
