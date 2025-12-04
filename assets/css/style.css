@@ -651,6 +651,87 @@ header .btn:hover {
   }
 }
 
+/* Responsive refinements for lg / md / sm to make layout accurate across devices */
+@media (min-width: 992px) {
+  /* Wider wrapper for about cards on desktop */
+  .about-cards-wrapper {
+    max-width: 900px;
+  }
+
+  /* Slightly larger cards and spacing on large screens */
+  #about .product-card,
+  #features .product-card {
+    padding: 1.5rem !important;
+    min-height: 160px;
+  }
+
+  .product-card h3 {
+    font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+  }
+
+  .product-card p {
+    font-size: clamp(0.95rem, 1.1vw, 1rem);
+  }
+
+  /* Contact: prefer top-aligned content and slightly reduced iframe compared to ultra-wide */
+  #contact .text-light {
+    padding: 1.75rem;
+    min-height: 420px;
+    justify-content: flex-start;
+  }
+
+  #contact iframe {
+    height: 420px;
+  }
+
+  .product-thumb {
+    width: clamp(90px, 5.5vw, 140px);
+    height: clamp(90px, 5.5vw, 140px);
+  }
+}
+
+@media (max-width: 991px) {
+  /* Tablet and smaller: ensure columns stack nicely, reduce large paddings */
+  .row > [class*="col-"] {
+    justify-content: center;
+    align-items: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .header-title {
+    font-size: clamp(1.4rem, 6vw, 2.6rem) !important;
+  }
+
+  .product-section {
+    padding-top: 60px;
+  }
+
+  /* Contact adjustments for tablet/phone */
+  #contact .text-light {
+    padding: 1rem;
+    min-height: auto;
+    align-items: stretch;
+  }
+
+  #contact iframe {
+    height: 320px;
+  }
+
+  .product-thumb {
+    width: clamp(70px, 10vw, 110px);
+    height: clamp(70px, 10vw, 110px);
+  }
+
+  /* Slightly reduce product card min-height on smaller screens */
+  #about .product-card,
+  #features .product-card {
+    min-height: auto;
+    padding: 1rem !important;
+  }
+}
+
+
 /* Desktop (large) overrides to ensure Bootstrap column widths behave as expected
    for contact section (message + map). Prevents columns from collapsing to a
    narrow centered layout and scales form/map sizes for better desktop presence. */
