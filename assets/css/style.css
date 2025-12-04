@@ -305,7 +305,7 @@ header h1 {
 }
 
 .header-title {
-  font-size: clamp(1.5rem, 5vw, 3rem);
+  font-size: clamp(1.5rem, 5vw, 4rem);
 }
 
 .header-btn {
@@ -347,10 +347,11 @@ header {
 
 /* Product thumbnail used in pricing cards */
 .product-thumb {
-  width: 100px;
-  height: 100px;
+  width: clamp(80px, 6vw, 150px);
+  height: clamp(80px, 6vw, 150px);
   object-fit: cover;
   margin-right: 1rem;
+  flex-shrink: 0;
 }
 
 header p {
@@ -617,9 +618,36 @@ header .btn:hover {
 
 @media (min-width: 1200px) {
   .product-section-title {
-    font-size: clamp(1.8rem, 6.5vw, 3.5rem);
+    font-size: clamp(2rem, 5.5vw, 4.5rem);
     margin-bottom: 0 !important;
     padding: 0.5rem 0 !important;
+  }
+}
+
+/* Ultra-wide screens: provide slightly larger caps for very large displays */
+@media (min-width: 1600px) {
+  .product-section-title {
+    font-size: 4.8rem;
+  }
+
+  .header-title {
+    font-size: 4.6rem;
+  }
+
+  /* Larger product cards on ultra-wide */
+  #about .product-card,
+  #features .product-card {
+    max-width: 520px;
+  }
+
+  #pricing .product-card {
+    max-width: 1000px;
+  }
+
+  /* Slightly larger thumbnails for pricing */
+  .product-thumb {
+    width: clamp(110px, 5vw, 180px);
+    height: clamp(110px, 5vw, 180px);
   }
 }
 
