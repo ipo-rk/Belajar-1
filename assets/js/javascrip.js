@@ -386,7 +386,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Add product to cart table
     function addProductToCart(productName, productPrice) {
         const orderTable = document.querySelector('.order-table tbody');
-        const dataRows = Array.from(orderTable.querySelectorAll('tr')).slice(0, -1); // Exclude total row
+        if (!orderTable) return;
+
+        const dataRows = Array.from(orderTable.querySelectorAll('tr:not(:last-child)')); // Exclude total row
 
         // Check if product already exists
         let existingRow = null;
@@ -402,18 +404,25 @@ document.addEventListener('DOMContentLoaded', function () {
             // Increase quantity if product already in cart
             const quantityInput = existingRow.querySelector('.quantity-input');
             if (quantityInput) {
-                quantityInput.value = parseInt(quantityInput.value) + 1;
+                const currentQty = parseInt(quantityInput.value) || 1;
+                quantityInput.value = currentQty + 1;
+                // Trigger update
+                quantityInput.dispatchEvent(new Event('change', { bubbles: true }));
             }
         } else {
             // Create new row
             const newRowNumber = dataRows.length + 1;
             const newRow = document.createElement('tr');
             newRow.className = 'align-middle border-bottom border-secondary';
+            
+            // Format product name untuk path gambar
+            const imgFileName = productName.toLowerCase().replace(/\s+/g, ' ');
+            
             newRow.innerHTML = `
                 <td class="fw-semibold">${newRowNumber}</td>
                 <td>
                     <div class="d-flex align-items-center gap-2">
-                        <img src="assets/img/product img/${productName.toLowerCase().replace(/\s+/g, ' ')}.png" 
+                        <img src="assets/img/product img/${imgFileName}.png" 
                              alt="${productName}" class="order-table-img rounded" 
                              onerror="this.src='assets/img/product img/espresso.png'">
                         <span>${productName}</span>
@@ -433,15 +442,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Insert before total row
             const totalRow = orderTable.querySelector('tr:last-child');
-            totalRow.parentNode.insertBefore(newRow, totalRow);
+            if (totalRow) {
+                totalRow.parentNode.insertBefore(newRow, totalRow);
+            } else {
+                orderTable.appendChild(newRow);
+            }
 
             // Add event listener to new delete button
             const deleteBtn = newRow.querySelector('.delete-btn');
-            deleteBtn.addEventListener('click', function () {
-                newRow.remove();
-                updateRowNumbers();
-                updateTotal();
-            });
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    newRow.remove();
+                    updateRowNumbers();
+                    updateTotal();
+                });
+            }
+
+            // Add event listener to new quantity input
+            const qtyInput = newRow.querySelector('.quantity-input');
+            if (qtyInput) {
+                qtyInput.addEventListener('change', function () {
+                    updateTotal();
+                });
+                qtyInput.addEventListener('input', function () {
+                    let value = parseInt(this.value);
+                    if (isNaN(value) || value < 1) {
+                        this.value = 1;
+                    } else if (value > 99) {
+                        this.value = 99;
+                    }
+                    updateTotal();
+                });
+            }
         }
 
         updateTotal();
@@ -451,7 +484,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateRowNumbers() {
         const rows = document.querySelectorAll('.order-table tbody tr:not(:last-child)');
         rows.forEach((row, index) => {
-            row.querySelector('td:first-child').textContent = index + 1;
+            const noCell = row.querySelector('td:first-child');
+            if (noCell) {
+                noCell.textContent = index + 1;
+            }
         });
     }
 
@@ -464,17 +500,15 @@ document.addEventListener('DOMContentLoaded', function () {
         rows.forEach(row => {
             const priceCell = row.querySelector('td:nth-child(3)');
             const quantityInput = row.querySelector('.quantity-input');
+            const totalCell = row.querySelector('td:nth-child(5)');
 
-            if (priceCell && quantityInput) {
-                const price = parseFloat(priceCell.textContent.replace('$', ''));
+            if (priceCell && quantityInput && totalCell) {
+                const price = parseFloat(priceCell.textContent.replace('$', '')) || 0;
                 const quantity = parseInt(quantityInput.value) || 1;
                 const itemTotal = price * quantity;
 
                 // Update total cell (5th column)
-                const totalCell = row.querySelector('td:nth-child(5)');
-                if (totalCell) {
-                    totalCell.textContent = '$' + itemTotal.toFixed(2);
-                }
+                totalCell.textContent = '$' + itemTotal.toFixed(2);
 
                 total += itemTotal;
                 itemCount++;
@@ -495,16 +529,26 @@ document.addEventListener('DOMContentLoaded', function () {
         if (totalPesananElement) {
             totalPesananElement.textContent = '$' + total.toFixed(2);
         }
+
+        return total;
     }
 
     // Update delete button handlers
     function updateDeleteButtons() {
         document.querySelectorAll('.order-table tbody .delete-btn').forEach(btn => {
-            btn.addEventListener('click', function () {
+            // Remove existing listeners by cloning
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+
+            // Add new listener
+            newBtn.addEventListener('click', function (e) {
+                e.preventDefault();
                 const row = this.closest('tr');
-                row.remove();
-                updateRowNumbers();
-                updateTotal();
+                if (row) {
+                    row.remove();
+                    updateRowNumbers();
+                    updateTotal();
+                }
             });
         });
     }
@@ -519,8 +563,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Update total when quantity input value changes
     document.addEventListener('input', function (e) {
         if (e.target.classList.contains('quantity-input')) {
-            const value = parseInt(e.target.value);
-            if (value < 1) {
+            let value = parseInt(e.target.value);
+            if (isNaN(value) || value < 1) {
                 e.target.value = 1;
             } else if (value > 99) {
                 e.target.value = 99;
@@ -545,33 +589,80 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => ripple.remove(), 600);
     }
 
-    // Checkout button functionality
-    const checkoutBtn = document.getElementById('checkoutBtn');
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', function () {
-            const rows = document.querySelectorAll('.order-table tbody tr:not(:last-child)');
+    // ===== BUTTON ACTIONS =====
+    // Clear/Add cart button - kosongkan semua item
+    const clearCartBtn = document.getElementById('clearCartBtn');
+    if (clearCartBtn) {
+        clearCartBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const table = document.querySelector('.order-table tbody');
+            if (!table) return;
+
+            const rows = table.querySelectorAll('tr:not(:last-child)');
+            
             if (rows.length === 0) {
-                showTemporaryMessage('Keranjang masih kosong. Pilih produk terlebih dahulu!');
+                showTemporaryMessage('Keranjang sudah kosong');
                 return;
             }
 
-            // Get total from ID element
-            const totalPesananElement = document.getElementById('totalPesanan');
-            const total = totalPesananElement ? totalPesananElement.textContent : '$0.00';
-
-            showTemporaryMessage(`Checkout berhasil! Total: ${total}`);
+            rows.forEach(row => row.remove());
+            updateRowNumbers();
+            updateTotal();
+            showTemporaryMessage('✓ Keranjang telah dikosongkan');
         });
     }
 
-    // Clear cart button (if exists)
-    const clearCartBtn = document.getElementById('clearCartBtn');
-    if (clearCartBtn) {
-        clearCartBtn.addEventListener('click', function () {
-            const table = document.querySelector('.order-table tbody');
-            const rows = table.querySelectorAll('tr:not(:last-child)');
-            rows.forEach(row => row.remove());
-            updateTotal();
-            showTemporaryMessage('Keranjang telah dikosongkan');
+    // Checkout button - proses checkout
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const rows = document.querySelectorAll('.order-table tbody tr:not(:last-child)');
+            
+            if (rows.length === 0) {
+                showTemporaryMessage('⚠ Keranjang masih kosong. Pilih produk terlebih dahulu!');
+                return;
+            }
+
+            // Get total
+            const totalPesananElement = document.getElementById('totalPesanan');
+            const total = totalPesananElement ? totalPesananElement.textContent : '$0.00';
+
+            // Collect order data
+            const orderItems = [];
+            rows.forEach((row, index) => {
+                const menuCell = row.querySelector('td:nth-child(2)');
+                const priceCell = row.querySelector('td:nth-child(3)');
+                const qtyCell = row.querySelector('.quantity-input');
+
+                if (menuCell && priceCell && qtyCell) {
+                    const productName = menuCell.textContent.trim();
+                    const price = priceCell.textContent;
+                    const qty = qtyCell.value;
+
+                    orderItems.push({
+                        no: index + 1,
+                        product: productName,
+                        price: price,
+                        quantity: qty
+                    });
+                }
+            });
+
+            // Show checkout message
+            let itemsText = orderItems.map(item => `${item.product} (${item.quantity}x)`).join(', ');
+            showTemporaryMessage(`✓ Checkout berhasil! Total: ${total} | Items: ${itemsText}`);
+
+            // Optional: Clear cart after checkout
+            setTimeout(() => {
+                const table = document.querySelector('.order-table tbody');
+                if (table) {
+                    const rowsToRemove = table.querySelectorAll('tr:not(:last-child)');
+                    rowsToRemove.forEach(row => row.remove());
+                    updateTotal();
+                    showTemporaryMessage('✓ Terima kasih! Pesanan Anda sedang diproses');
+                }
+            }, 2000);
         });
     }
 });
