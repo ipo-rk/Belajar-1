@@ -297,6 +297,32 @@ header h1 {
   background-clip: text;
 }
 
+/* Utility classes to replace inline styles */
+.logo-img {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+}
+
+.header-title {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+}
+
+.header-btn {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+}
+
+/* About cards wrapper */
+.about-cards-wrapper {
+  max-width: 700px;
+  width: 100%;
+}
+
+/* Default icon sizing inside cards (can be overridden) */
+.product-card i {
+  font-size: clamp(1.2rem, 2vw, 2rem);
+}
+
 header p {
   animation: slideInRight 0.8s ease-out 0.3s both;
 }
