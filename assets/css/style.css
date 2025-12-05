@@ -396,9 +396,10 @@ header h1 {
   word-wrap: break-word;
   overflow-wrap: break-word;
   animation: slideInLeft 0.8s ease-out 0.2s both;
-  /* Use solid white text for stronger contrast */
-  color: #fff;
-  -webkit-text-fill-color: #fff;
+  background: linear-gradient(135deg, #ffc107 0%, #ff9800 50%, #ffc107 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Utility classes to replace inline styles */
@@ -410,7 +411,6 @@ header h1 {
 
 .header-title {
   font-size: clamp(1.5rem, 5vw, 4rem);
-  color: #fff !important;
 }
 
 .header-btn {
