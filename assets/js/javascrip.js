@@ -442,12 +442,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function disableCartButtons() {
-        document.querySelectorAll('.add-to-cart-btn').forEach(b => {
-            b.disabled = true;
-            b.classList.add('disabled');
-            b.style.pointerEvents = 'none';
-            b.style.opacity = '0.6';
-        });
+        // Keep "Add to Cart" buttons visually active so users can click them.
+        // Clicking while not logged in will show the auth modal (handled in click handler).
+        // We only disable checkout/clear controls here.
         const cb = document.getElementById('checkoutBtn');
         if (cb) cb.disabled = true;
         const clear = document.getElementById('clearCartBtn');
