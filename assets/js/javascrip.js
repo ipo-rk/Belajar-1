@@ -235,18 +235,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Wire up any toggle buttons present
     document.querySelectorAll('.btn-toggle-pwd').forEach(btn => {
         btn.addEventListener('click', function () {
-                    // Check if user is registered
-                    const registeredUsers = JSON.parse(localStorage.getItem('enauto_registered_users') || '{}');
-                    if (!registeredUsers[id]) {
-                        showTemporaryMessage('Email/Username tidak terdaftar. Silakan register terlebih dahulu.');
-                        return;
-                    }
-
-                    // Verify password matches
-                    if (registeredUsers[id].password !== pwd) {
-                        showTemporaryMessage('Password salah. Coba lagi.');
-                        return;
-                    }
             togglePasswordVisibility(this);
         });
     });
@@ -258,10 +246,20 @@ document.addEventListener('DOMContentLoaded', function () {
             const id = loginForm.querySelector('input[name="login-identifier"]').value.trim();
             const pwd = loginForm.querySelector('input[name="login-password"]').value;
             const submitBtn = loginForm.querySelector('button[type="submit"]');
-                        try { 
-                            localStorage.setItem('enauto_user', registeredUsers[id].name);
-                            localStorage.setItem('enauto_email', registeredUsers[id].email);
-                        } catch (e) { }
+            const cancelBtn = loginForm.querySelector('button[data-bs-dismiss]');
+
+            // Check registered users before proceeding
+            const registeredUsers = JSON.parse(localStorage.getItem('enauto_registered_users') || '{}');
+            if (!registeredUsers[id]) {
+                showTemporaryMessage('Email/Username tidak terdaftar. Silakan register terlebih dahulu.');
+                return;
+            }
+
+            // Verify password matches
+            if (registeredUsers[id].password !== pwd) {
+                showTemporaryMessage('Password salah. Coba lagi.');
+                return;
+            }
 
             if (!id || !pwd) {
                 showTemporaryMessage('Mohon isi semua field login.');
@@ -278,7 +276,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 showTemporaryMessage(`Login berhasil: ${id}`);
 
                 // mark user as logged in and enable cart buttons
-                try { localStorage.setItem('enauto_user', id); } catch (e) { }
+                try {
+                    localStorage.setItem('enauto_user', registeredUsers[id].name);
+                    localStorage.setItem('enauto_email', registeredUsers[id].email);
+                } catch (e) { }
                 setLoggedInState(true);
 
                 // hide modal
