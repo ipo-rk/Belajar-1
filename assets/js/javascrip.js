@@ -235,6 +235,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // Wire up any toggle buttons present
     document.querySelectorAll('.btn-toggle-pwd').forEach(btn => {
         btn.addEventListener('click', function () {
+                    // Check if user is registered
+                    const registeredUsers = JSON.parse(localStorage.getItem('enauto_registered_users') || '{}');
+                    if (!registeredUsers[id]) {
+                        showTemporaryMessage('Email/Username tidak terdaftar. Silakan register terlebih dahulu.');
+                        return;
+                    }
+
+                    // Verify password matches
+                    if (registeredUsers[id].password !== pwd) {
+                        showTemporaryMessage('Password salah. Coba lagi.');
+                        return;
+                    }
             togglePasswordVisibility(this);
         });
     });
@@ -246,7 +258,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const id = loginForm.querySelector('input[name="login-identifier"]').value.trim();
             const pwd = loginForm.querySelector('input[name="login-password"]').value;
             const submitBtn = loginForm.querySelector('button[type="submit"]');
-            const cancelBtn = loginForm.querySelector('button[data-bs-dismiss]');
+                        try { 
+                            localStorage.setItem('enauto_user', registeredUsers[id].name);
+                            localStorage.setItem('enauto_email', registeredUsers[id].email);
+                        } catch (e) { }
 
             if (!id || !pwd) {
                 showTemporaryMessage('Mohon isi semua field login.');
@@ -323,6 +338,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 showTemporaryMessage('Alamat email tidak valid.');
                 return;
             }
+                // Check if email already registered
+                const registeredUsers = JSON.parse(localStorage.getItem('enauto_registered_users') || '{}');
+                if (registeredUsers[email]) {
+                    showTemporaryMessage('Email sudah terdaftar. Gunakan email lain atau login.');
+                    return;
+                }
 
             if (pw1 !== pw2) {
                 showTemporaryMessage('Password dan konfirmasi tidak cocok.');
@@ -344,8 +365,22 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => {
                 showTemporaryMessage(`Registrasi berhasil: ${name}`);
 
-                // save user name and mark user as logged in
-                try { localStorage.setItem('enauto_user', name); } catch (e) { }
+                // Save registered user data
+                try {
+                    const regUsers = JSON.parse(localStorage.getItem('enauto_registered_users') || '{}');
+                    regUsers[email] = {
+                        name: name,
+                        email: email,
+                        password: pw1
+                    };
+                    localStorage.setItem('enauto_registered_users', JSON.stringify(regUsers));
+                } catch (err) { }
+
+                // Automatically log in user after registration
+                try {
+                    localStorage.setItem('enauto_user', name);
+                    localStorage.setItem('enauto_email', email);
+                } catch (e) { }
                 setLoggedInState(true);
 
                 const modalEl = document.getElementById('registerModal');
@@ -387,9 +422,12 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             if (state) {
                 localStorage.setItem('enauto_logged', '1');
+                    // Note: enauto_user and enauto_email are set in login/register handlers
                 enableCartButtons();
             } else {
                 localStorage.removeItem('enauto_logged');
+                    localStorage.removeItem('enauto_user');
+                    localStorage.removeItem('enauto_email');
                 disableCartButtons();
             }
         } catch (e) {

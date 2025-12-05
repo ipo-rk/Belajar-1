@@ -1,4 +1,4 @@
-// Navbar auth UI helper (depends on auth helpers in javascrip.js)
+// Navbar auth UI helper with profile card (depends on auth helpers in javascrip.js)
 (function () {
     document.addEventListener('DOMContentLoaded', function () {
         // Fallback helpers if main script isn't exposing them
@@ -15,11 +15,12 @@
         const isUserLoggedIn = window.isUserLoggedIn || fallbackIsLoggedIn;
         const setLoggedInState = window.setLoggedInState || fallbackSetLogged;
 
-        const headerAuthContainer = document.getElementById('header-auth-container');
-        if (!headerAuthContainer) return;
+        const headerBtns = document.querySelectorAll('header .header-btn');
+        if (!headerBtns || headerBtns.length === 0) return;
 
-        const headerBtns = headerAuthContainer.querySelectorAll('.header-btn');
+        const headerBtnParent = headerBtns[0].parentElement;
         const AUTH_CONTAINER_ID = 'authContainer';
+        const PROFILE_CARD_ID = 'profileCard';
 
         function createToast(msg, timeout = 2000) {
             const t = document.createElement('div');
@@ -37,12 +38,23 @@
             setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 250); }, timeout);
         }
 
+        function getAvatarColor(name) {
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'];
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) {
+                hash = name.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return colors[Math.abs(hash) % colors.length];
+        }
+
         function renderAuthUI() {
             const logged = isUserLoggedIn();
 
             // remove existing container if any
             const existing = document.getElementById(AUTH_CONTAINER_ID);
             if (existing) existing.remove();
+            const profileCard = document.getElementById(PROFILE_CARD_ID);
+            if (profileCard) profileCard.remove();
 
             if (logged) {
                 // hide original login/register buttons
@@ -51,121 +63,77 @@
                 const name = (function () {
                     try { return localStorage.getItem('enauto_user') || 'User'; } catch (e) { return 'User'; }
                 })();
+                const email = (function () {
+                    try { return localStorage.getItem('enauto_email') || 'user@example.com'; } catch (e) { return 'user@example.com'; }
+                })();
 
-                const container = document.createElement('div');
-                container.id = AUTH_CONTAINER_ID;
-                container.className = 'd-flex align-items-center';
-                container.style.gap = '1rem';
-                container.style.width = '100%';
-                container.style.justifyContent = 'flex-end';
-
-                // Profile card wrapper
-                const profileCard = document.createElement('div');
-                profileCard.className = 'dropdown';
-                profileCard.style.position = 'relative';
-
-                // Profile button (avatar + name)
-                const profileBtn = document.createElement('button');
-                profileBtn.className = 'btn btn-dark d-flex align-items-center gap-2 dropdown-toggle';
-                profileBtn.type = 'button';
-                profileBtn.id = 'profileDropdown';
-                profileBtn.setAttribute('data-bs-toggle', 'dropdown');
-                profileBtn.setAttribute('aria-expanded', 'false');
-                profileBtn.style.border = '2px solid rgba(255, 193, 7, 0.3)';
-                profileBtn.style.transition = 'all 0.3s ease';
-                profileBtn.style.padding = '0.5rem 1rem';
-                profileBtn.style.whiteSpace = 'nowrap';
-
-                // Avatar circle with initials
-                const avatar = document.createElement('div');
-                avatar.style.width = '36px';
-                avatar.style.height = '36px';
-                avatar.style.borderRadius = '50%';
-                avatar.style.background = 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)';
-                avatar.style.display = 'flex';
-                avatar.style.alignItems = 'center';
-                avatar.style.justifyContent = 'center';
-                avatar.style.color = '#000';
-                avatar.style.fontWeight = 'bold';
-                avatar.style.fontSize = '16px';
-                avatar.style.flexShrink = '0';
-                avatar.textContent = name.charAt(0).toUpperCase();
-
-                // User name text
-                const nameText = document.createElement('span');
-                nameText.className = 'text-light fw-semibold';
-                nameText.textContent = name;
-                nameText.style.maxWidth = '120px';
-                nameText.style.overflow = 'hidden';
-                nameText.style.textOverflow = 'ellipsis';
-                nameText.style.whiteSpace = 'nowrap';
-                nameText.style.fontSize = '0.95rem';
-
-                profileBtn.appendChild(avatar);
-                profileBtn.appendChild(nameText);
-
-                // Dropdown menu
-                const dropdownMenu = document.createElement('ul');
-                dropdownMenu.className = 'dropdown-menu dropdown-menu-end';
-                dropdownMenu.setAttribute('aria-labelledby', 'profileDropdown');
-                dropdownMenu.style.background = 'linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(30, 30, 30, 0.95) 100%)';
-                dropdownMenu.style.border = '1px solid rgba(255, 193, 7, 0.2)';
-                dropdownMenu.style.backdropFilter = 'blur(10px)';
-                dropdownMenu.style.borderRadius = '8px';
-
-                // Profile info item
-                const profileInfo = document.createElement('li');
-                profileInfo.innerHTML = `
-                    <div class="dropdown-item-text text-light" style="padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 193, 7, 0.1);">
-                        <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.7);">Logged in as</div>
-                        <div style="font-weight: 600; color: #ffc107; margin-top: 0.25rem;">${name}</div>
+                // Create profile card in top-right
+                const profileCardDiv = document.createElement('div');
+                profileCardDiv.id = PROFILE_CARD_ID;
+                profileCardDiv.className = 'profile-card';
+                const avatarColor1 = getAvatarColor(name);
+                const avatarColor2 = getAvatarColor(name + 'x');
+                profileCardDiv.innerHTML = `
+                    <div class="profile-card-header">
+                        <button class="profile-card-close" type="button">×</button>
+                    </div>
+                    <div class="profile-card-body">
+                        <div class="profile-avatar" style="background: linear-gradient(135deg, ${avatarColor1} 0%, ${avatarColor2} 100%);">
+                            ${name.charAt(0).toUpperCase()}
+                        </div>
+                        <h3 class="profile-name">${name}</h3>
+                        <p class="profile-email">${email}</p>
+                        <div class="profile-actions">
+                            <button class="btn btn-sm btn-outline-warning btn-block profile-logout-btn" type="button">
+                                <i class="fas fa-sign-out-alt me-1"></i>Logout
+                            </button>
+                        </div>
                     </div>
                 `;
-                dropdownMenu.appendChild(profileInfo);
 
-                // Divider
-                const divider = document.createElement('li');
-                divider.innerHTML = '<hr class="dropdown-divider" style="margin: 0.5rem 0; border-color: rgba(255, 193, 7, 0.1);">';
-                dropdownMenu.appendChild(divider);
+                document.body.appendChild(profileCardDiv);
 
-                // Logout item
-                const logoutItem = document.createElement('li');
-                const logoutLink = document.createElement('a');
-                logoutLink.href = '#';
-                logoutLink.className = 'dropdown-item text-danger';
-                logoutLink.innerHTML = '<i class="fas fa-sign-out-alt me-2"></i>Logout';
-                logoutLink.style.transition = 'all 0.3s ease';
-                logoutLink.addEventListener('mouseenter', function () {
-                    this.style.background = 'rgba(220, 53, 69, 0.15)';
+                // Close button
+                profileCardDiv.querySelector('.profile-card-close').addEventListener('click', function () {
+                    profileCardDiv.classList.remove('show');
+                    setTimeout(() => profileCardDiv.remove(), 300);
                 });
-                logoutLink.addEventListener('mouseleave', function () {
-                    this.style.background = '';
-                });
-                logoutLink.addEventListener('click', function (e) {
+
+                // Logout button
+                profileCardDiv.querySelector('.profile-logout-btn').addEventListener('click', function (e) {
                     e.preventDefault();
                     try { localStorage.removeItem('enauto_user'); } catch (err) { }
+                    try { localStorage.removeItem('enauto_email'); } catch (err) { }
                     if (typeof setLoggedInState === 'function') setLoggedInState(false);
                     else fallbackSetLogged(false);
-                    renderAuthUI();
-                    createToast('Anda telah logout');
+                    profileCardDiv.classList.remove('show');
+                    setTimeout(() => {
+                        renderAuthUI();
+                        createToast('Anda telah logout');
+                    }, 300);
                 });
-                logoutItem.appendChild(logoutLink);
-                dropdownMenu.appendChild(logoutItem);
 
-                profileCard.appendChild(profileBtn);
-                profileCard.appendChild(dropdownMenu);
-                container.appendChild(profileCard);
-                headerAuthContainer.appendChild(container);
+                // Show profile card with animation
+                setTimeout(() => profileCardDiv.classList.add('show'), 10);
 
-                // Add hover effect to profile button
-                profileBtn.addEventListener('mouseenter', function () {
-                    this.style.borderColor = 'rgba(255, 193, 7, 0.6)';
-                    this.style.boxShadow = '0 0 15px rgba(255, 193, 7, 0.2)';
+                // Also add toggle button in header
+                const container = document.createElement('div');
+                container.id = AUTH_CONTAINER_ID;
+                container.className = 'profile-toggle-container';
+
+                const profileToggleBtn = document.createElement('button');
+                profileToggleBtn.className = 'btn btn-sm btn-warning profile-toggle-btn';
+                profileToggleBtn.type = 'button';
+                profileToggleBtn.innerHTML = `<i class="fas fa-user-circle me-1"></i>${name}`;
+                profileToggleBtn.addEventListener('click', function () {
+                    const card = document.getElementById(PROFILE_CARD_ID);
+                    if (card) {
+                        card.classList.toggle('show');
+                    }
                 });
-                profileBtn.addEventListener('mouseleave', function () {
-                    this.style.borderColor = 'rgba(255, 193, 7, 0.3)';
-                    this.style.boxShadow = '';
-                });
+
+                container.appendChild(profileToggleBtn);
+                headerBtnParent.appendChild(container);
             } else {
                 // show original buttons
                 headerBtns.forEach(b => b.style.display = 'inline-block');
