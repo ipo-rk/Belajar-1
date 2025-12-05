@@ -26,7 +26,7 @@
     <!-- header -->
     <header class="bg-dark text-light">
         <div class="container-fluid text-center text-light py-1 mt-1">
-            <div class="row align-items-center justify-content-center g-3">
+            <div class="row align-items-center justify-content-between g-3">
                 <div class="col-12 col-md-6 order-md-1 d-flex flex-column align-items-center">
                     <img src="assets/img/logo.png" alt="Enauto Coffee Logo"
                         class="shadow-lg rounded-circle mt-lg-3 py-3 mb-3 logo-img">
@@ -34,12 +34,15 @@
                     <p class="fs-4 mb-0">Coffe Shop Terbaik di Indonesia
                     </p>
                 </div>
-                <div
-                    class="col-12 col-md-6 order-md-2 py-lg-5 d-flex flex-column align-items-center justify-content-center gap-2">
-                    <button type="button" class="btn btn-dark btn-lg px-4 px-md-5 fw-semibold w-50 header-btn"
-                        data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-                    <button type="button" class="btn btn-dark btn-lg px-4 px-md-5 fw-semibold w-50 header-btn"
-                        data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                <div class="col-12 col-md-6 order-md-2 py-lg-5 d-flex flex-column align-items-end justify-content-start gap-3" id="header-auth-container">
+                    <button type="button" class="btn btn-warning btn-lg px-5 fw-bold header-btn shadow"
+                        data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </button>
+                    <button type="button" class="btn btn-outline-warning btn-lg px-5 fw-bold header-btn"
+                        data-bs-toggle="modal" data-bs-target="#registerModal">
+                        <i class="fas fa-user-plus me-2"></i>Register
+                    </button>
                 </div>
             </div>
         </div>

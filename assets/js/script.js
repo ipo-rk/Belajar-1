@@ -15,10 +15,10 @@
         const isUserLoggedIn = window.isUserLoggedIn || fallbackIsLoggedIn;
         const setLoggedInState = window.setLoggedInState || fallbackSetLogged;
 
-        const headerBtns = document.querySelectorAll('header .header-btn');
-        if (!headerBtns || headerBtns.length === 0) return;
+        const headerAuthContainer = document.getElementById('header-auth-container');
+        if (!headerAuthContainer) return;
 
-        const headerBtnParent = headerBtns[0].parentElement;
+        const headerBtns = headerAuthContainer.querySelectorAll('.header-btn');
         const AUTH_CONTAINER_ID = 'authContainer';
 
         function createToast(msg, timeout = 2000) {
@@ -56,6 +56,8 @@
                 container.id = AUTH_CONTAINER_ID;
                 container.className = 'd-flex align-items-center';
                 container.style.gap = '1rem';
+                container.style.width = '100%';
+                container.style.justifyContent = 'flex-end';
 
                 // Profile card wrapper
                 const profileCard = document.createElement('div');
@@ -71,11 +73,13 @@
                 profileBtn.setAttribute('aria-expanded', 'false');
                 profileBtn.style.border = '2px solid rgba(255, 193, 7, 0.3)';
                 profileBtn.style.transition = 'all 0.3s ease';
+                profileBtn.style.padding = '0.5rem 1rem';
+                profileBtn.style.whiteSpace = 'nowrap';
 
                 // Avatar circle with initials
                 const avatar = document.createElement('div');
-                avatar.style.width = '38px';
-                avatar.style.height = '38px';
+                avatar.style.width = '36px';
+                avatar.style.height = '36px';
                 avatar.style.borderRadius = '50%';
                 avatar.style.background = 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)';
                 avatar.style.display = 'flex';
@@ -84,16 +88,18 @@
                 avatar.style.color = '#000';
                 avatar.style.fontWeight = 'bold';
                 avatar.style.fontSize = '16px';
+                avatar.style.flexShrink = '0';
                 avatar.textContent = name.charAt(0).toUpperCase();
 
                 // User name text
                 const nameText = document.createElement('span');
                 nameText.className = 'text-light fw-semibold';
                 nameText.textContent = name;
-                nameText.style.maxWidth = '150px';
+                nameText.style.maxWidth = '120px';
                 nameText.style.overflow = 'hidden';
                 nameText.style.textOverflow = 'ellipsis';
                 nameText.style.whiteSpace = 'nowrap';
+                nameText.style.fontSize = '0.95rem';
 
                 profileBtn.appendChild(avatar);
                 profileBtn.appendChild(nameText);
@@ -149,7 +155,7 @@
                 profileCard.appendChild(profileBtn);
                 profileCard.appendChild(dropdownMenu);
                 container.appendChild(profileCard);
-                headerBtnParent.appendChild(container);
+                headerAuthContainer.appendChild(container);
 
                 // Add hover effect to profile button
                 profileBtn.addEventListener('mouseenter', function () {
