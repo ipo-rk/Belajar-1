@@ -79,6 +79,10 @@
                                     class="fas fa-tags me-2"></i>Pricing</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link btn btn-dark px-3 px-lg-4 text-dark" href="#order"><i
+                                    class="fas fa-shopping-bag me-1"></i>Order</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link btn btn-dark px-3 px-lg-4 text-dark  " href="#contact"><i
                                     class="fas fa-envelope me-2"></i>Contact</a>
                         </li>
@@ -208,38 +212,44 @@
                             <div class="col-12 col-md-4">
                                 <div class="product-card shadow-lg rounded overflow-hidden">
                                     <img src="assets/img/product-img/americano.png" alt="Gallery Image 1"
-                                        class="img-fluid gallery-img" onerror="this.onerror=null;this.src='assets/img/product-img/espresso.png'">
+                                        class="img-fluid gallery-img"
+                                        onerror="this.onerror=null;this.src='assets/img/product-img/espresso.png'">
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <div class="product-card shadow-lg rounded overflow-hidden">
                                     <img src="assets/img/product-img/cappuccino.png" alt="Gallery Image 2"
-                                        class="img-fluid gallery-img" onerror="this.onerror=null;this.src='assets/img/product-img/espresso.png'">
+                                        class="img-fluid gallery-img"
+                                        onerror="this.onerror=null;this.src='assets/img/product-img/espresso.png'">
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <div class="product-card shadow-lg rounded overflow-hidden">
                                     <img src="assets/img/product-img/coffe.png" alt="Gallery Image 3"
-                                        class="img-fluid gallery-img" onerror="this.onerror=null;this.src='assets/img/product-img/espresso.png'">
+                                        class="img-fluid gallery-img"
+                                        onerror="this.onerror=null;this.src='assets/img/product-img/espresso.png'">
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <div class="product-card shadow-lg rounded overflow-hidden">
                                     <img src="assets/img/product-img/creme-latte.png" alt="Gallery Image 1"
-                                        class="img-fluid gallery-img" onerror="this.onerror=null;this.src='assets/img/product-img/espresso.png'">
+                                        class="img-fluid gallery-img"
+                                        onerror="this.onerror=null;this.src='assets/img/product-img/espresso.png'">
                                 </div>
                             </div>
 
                             <div class="col-12 col-md-4">
                                 <div class="product-card shadow-lg rounded overflow-hidden">
                                     <img src="assets/img/product-img/espresso.png" alt="Gallery Image 3    "
-                                        class="img-fluid gallery-img" onerror="this.onerror=null;this.src='assets/img/product-img/espresso.png'">
+                                        class="img-fluid gallery-img"
+                                        onerror="this.onerror=null;this.src='assets/img/product-img/espresso.png'">
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <div class="product-card shadow-lg rounded overflow-hidden">
                                     <img src="assets/img/product-img/latte.png" alt="Gallery Image 1"
-                                        class="img-fluid gallery-img" onerror="this.onerror=null;this.src='assets/img/product-img/espresso.png'">
+                                        class="img-fluid gallery-img"
+                                        onerror="this.onerror=null;this.src='assets/img/product-img/espresso.png'">
                                 </div>
                             </div>
                         </div>
@@ -536,7 +546,11 @@
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
 
+    <!-- SweetAlert2 custom CSS to match site theme -->
+    <link rel="stylesheet" href="assets/css/_swal-custom.css">
+
     <!-- Sticky Navbar JS -->
+
     <script src="assets/js/javascrip.js"></script>
     <script src="assets/js/script.js"></script>
     <!-- Login / Register Modals -->
@@ -554,7 +568,7 @@
                         <div class="input-group">
                             <span class="input-group-text bg-secondary text-light"><i class="fas fa-user"></i></span>
                             <input type="text" class="form-control" id="loginIdentifier" name="login-identifier"
-                                required>
+                                autocomplete="username" required>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -562,7 +576,7 @@
                         <div class="input-group">
                             <span class="input-group-text bg-secondary text-light"><i class="fas fa-lock"></i></span>
                             <input type="password" class="form-control" id="loginPassword" name="login-password"
-                                required>
+                                autocomplete="current-password" required>
                             <button class="btn btn-secondary btn-toggle-pwd" type="button" data-target="#loginPassword"
                                 aria-label="Toggle password"><i class="fas fa-eye"></i></button>
                         </div>
@@ -598,7 +612,8 @@
                         <div class="input-group">
                             <span class="input-group-text bg-secondary text-light"><i
                                     class="fas fa-envelope"></i></span>
-                            <input type="email" class="form-control" id="registerEmail" name="register-email" required>
+                            <input type="email" class="form-control" id="registerEmail" name="register-email"
+                                autocomplete="email" required>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -606,7 +621,7 @@
                         <div class="input-group mb-1">
                             <span class="input-group-text bg-secondary text-light"><i class="fas fa-lock"></i></span>
                             <input type="password" class="form-control" id="registerPassword" name="register-password"
-                                required>
+                                autocomplete="new-password" required>
                             <button class="btn btn-secondary btn-toggle-pwd" type="button"
                                 data-target="#registerPassword" aria-label="Toggle password"><i
                                     class="fas fa-eye"></i></button>
@@ -625,7 +640,7 @@
                         <div class="input-group">
                             <span class="input-group-text bg-secondary text-light"><i class="fas fa-lock"></i></span>
                             <input type="password" class="form-control" id="registerPassword2" name="register-password2"
-                                required>
+                                autocomplete="new-password" required>
                             <button class="btn btn-secondary btn-toggle-pwd" type="button"
                                 data-target="#registerPassword2" aria-label="Toggle password"><i
                                     class="fas fa-eye"></i></button>

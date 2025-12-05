@@ -1,0 +1,18 @@
+/* Custom SweetAlert2 overrides to match site dark theme and white text */
+.swal2-popup {
+  background: linear-gradient(180deg, #1a1a1a, #111) !important;
+  color: #fff !important;
+}
+.swal2-title,
+.swal2-html-container,
+.swal2-content {
+  color: #fff !important;
+}
+.swal2-styled.swal2-confirm {
+  background: linear-gradient(135deg, #ffc107, #ff9800) !important;
+  color: #000 !important;
+}
+.swal2-styled.swal2-cancel {
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+}
