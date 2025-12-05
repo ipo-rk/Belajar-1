@@ -132,7 +132,25 @@
                     }
                 });
 
+                // Add "Order Now" button
+                const orderNowBtn = document.createElement('button');
+                orderNowBtn.className = 'btn btn-sm btn-outline-warning order-now-btn';
+                orderNowBtn.type = 'button';
+                orderNowBtn.innerHTML = `<i class="fas fa-shopping-bag me-1"></i>Order Now`;
+                orderNowBtn.addEventListener('click', function () {
+                    const orderSection = document.getElementById('order');
+                    if (orderSection) {
+                        const scrollPaddingTop = window.innerWidth <= 480 ? 90 : (window.innerWidth <= 767 ? 100 : 120);
+                        const targetPosition = orderSection.getBoundingClientRect().top + window.scrollY - scrollPaddingTop;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+
                 container.appendChild(profileToggleBtn);
+                container.appendChild(orderNowBtn);
                 headerBtnParent.appendChild(container);
             } else {
                 // show original buttons
