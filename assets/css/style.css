@@ -2855,10 +2855,15 @@ footer a:hover {
   top: 20px;
   right: 20px;
   width: 280px;
-  background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(30, 30, 30, 0.9) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(20, 20, 20, 0.95) 0%,
+    rgba(30, 30, 30, 0.9) 100%
+  );
   border: 2px solid rgba(255, 193, 7, 0.2);
   border-radius: 12px;
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 193, 7, 0.1);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 193, 7, 0.1);
   backdrop-filter: blur(10px);
   z-index: 2000;
   opacity: 0;
@@ -2948,7 +2953,11 @@ footer a:hover {
 }
 
 .profile-logout-btn:hover {
-  background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 152, 0, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 193, 7, 0.2),
+    rgba(255, 152, 0, 0.1)
+  );
   border-color: #ffc107;
   color: #fff;
   box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
@@ -3347,3 +3356,183 @@ footer a:hover {
     padding: 0.45rem 0.5rem !important;
   }
 }
+
+/* ===========================
+   SWEETALERT2 CUSTOM THEME
+   Dark theme with amber/warning colors matching website
+   =========================== */
+
+/* Main container */
+.swal2-container {
+  z-index: 9999;
+}
+
+/* Main dialog box */
+.swal2-popup {
+  background: #1a1a1a;
+  border: 2px solid #ffc107;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 60px rgba(255, 193, 7, 0.2), 0 0 40px rgba(255, 193, 7, 0.1);
+}
+
+/* Title */
+.swal2-title {
+  color: #ffc107;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* HTML content */
+.swal2-html-container {
+  color: #e0e0e0;
+  font-size: 1rem;
+}
+
+/* Confirm button (primary/success action) */
+.swal2-confirm {
+  background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+  color: #000;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 10px 30px rgba(255, 193, 7, 0.3);
+  transition: all 0.3s ease;
+}
+
+.swal2-confirm:hover {
+  background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(255, 193, 7, 0.4);
+}
+
+.swal2-confirm:active {
+  transform: translateY(0);
+}
+
+/* Cancel button */
+.swal2-cancel {
+  background: #333;
+  color: #ccc;
+  border: 1px solid #555;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.swal2-cancel:hover {
+  background: #444;
+  border-color: #ffc107;
+  color: #ffc107;
+}
+
+/* Input fields */
+.swal2-input {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  border: 1px solid #555;
+  border-radius: 0.5rem;
+}
+
+.swal2-input:focus {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #ffc107;
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
+}
+
+/* Textarea */
+.swal2-textarea {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  border: 1px solid #555;
+  border-radius: 0.5rem;
+}
+
+.swal2-textarea:focus {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #ffc107;
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
+}
+
+/* Icons styling */
+.swal2-icon {
+  border-color: #ffc107;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+  border-color: #ffc107;
+}
+
+.swal2-icon.swal2-success [class*='swal2-success-line'] {
+  background-color: #ffc107;
+}
+
+.swal2-icon.swal2-error {
+  border-color: #ff6b6b;
+}
+
+.swal2-icon.swal2-warning {
+  border-color: #ffc107;
+  color: #ffc107;
+}
+
+.swal2-icon.swal2-info {
+  border-color: #ffc107;
+  color: #ffc107;
+}
+
+.swal2-icon.swal2-question {
+  border-color: #ffc107;
+  color: #ffc107;
+}
+
+/* Toast notification styling */
+.swal2-toast {
+  background: #1a1a1a;
+  border: 1px solid #ffc107;
+  box-shadow: 0 10px 30px rgba(255, 193, 7, 0.2);
+}
+
+.swal2-toast .swal2-title {
+  color: #ffc107;
+  font-size: 0.95rem;
+}
+
+.swal2-toast .swal2-html-container {
+  color: #e0e0e0;
+  font-size: 0.9rem;
+}
+
+/* Progress bar */
+.swal2-progress-steps {
+  color: #ffc107;
+}
+
+.swal2-progress-steps .swal2-progress-step {
+  background: #333;
+  color: #e0e0e0;
+}
+
+.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step {
+  background: #ffc107;
+  color: #000;
+}
+
+.swal2-progress-steps .swal2-progress-step-line {
+  background: #555;
+}
+
+/* Close button */
+.swal2-close {
+  color: #ffc107;
+}
+
+.swal2-close:hover {
+  color: #ff9800;
+}
+
+/* Backdrop */
+.swal2-backdrop-show {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+

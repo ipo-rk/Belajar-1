@@ -161,29 +161,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Add loading animation class on page load
-    // Helper: show a temporary toast message in bottom-right
-    function showTemporaryMessage(message, timeout = 3000) {
-        const id = 'tmp-toast-msg';
-        // create container
-        const toast = document.createElement('div');
-        toast.className = 'tmp-toast';
-        toast.textContent = message;
-        toast.style.position = 'fixed';
-        toast.style.right = '1rem';
-        toast.style.bottom = '1rem';
-        toast.style.background = 'rgba(0,0,0,0.8)';
-        toast.style.color = '#fff';
-        toast.style.padding = '0.6rem 0.9rem';
-        toast.style.borderRadius = '0.5rem';
-        toast.style.boxShadow = '0 6px 18px rgba(0,0,0,0.4)';
-        toast.style.zIndex = 2000;
-        toast.style.fontSize = '0.95rem';
-        document.body.appendChild(toast);
-        setTimeout(() => {
-            toast.style.transition = 'opacity 0.25s ease';
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 300);
-        }, timeout);
+    // Helper: show message using SweetAlert2
+    function showTemporaryMessage(message, type = 'info', timeout = 3000) {
+        Swal.fire({
+            icon: type,
+            title: '',
+            html: message,
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: timeout,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
     }
 
     // Handle modern Login / Register form submissions inside modals
@@ -251,18 +243,18 @@ document.addEventListener('DOMContentLoaded', function () {
             // Check registered users before proceeding
             const registeredUsers = JSON.parse(localStorage.getItem('enauto_registered_users') || '{}');
             if (!registeredUsers[id]) {
-                showTemporaryMessage('Email/Username tidak terdaftar. Silakan register terlebih dahulu.');
+                showTemporaryMessage('Email/Username tidak terdaftar. Silakan register terlebih dahulu.', 'error');
                 return;
             }
 
             // Verify password matches
             if (registeredUsers[id].password !== pwd) {
-                showTemporaryMessage('Password salah. Coba lagi.');
+                showTemporaryMessage('Password salah. Coba lagi.', 'error');
                 return;
             }
 
             if (!id || !pwd) {
-                showTemporaryMessage('Mohon isi semua field login.');
+                showTemporaryMessage('Mohon isi semua field login.', 'warning');
                 return;
             }
 
@@ -273,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // simulate async request (replace with fetch/ajax)
             setTimeout(() => {
                 // simple success simulation
-                showTemporaryMessage(`Login berhasil: ${id}`);
+                showTemporaryMessage(`Login berhasil: ${registeredUsers[id].name}`, 'success');
 
                 // mark user as logged in and enable cart buttons
                 try {
@@ -329,32 +321,32 @@ document.addEventListener('DOMContentLoaded', function () {
             const cancelBtn = registerForm.querySelector('button[data-bs-dismiss]');
 
             if (!name || !email || !pw1 || !pw2) {
-                showTemporaryMessage('Mohon isi semua field registrasi.');
+                showTemporaryMessage('Mohon isi semua field registrasi.', 'warning');
                 return;
             }
 
             // basic email check
             const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRe.test(email)) {
-                showTemporaryMessage('Alamat email tidak valid.');
+                showTemporaryMessage('Alamat email tidak valid.', 'error');
                 return;
             }
-                // Check if email already registered
-                const registeredUsers = JSON.parse(localStorage.getItem('enauto_registered_users') || '{}');
-                if (registeredUsers[email]) {
-                    showTemporaryMessage('Email sudah terdaftar. Gunakan email lain atau login.');
-                    return;
-                }
+            // Check if email already registered
+            const registeredUsers = JSON.parse(localStorage.getItem('enauto_registered_users') || '{}');
+            if (registeredUsers[email]) {
+                showTemporaryMessage('Email sudah terdaftar. Gunakan email lain atau login.', 'error');
+                return;
+            }
 
             if (pw1 !== pw2) {
-                showTemporaryMessage('Password dan konfirmasi tidak cocok.');
+                showTemporaryMessage('Password dan konfirmasi tidak cocok.', 'error');
                 return;
             }
 
             // Enforce minimum password strength (score 0..5)
             const pwScore = evaluatePasswordStrength(pw1);
             if (pwScore < 3) {
-                showTemporaryMessage('Password terlalu lemah. Gunakan kombinasi huruf besar, angka, dan simbol.');
+                showTemporaryMessage('Password terlalu lemah. Gunakan kombinasi huruf besar, angka, dan simbol.', 'warning');
                 return;
             }
 
@@ -364,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // simulate server
             setTimeout(() => {
-                showTemporaryMessage(`Registrasi berhasil: ${name}`);
+                showTemporaryMessage(`Registrasi berhasil: ${name}`, 'success');
 
                 // Save registered user data
                 try {
@@ -423,12 +415,12 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             if (state) {
                 localStorage.setItem('enauto_logged', '1');
-                    // Note: enauto_user and enauto_email are set in login/register handlers
+                // Note: enauto_user and enauto_email are set in login/register handlers
                 enableCartButtons();
             } else {
                 localStorage.removeItem('enauto_logged');
-                    localStorage.removeItem('enauto_user');
-                    localStorage.removeItem('enauto_email');
+                localStorage.removeItem('enauto_user');
+                localStorage.removeItem('enauto_email');
                 disableCartButtons();
             }
         } catch (e) {
@@ -495,7 +487,7 @@ document.addEventListener('DOMContentLoaded', function () {
             addProductToCart(productName, productPrice);
 
             // Show success message
-            showTemporaryMessage(`${productName} ditambahkan ke keranjang!`);
+            showTemporaryMessage(`${productName} ditambahkan ke keranjang!`, 'success');
 
             // Add ripple effect
             createRippleEffect(this, e);
@@ -720,14 +712,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const rows = table.querySelectorAll('tr:not(:last-child)');
 
             if (rows.length === 0) {
-                showTemporaryMessage('Keranjang sudah kosong');
+                showTemporaryMessage('Keranjang sudah kosong', 'info');
                 return;
             }
 
             rows.forEach(row => row.remove());
             updateRowNumbers();
             updateTotal();
-            showTemporaryMessage('✓ Keranjang telah dikosongkan');
+            showTemporaryMessage('✓ Keranjang telah dikosongkan', 'success');
         });
     }
 
@@ -745,7 +737,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const rows = document.querySelectorAll('.order-table tbody tr:not(:last-child)');
 
             if (rows.length === 0) {
-                showTemporaryMessage('⚠ Keranjang masih kosong. Pilih produk terlebih dahulu!');
+                showTemporaryMessage('⚠ Keranjang masih kosong. Pilih produk terlebih dahulu!', 'warning');
                 return;
             }
 
@@ -776,7 +768,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Show checkout message
             let itemsText = orderItems.map(item => `${item.product} (${item.quantity}x)`).join(', ');
-            showTemporaryMessage(`✓ Checkout berhasil! Total: ${total} | Items: ${itemsText}`);
+            showTemporaryMessage(`✓ Checkout berhasil! Total: ${total} | Items: ${itemsText}`, 'success');
 
             // Optional: Clear cart after checkout
             setTimeout(() => {
@@ -785,7 +777,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const rowsToRemove = table.querySelectorAll('tr:not(:last-child)');
                     rowsToRemove.forEach(row => row.remove());
                     updateTotal();
-                    showTemporaryMessage('✓ Terima kasih! Pesanan Anda sedang diproses');
+                    showTemporaryMessage('✓ Terima kasih! Pesanan Anda sedang diproses', 'success');
                 }
             }, 2000);
         });
