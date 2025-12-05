@@ -495,6 +495,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Add product to cart table
+    // Map product display names to exact filenames in `assets/img/product img/`
+    const productImageMap = {
+        'Espresso': 'espresso.png',
+        'Cappuccino': 'cappuccino.png',
+        'Latte': 'latte.png',
+        'Americano': 'Americano.png',
+        'Creme Latte': 'creme latte.png',
+        'Coffe': 'coffe.png'
+    };
+
     function addProductToCart(productName, productPrice) {
         const orderTable = document.querySelector('.order-table tbody');
         if (!orderTable) return;
@@ -526,16 +536,17 @@ document.addEventListener('DOMContentLoaded', function () {
             const newRow = document.createElement('tr');
             newRow.className = 'align-middle border-bottom border-secondary';
 
-            // Format product name untuk path gambar
-            const imgFileName = productName.toLowerCase().replace(/\s+/g, ' ');
+            // Resolve image filename from map; fall back to a normalized file name
+            const imgFile = (productImageMap[productName] || (productName.toLowerCase().replace(/\s+/g, ' ') + '.png'));
+            const imgPath = encodeURI(`assets/img/product img/${imgFile}`);
 
             newRow.innerHTML = `
                 <td class="fw-semibold">${newRowNumber}</td>
                 <td>
                     <div class="d-flex align-items-center gap-2">
-                        <img src="assets/img/product img/${imgFileName}.png" 
+                        <img src="${imgPath}" 
                              alt="${productName}" class="order-table-img rounded" 
-                             onerror="this.src='assets/img/product img/espresso.png'">
+                             onerror="this.onerror=null;this.src='assets/img/product img/espresso.png'">
                         <span>${productName}</span>
                     </div>
                 </td>
