@@ -709,7 +709,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ===== BUTTON ACTIONS =====
-    // Clear/Add cart button - kosongkan semua item
+    // Clear/Add cart button - kosongkan semua item (dengan konfirmasi)
     const clearCartBtn = document.getElementById('clearCartBtn');
     if (clearCartBtn) {
         clearCartBtn.addEventListener('click', function (e) {
@@ -724,10 +724,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            rows.forEach(row => row.remove());
-            updateRowNumbers();
-            updateTotal();
-            showTemporaryMessage('✓ Keranjang telah dikosongkan', 'success');
+            // Confirm with SweetAlert2 before clearing
+            Swal.fire({
+                title: 'Kosongkan keranjang?',
+                text: 'Semua item akan dihapus dari keranjang. Lanjutkan?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, kosongkan',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    rows.forEach(row => row.remove());
+                    updateRowNumbers();
+                    updateTotal();
+                    showTemporaryMessage('✓ Keranjang telah dikosongkan', 'success');
+                }
+            });
         });
     }
 
