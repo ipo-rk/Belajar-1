@@ -3377,14 +3377,14 @@ footer a:hover {
 
 /* Title */
 .swal2-title {
-  color: #ffc107;
+  color: #000;
   font-weight: 700;
   font-size: 1.5rem;
 }
 
 /* HTML content */
 .swal2-html-container {
-  color: #e0e0e0;
+  color: #000;
   font-size: 1rem;
 }
 
@@ -3493,12 +3493,12 @@ footer a:hover {
 }
 
 .swal2-toast .swal2-title {
-  color: #ffc107;
+  color: #000;
   font-size: 0.95rem;
 }
 
 .swal2-toast .swal2-html-container {
-  color: #e0e0e0;
+  color: #000;
   font-size: 0.9rem;
 }
 
