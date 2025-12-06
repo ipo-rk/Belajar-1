@@ -1,3 +1,36 @@
+// ===========================
+// LOADER / SPINNER MANAGEMENT
+// ===========================
+function hideLoader() {
+    const loaderContainer = document.getElementById('loaderContainer');
+    if (loaderContainer) {
+        loaderContainer.classList.add('hidden');
+        console.log('[LOADER] Hidden');
+    }
+}
+
+function showLoader() {
+    const loaderContainer = document.getElementById('loaderContainer');
+    if (loaderContainer) {
+        loaderContainer.classList.remove('hidden');
+        console.log('[LOADER] Shown');
+    }
+}
+
+// Hide loader when page is fully loaded
+window.addEventListener('load', function () {
+    console.log('[LOADER] Page fully loaded');
+    setTimeout(() => {
+        hideLoader();
+        document.body.style.opacity = '1';
+    }, 500);
+});
+
+// Also hide loader after a timeout (failsafe)
+setTimeout(() => {
+    hideLoader();
+}, 5000);
+
 // Enhanced Sticky Navbar Script dengan Scroll Effects
 document.addEventListener('DOMContentLoaded', function () {
     const navbar = document.querySelector('.sticky-navbar');
@@ -452,16 +485,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add loading animation class on page load
     window.addEventListener('load', function () {
+        console.log('[CART] Initializing cart on page load');
         document.body.style.opacity = '1';
         initializeCart();
     });
 
     // ===== CART FUNCTIONALITY =====
     function initializeCart() {
-        // Initialize existing delete buttons
-        updateDeleteButtons();
-        // Calculate initial total
-        updateTotal();
+        try {
+            // Initialize existing delete buttons
+            updateDeleteButtons();
+            // Calculate initial total
+            updateTotal();
+            console.log('[CART] Initialized successfully');
+        } catch (error) {
+            console.error('[CART] Initialization error:', error);
+        }
     }
 
     // ===== AUTH / CART GATING HELPERS =====
@@ -674,83 +713,108 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Update total price in order table
     function updateTotal() {
-        const rows = document.querySelectorAll('.order-table tbody tr:not(:last-child)');
-        let total = 0;
-        let itemCount = 0;
+        try {
+            const rows = document.querySelectorAll('.order-table tbody tr:not(:last-child)');
+            let total = 0;
+            let itemCount = 0;
 
-        rows.forEach(row => {
-            const priceCell = row.querySelector('td:nth-child(3)');
-            const quantityInput = row.querySelector('.quantity-input');
-            const totalCell = row.querySelector('td:nth-child(5)');
+            rows.forEach(row => {
+                const priceCell = row.querySelector('td:nth-child(3)');
+                const quantityInput = row.querySelector('.quantity-input');
+                const totalCell = row.querySelector('td:nth-child(5)');
 
-            if (priceCell && quantityInput && totalCell) {
-                const price = parseFloat(priceCell.textContent.replace('$', '')) || 0;
-                const quantity = parseInt(quantityInput.value) || 1;
-                const itemTotal = price * quantity;
+                if (priceCell && quantityInput && totalCell) {
+                    const price = parseFloat(priceCell.textContent.replace('$', '')) || 0;
+                    const quantity = parseInt(quantityInput.value) || 1;
+                    const itemTotal = price * quantity;
 
-                // Update total cell (5th column)
-                totalCell.textContent = '$' + itemTotal.toFixed(2);
+                    // Update total cell (5th column)
+                    totalCell.textContent = '$' + itemTotal.toFixed(2);
 
-                total += itemTotal;
-                itemCount++;
+                    total += itemTotal;
+                    itemCount++;
+                }
+            });
+
+            // Update total row di tabel
+            const totalRow = document.querySelector('.order-table tbody tr:last-child');
+            if (totalRow) {
+                const totalCell = totalRow.querySelector('td:nth-child(5)');
+                if (totalCell) {
+                    totalCell.textContent = '$' + total.toFixed(2);
+                }
             }
-        });
 
-        // Update total row di tabel
-        const totalRow = document.querySelector('.order-table tbody tr:last-child');
-        if (totalRow) {
-            const totalCell = totalRow.querySelector('td:nth-child(5)');
-            if (totalCell) {
-                totalCell.textContent = '$' + total.toFixed(2);
+            // Update total pesanan dengan ID yang spesifik
+            const totalPesananElement = document.getElementById('totalPesanan');
+            if (totalPesananElement) {
+                totalPesananElement.textContent = '$' + total.toFixed(2);
             }
-        }
 
-        // Update total pesanan dengan ID yang spesifik
-        const totalPesananElement = document.getElementById('totalPesanan');
-        if (totalPesananElement) {
-            totalPesananElement.textContent = '$' + total.toFixed(2);
+            console.log('[CART] Total updated:', {itemCount, total: total.toFixed(2)});
+            return total;
+        } catch (error) {
+            console.error('[CART] Error updating total:', error);
+            return 0;
         }
-
-        return total;
     }
 
     // Update delete button handlers
     function updateDeleteButtons() {
-        document.querySelectorAll('.order-table tbody .delete-btn').forEach(btn => {
-            // Remove existing listeners by cloning
-            const newBtn = btn.cloneNode(true);
-            btn.parentNode.replaceChild(newBtn, btn);
+        try {
+            document.querySelectorAll('.order-table tbody .delete-btn').forEach(btn => {
+                // Remove existing listeners by cloning
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
 
-            // Add new listener
-            newBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                const row = this.closest('tr');
-                if (row) {
-                    row.remove();
-                    updateRowNumbers();
-                    updateTotal();
-                }
+                // Add new listener
+                newBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const row = this.closest('tr');
+                    if (row) {
+                        const productName = row.querySelector('td:nth-child(2)')?.textContent || 'Product';
+                        row.remove();
+                        updateRowNumbers();
+                        updateTotal();
+                        console.log('[CART] Item removed:', productName);
+                    }
+                });
             });
-        });
+        } catch (error) {
+            console.error('[CART] Error updating delete buttons:', error);
+        }
     }
 
     // Update total when quantity changes
     document.addEventListener('change', function (e) {
         if (e.target.classList.contains('quantity-input')) {
-            updateTotal();
+            try {
+                const newQty = parseInt(e.target.value);
+                console.log('[CART] Quantity changed:', newQty);
+                updateTotal();
+            } catch (error) {
+                console.error('[CART] Error on quantity change:', error);
+            }
         }
     });
 
     // Update total when quantity input value changes
     document.addEventListener('input', function (e) {
         if (e.target.classList.contains('quantity-input')) {
-            let value = parseInt(e.target.value);
-            if (isNaN(value) || value < 1) {
-                e.target.value = 1;
-            } else if (value > 99) {
-                e.target.value = 99;
+            try {
+                let value = parseInt(e.target.value);
+                if (isNaN(value) || value < 1) {
+                    e.target.value = 1;
+                    value = 1;
+                } else if (value > 99) {
+                    e.target.value = 99;
+                    value = 99;
+                }
+                updateTotal();
+                console.log('[CART] Quantity input updated:', value);
+            } catch (error) {
+                console.error('[CART] Error on quantity input:', error);
             }
-            updateTotal();
         }
     });
 
