@@ -69,6 +69,7 @@
                 const userPhoto = (function () {
                     try { return localStorage.getItem('enauto_photo') || null; } catch (e) { return null; }
                 })();
+                console.log('[PROFILE] Rendering profile card:', {name, email, hasPhoto: !!userPhoto});
 
                 // Create profile card in top-right
                 const profileCardDiv = document.createElement('div');
@@ -78,7 +79,7 @@
                 profileCardDiv.setAttribute('aria-label', 'User Profile Card');
                 const avatarColor1 = getAvatarColor(name);
                 const avatarColor2 = getAvatarColor(name + 'x');
-                
+
                 // Build avatar HTML - image if photo exists, gradient fallback otherwise
                 let avatarHTML = '';
                 if (userPhoto) {
@@ -88,7 +89,7 @@
                         ${name.charAt(0).toUpperCase()}
                     </div>`;
                 }
-                
+
                 profileCardDiv.innerHTML = `
                     <div class="profile-card-header">
                         <button class="profile-card-close" type="button" aria-label="Close profile card">×</button>
@@ -155,8 +156,15 @@
                 profileCardDiv.querySelector('.profile-logout-btn').addEventListener('click', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    try { localStorage.removeItem('enauto_user'); } catch (err) { }
-                    try { localStorage.removeItem('enauto_email'); } catch (err) { }
+                    try { 
+                        const currentUser = localStorage.getItem('enauto_user');
+                        localStorage.removeItem('enauto_user'); 
+                        localStorage.removeItem('enauto_email');
+                        localStorage.removeItem('enauto_photo');
+                        console.log('[LOGOUT] User logged out:', currentUser);
+                    } catch (err) { 
+                        console.error('[LOGOUT] Error clearing user data:', err);
+                    }
                     if (typeof setLoggedInState === 'function') setLoggedInState(false);
                     else fallbackSetLogged(false);
                     closeProfileCard();

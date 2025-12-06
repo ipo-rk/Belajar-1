@@ -250,6 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Verify password matches
             if (registeredUsers[id].password !== pwd) {
                 showTemporaryMessage('Password salah. Coba lagi.', 'error');
+                console.warn('[LOGIN] Password mismatch for:', id);
                 return;
             }
 
@@ -271,7 +272,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 try {
                     localStorage.setItem('enauto_user', registeredUsers[id].name);
                     localStorage.setItem('enauto_email', registeredUsers[id].email);
-                } catch (e) { }
+                    // Also restore photo if available
+                    if (registeredUsers[id].photo) {
+                        localStorage.setItem('enauto_photo', registeredUsers[id].photo);
+                        console.log('[LOGIN] Photo restored for user:', id);
+                    } else {
+                        localStorage.removeItem('enauto_photo');
+                    }
+                    console.log('[LOGIN] User logged in:', {email: id, name: registeredUsers[id].name, hasPhoto: !!registeredUsers[id].photo});
+                } catch (e) { 
+                    console.error('[LOGIN] Error setting user data:', e);
+                }
                 setLoggedInState(true);
 
                 // hide modal
@@ -358,8 +369,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 const maxSize = 2 * 1024 * 1024; // 2MB
                 if (photoFile.size > maxSize) {
                     showTemporaryMessage('Foto terlalu besar. Maksimal 2MB.', 'error');
+                    console.warn('[REGISTER] Photo file too large:', {filename: photoFile.name, size: photoFile.size});
                     return;
                 }
+                console.log('[REGISTER] Photo file selected:', {filename: photoFile.name, size: photoFile.size});
             }
 
             // Loading
@@ -370,19 +383,21 @@ document.addEventListener('DOMContentLoaded', function () {
             if (photoInput && photoInput.files && photoInput.files.length > 0) {
                 const photoFile = photoInput.files[0];
                 const reader = new FileReader();
-                
+
                 reader.onload = function (e) {
                     photoBase64 = e.target.result;
                     completeRegistration(name, email, pw1, photoBase64, registerForm, submitBtn, cancelBtn);
                 };
-                
+
                 reader.onerror = function () {
                     showTemporaryMessage('Gagal membaca file foto. Silakan coba lagi.', 'error');
+                    console.error('[REGISTER] Error reading photo file');
                     setButtonLoading(submitBtn, false);
                     if (cancelBtn) cancelBtn.disabled = false;
                 };
-                
+
                 reader.readAsDataURL(photoFile);
+                console.log('[REGISTER] Reading photo file as Data URL...');
             } else {
                 // No photo, proceed with registration
                 completeRegistration(name, email, pw1, null, registerForm, submitBtn, cancelBtn);
@@ -404,7 +419,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         photo: photoBase64 || null
                     };
                     localStorage.setItem('enauto_registered_users', JSON.stringify(regUsers));
-                } catch (err) { }
+                    console.log('[REGISTER] User registered:', {email, name, hasPhoto: !!photoBase64});
+                } catch (err) { 
+                    console.error('[REGISTER] Error saving user data:', err);
+                }
 
                 // Automatically log in user after registration
                 try {
@@ -412,8 +430,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     localStorage.setItem('enauto_email', email);
                     if (photoBase64) {
                         localStorage.setItem('enauto_photo', photoBase64);
+                        console.log('[LOGIN] Photo saved to localStorage');
                     }
-                } catch (e) { }
+                    console.log('[LOGIN] User logged in after registration:', {name, email});
+                } catch (e) { 
+                    console.error('[LOGIN] Error setting login state:', e);
+                }
                 setLoggedInState(true);
 
                 const modalEl = document.getElementById('registerModal');
