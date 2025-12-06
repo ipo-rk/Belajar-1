@@ -875,8 +875,12 @@ document.addEventListener('DOMContentLoaded', function () {
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', function (e) {
             e.preventDefault();
+
+            console.log('[CHECKOUT-BRIDGE] Checkout button clicked');
+
             // Ensure user is logged in before checkout
             if (!isUserLoggedIn()) {
+                console.warn('[CHECKOUT-BRIDGE] User not logged in');
                 showAuthModal('login');
                 return;
             }
@@ -885,7 +889,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (rows.length === 0) {
                 showTemporaryMessage('⚠ Keranjang masih kosong. Pilih produk terlebih dahulu!', 'warning');
-                console.warn('[CHECKOUT] Cart is empty');
+                console.warn('[CHECKOUT-BRIDGE] Cart is empty');
                 return;
             }
 
@@ -895,7 +899,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const total = totalPesananElement ? totalPesananElement.textContent : '$0.00';
                 const totalAmount = parseFloat(total.replace('$', ''));
 
-                // Collect order data
+                // Collect order data with detailed validation
                 const orderItems = [];
                 rows.forEach((row, index) => {
                     const menuCell = row.querySelector('td:nth-child(2)');
@@ -903,46 +907,77 @@ document.addEventListener('DOMContentLoaded', function () {
                     const qtyCell = row.querySelector('.quantity-input');
 
                     if (menuCell && priceCell && qtyCell) {
-                        const productName = menuCell.textContent.trim().split('\n')[0];
-                        const price = parseFloat(priceCell.textContent.replace('$', ''));
-                        const qty = parseInt(qtyCell.value);
+                        // Extract product name and clean up
+                        let productName = menuCell.textContent.trim();
+                        // Remove extra text and whitespace
+                        const lines = productName.split('\n');
+                        productName = lines[0].trim();
 
-                        orderItems.push({
-                            no: index + 1,
-                            product: productName,
-                            price: price.toFixed(2),
-                            quantity: qty
-                        });
+                        const priceText = priceCell.textContent.trim();
+                        const price = parseFloat(priceText.replace('$', ''));
+                        const qty = parseInt(qtyCell.value) || 1;
+
+                        if (productName && !isNaN(price) && qty > 0) {
+                            orderItems.push({
+                                no: index + 1,
+                                product: productName,
+                                price: price.toFixed(2),
+                                quantity: qty
+                            });
+                            console.log('[CHECKOUT-BRIDGE] Item collected:', {
+                                product: productName,
+                                price: price.toFixed(2),
+                                qty: qty
+                            });
+                        }
                     }
                 });
 
-                // Save order data to sessionStorage for checkout page
+                if (orderItems.length === 0) {
+                    showTemporaryMessage('⚠ Error: No valid items in cart', 'error');
+                    console.error('[CHECKOUT-BRIDGE] No valid items collected');
+                    return;
+                }
+
+                // Build checkout data object
                 const checkoutData = {
                     items: orderItems,
                     total: total,
                     totalAmount: totalAmount,
-                    timestamp: new Date().toISOString()
-                };
-                
-                sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
-                console.log('[CHECKOUT] Order data saved to sessionStorage:', {
                     itemCount: orderItems.length,
-                    total: total
+                    timestamp: new Date().toISOString(),
+                    userEmail: localStorage.getItem('enauto_email'),
+                    userName: localStorage.getItem('enauto_user')
+                };
+
+                // Save to sessionStorage with validation
+                sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
+
+                // Verify data was saved
+                const savedData = sessionStorage.getItem('checkoutData');
+                if (!savedData) {
+                    throw new Error('Failed to save checkout data');
+                }
+
+                console.log('[CHECKOUT-BRIDGE] Order data saved to sessionStorage:', {
+                    itemCount: orderItems.length,
+                    total: total,
+                    dataSize: savedData.length + ' bytes'
                 });
 
                 // Show success message
                 let itemsText = orderItems.map(item => `${item.product} (${item.quantity}x)`).join(', ');
-                showTemporaryMessage(`✓ Redirecting to checkout... Total: ${total} | Items: ${itemsText}`, 'success');
+                showTemporaryMessage(`✓ Preparing checkout... Total: ${total}`, 'success');
 
-                // Redirect to checkout page
+                // Redirect to checkout page after delay
                 setTimeout(() => {
-                    console.log('[CHECKOUT] Redirecting to checkout page');
+                    console.log('[CHECKOUT-BRIDGE] Redirecting to checkout.html');
                     window.location.href = 'checkout.html';
                 }, 1500);
 
             } catch (error) {
-                console.error('[CHECKOUT] Error during checkout:', error);
-                showTemporaryMessage('Error processing checkout. Please try again.', 'error');
+                console.error('[CHECKOUT-BRIDGE] Error during checkout:', error);
+                showTemporaryMessage('⚠ Error processing checkout. Please try again.', 'error');
             }
         });
     }
