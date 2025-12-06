@@ -585,6 +585,15 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                         <button type="submit" class="btn btn-warning">Masuk</button>
                     </div>
+                    <hr class="my-3">
+                    <div class="text-center">
+                        <small class="text-light">Belum punya akun?
+                            <button type="button" class="btn btn-link btn-sm text-warning p-0" data-bs-dismiss="modal"
+                                data-bs-toggle="modal" data-bs-target="#registerModal">
+                                Daftar di sini
+                            </button>
+                        </small>
+                    </div>
                 </form>
             </div>
         </div>
@@ -606,6 +615,12 @@
                                     class="fas fa-user-circle"></i></span>
                             <input type="text" class="form-control" id="registerName" name="register-name" required>
                         </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPhoto" class="form-label">Foto Profil (Opsional)</label>
+                        <input type="file" class="form-control" id="registerPhoto" name="register-photo" 
+                            accept="image/*" aria-label="Upload profile photo">
+                        <small class="text-muted d-block mt-1">Format: JPG, PNG. Max 2MB</small>
                     </div>
                     <div class="mb-3">
                         <label for="registerEmail" class="form-label">Email</label>
@@ -649,6 +664,15 @@
                     <div class="d-flex gap-2 justify-content-end">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                         <button type="submit" class="btn btn-warning">Daftar</button>
+                    </div>
+                    <hr class="my-3">
+                    <div class="text-center">
+                        <small class="text-light">Sudah punya akun?
+                            <button type="button" class="btn btn-link btn-sm text-warning p-0" data-bs-dismiss="modal"
+                                data-bs-toggle="modal" data-bs-target="#loginModal">
+                                Login di sini
+                            </button>
+                        </small>
                     </div>
                 </form>
             </div>

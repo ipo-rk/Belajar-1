@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const cancelBtn = loginForm.querySelector('button[data-bs-dismiss]');
 
             // Check registered users before proceeding
-            const registeredUsers = JSON.parse(localStorage.getItem('enauto_registered_users') || '{}');
+            const registeredUsers = JSON.parse(localStorage.getItem('enauto_coffe_registered_users') || '{}');
             if (!registeredUsers[id]) {
                 showTemporaryMessage('Email/Username tidak terdaftar. Silakan register terlebih dahulu.', 'error');
                 return;
@@ -317,6 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const email = registerForm.querySelector('input[name="register-email"]').value.trim();
             const pw1 = registerForm.querySelector('input[name="register-password"]').value;
             const pw2 = registerForm.querySelector('input[name="register-password2"]').value;
+            const photoInput = registerForm.querySelector('#registerPhoto');
             const submitBtn = registerForm.querySelector('button[type="submit"]');
             const cancelBtn = registerForm.querySelector('button[data-bs-dismiss]');
 
@@ -350,21 +351,57 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
+            // Check if photo file is selected and validate size
+            let photoBase64 = null;
+            if (photoInput && photoInput.files && photoInput.files.length > 0) {
+                const photoFile = photoInput.files[0];
+                const maxSize = 2 * 1024 * 1024; // 2MB
+                if (photoFile.size > maxSize) {
+                    showTemporaryMessage('Foto terlalu besar. Maksimal 2MB.', 'error');
+                    return;
+                }
+            }
+
             // Loading
             setButtonLoading(submitBtn, true, 'Mendaftar...');
             if (cancelBtn) cancelBtn.disabled = true;
 
-            // simulate server
+            // Read photo file if exists
+            if (photoInput && photoInput.files && photoInput.files.length > 0) {
+                const photoFile = photoInput.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function (e) {
+                    photoBase64 = e.target.result;
+                    completeRegistration(name, email, pw1, photoBase64, registerForm, submitBtn, cancelBtn);
+                };
+                
+                reader.onerror = function () {
+                    showTemporaryMessage('Gagal membaca file foto. Silakan coba lagi.', 'error');
+                    setButtonLoading(submitBtn, false);
+                    if (cancelBtn) cancelBtn.disabled = false;
+                };
+                
+                reader.readAsDataURL(photoFile);
+            } else {
+                // No photo, proceed with registration
+                completeRegistration(name, email, pw1, null, registerForm, submitBtn, cancelBtn);
+            }
+        });
+
+        // Helper function to complete registration
+        function completeRegistration(name, email, password, photoBase64, form, submitBtn, cancelBtn) {
             setTimeout(() => {
                 showTemporaryMessage(`Registrasi berhasil: ${name}`, 'success');
 
-                // Save registered user data
+                // Save registered user data with photo if available
                 try {
                     const regUsers = JSON.parse(localStorage.getItem('enauto_registered_users') || '{}');
                     regUsers[email] = {
                         name: name,
                         email: email,
-                        password: pw1
+                        password: password,
+                        photo: photoBase64 || null
                     };
                     localStorage.setItem('enauto_registered_users', JSON.stringify(regUsers));
                 } catch (err) { }
@@ -373,6 +410,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 try {
                     localStorage.setItem('enauto_user', name);
                     localStorage.setItem('enauto_email', email);
+                    if (photoBase64) {
+                        localStorage.setItem('enauto_photo', photoBase64);
+                    }
                 } catch (e) { }
                 setLoggedInState(true);
 
@@ -381,11 +421,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     const bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
                     bsModal.hide();
                 }
-                registerForm.reset();
+                form.reset();
                 setButtonLoading(submitBtn, false);
                 if (cancelBtn) cancelBtn.disabled = false;
             }, 1300);
-        });
+        }
     }
 
     // Add loading animation class on page load

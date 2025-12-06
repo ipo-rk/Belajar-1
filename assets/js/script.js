@@ -66,6 +66,9 @@
                 const email = (function () {
                     try { return localStorage.getItem('enauto_email') || 'user@example.com'; } catch (e) { return 'user@example.com'; }
                 })();
+                const userPhoto = (function () {
+                    try { return localStorage.getItem('enauto_photo') || null; } catch (e) { return null; }
+                })();
 
                 // Create profile card in top-right
                 const profileCardDiv = document.createElement('div');
@@ -75,14 +78,23 @@
                 profileCardDiv.setAttribute('aria-label', 'User Profile Card');
                 const avatarColor1 = getAvatarColor(name);
                 const avatarColor2 = getAvatarColor(name + 'x');
+                
+                // Build avatar HTML - image if photo exists, gradient fallback otherwise
+                let avatarHTML = '';
+                if (userPhoto) {
+                    avatarHTML = `<img src="${userPhoto}" alt="${name}" class="profile-avatar" style="object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.2); width: 80px; height: 80px; border-radius: 50%;">`;
+                } else {
+                    avatarHTML = `<div class="profile-avatar" style="background: linear-gradient(135deg, ${avatarColor1} 0%, ${avatarColor2} 100%);">
+                        ${name.charAt(0).toUpperCase()}
+                    </div>`;
+                }
+                
                 profileCardDiv.innerHTML = `
                     <div class="profile-card-header">
                         <button class="profile-card-close" type="button" aria-label="Close profile card">×</button>
                     </div>
                     <div class="profile-card-body">
-                        <div class="profile-avatar" style="background: linear-gradient(135deg, ${avatarColor1} 0%, ${avatarColor2} 100%);">
-                            ${name.charAt(0).toUpperCase()}
-                        </div>
+                        ${avatarHTML}
                         <h3 class="profile-name">${name}</h3>
                         <p class="profile-email">${email}</p>
                         <div class="profile-actions">
@@ -133,7 +145,7 @@
                 // Close card when clicking outside (on document)
                 function handleOutsideClick(e) {
                     const toggleBtn = document.querySelector('.profile-toggle-btn');
-                    if (profileCardDiv && !profileCardDiv.contains(e.target) && 
+                    if (profileCardDiv && !profileCardDiv.contains(e.target) &&
                         toggleBtn && !toggleBtn.contains(e.target)) {
                         closeProfileCard();
                     }
@@ -167,7 +179,7 @@
                 profileToggleBtn.setAttribute('aria-expanded', 'false');
                 profileToggleBtn.setAttribute('aria-controls', PROFILE_CARD_ID);
                 profileToggleBtn.innerHTML = `<i class="fas fa-user-circle me-1"></i>${name}`;
-                
+
                 // Toggle button click handler with state sync
                 profileToggleBtn.addEventListener('click', function (e) {
                     e.stopPropagation();
