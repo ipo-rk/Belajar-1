@@ -2,6 +2,9 @@
 // CHECKOUT PAGE MANAGEMENT
 // ===========================
 
+// Current step tracking
+let currentStep = 1;
+
 // Loader functions
 function hideLoader() {
     const loaderContainer = document.getElementById('loaderContainer');
@@ -18,6 +21,262 @@ function showLoader(message = 'Processing...') {
         if (loaderText) loaderText.textContent = message;
         loaderContainer.classList.remove('hidden');
         console.log('[CHECKOUT]', message);
+    }
+}
+
+// Mute checkout form (disable interaction)
+function muteCheckoutForm() {
+    try {
+        const checkoutForm = document.getElementById('checkoutForm');
+        if (checkoutForm) {
+            checkoutForm.classList.add('muted');
+            // Disable all form inputs
+            const inputs = checkoutForm.querySelectorAll('input, textarea, button:not(.close)');
+            inputs.forEach(input => {
+                input.disabled = true;
+            });
+            console.log('[CHECKOUT] Checkout form muted on initial load');
+        }
+    } catch (error) {
+        console.error('[CHECKOUT] Error muting checkout form:', error);
+    }
+}
+
+// Activate checkout form (enable interaction)
+function activateCheckoutForm() {
+    try {
+        const checkoutForm = document.getElementById('checkoutForm');
+        if (checkoutForm) {
+            checkoutForm.classList.remove('muted');
+            // Enable all form inputs
+            const inputs = checkoutForm.querySelectorAll('input, textarea, button');
+            inputs.forEach(input => {
+                input.disabled = false;
+            });
+            console.log('[CHECKOUT] Checkout form activated');
+        }
+    } catch (error) {
+        console.error('[CHECKOUT] Error activating checkout form:', error);
+    }
+}
+
+// ===========================
+// STEP NAVIGATION
+// ===========================
+
+// Go to specific step
+function goToStep(stepNumber) {
+    try {
+        console.log('[CHECKOUT-BRIDGE] ========== Navigating to step:', stepNumber, '==========');
+
+        // Validate step number
+        if (stepNumber < 1 || stepNumber > 3) {
+            console.error('[CHECKOUT-BRIDGE] Invalid step number:', stepNumber);
+            return false;
+        }
+
+        // Update step indicator
+        updateStepIndicator(stepNumber);
+
+        // Show/hide step contents
+        const step1Content = document.getElementById('step1Content');
+        const step2Content = document.getElementById('step2Content');
+        const step3Content = document.getElementById('step3Content');
+        const paymentSuccess = document.getElementById('paymentSuccess');
+
+        console.log('[CHECKOUT-BRIDGE] Elements found:', {
+            step1Content: !!step1Content,
+            step2Content: !!step2Content,
+            step3Content: !!step3Content
+        });
+
+        // Hide all step contents
+        if (step1Content) {
+            step1Content.style.setProperty('display', 'none', 'important');
+            console.log('[CHECKOUT-BRIDGE] Step 1 content HIDDEN');
+        }
+        if (step2Content) {
+            step2Content.style.setProperty('display', 'none', 'important');
+            console.log('[CHECKOUT-BRIDGE] Step 2 content HIDDEN');
+        }
+        if (step3Content) {
+            step3Content.style.setProperty('display', 'none', 'important');
+            console.log('[CHECKOUT-BRIDGE] Step 3 content HIDDEN');
+        }
+
+        // Show selected step content
+        if (stepNumber === 1) {
+            if (step1Content) {
+                step1Content.style.setProperty('display', 'block', 'important');
+                console.log('[CHECKOUT-BRIDGE] Step 1 content SHOWN');
+            }
+            muteCheckoutForm(); // Mute form on Step 1
+            console.log('[CHECKOUT-BRIDGE] Step 1 displayed - form muted');
+        } else if (stepNumber === 2) {
+            if (step2Content) {
+                step2Content.style.setProperty('display', 'block', 'important');
+                console.log('[CHECKOUT-BRIDGE] Step 2 content SHOWN');
+            }
+            activateCheckoutForm(); // Activate form on Step 2
+            console.log('[CHECKOUT-BRIDGE] Step 2 displayed - form activated');
+        } else if (stepNumber === 3) {
+            if (step3Content) {
+                step3Content.style.setProperty('display', 'block', 'important');
+                console.log('[CHECKOUT-BRIDGE] Step 3 content SHOWN');
+            }
+            updateConfirmationData();
+            console.log('[CHECKOUT-BRIDGE] Step 3 displayed - confirmation data updated');
+        }
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        currentStep = stepNumber;
+        console.log('[CHECKOUT-BRIDGE] Current step updated to:', currentStep);
+        console.log('[CHECKOUT-BRIDGE] ========== Navigation complete ==========');
+
+        return true;
+    } catch (error) {
+        console.error('[CHECKOUT-BRIDGE] Error navigating to step:', error);
+        console.error('[CHECKOUT-BRIDGE] Stack trace:', error.stack);
+        return false;
+    }
+}
+
+// Update step indicator
+function updateStepIndicator(stepNumber) {
+    try {
+        const steps = document.querySelectorAll('.step');
+        steps.forEach((step, index) => {
+            if (index + 1 <= stepNumber) {
+                step.classList.add('active');
+            } else {
+                step.classList.remove('active');
+            }
+        });
+        console.log('[CHECKOUT-BRIDGE] Step indicator updated to:', stepNumber);
+    } catch (error) {
+        console.error('[CHECKOUT-BRIDGE] Error updating step indicator:', error);
+    }
+}
+
+// Validate and go to step 3
+function validateAndGoToStep3() {
+    try {
+        console.log('[CHECKOUT-BRIDGE] Validating form for step 3...');
+
+        // Validate customer information
+        const customerName = document.getElementById('customerName').value.trim();
+        const customerEmail = document.getElementById('customerEmail').value.trim();
+        const customerPhone = document.getElementById('customerPhone').value.trim();
+        const deliveryAddress = document.getElementById('deliveryAddress').value.trim();
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+        if (!customerName || !customerEmail || !customerPhone || !deliveryAddress) {
+            showErrorMessage('❌ Silakan lengkapi semua informasi pelanggan');
+            console.warn('[CHECKOUT-BRIDGE] Form validation failed: missing customer info');
+            return false;
+        }
+
+        if (!paymentMethod) {
+            showErrorMessage('❌ Silakan pilih metode pembayaran');
+            console.warn('[CHECKOUT-BRIDGE] Form validation failed: no payment method selected');
+            return false;
+        }
+
+        // Validate payment method specific fields
+        const selectedPaymentMethod = paymentMethod.value;
+
+        if (selectedPaymentMethod === 'card') {
+            const cardName = document.getElementById('cardName').value.trim();
+            const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+            const expiryDate = document.getElementById('expiryDate').value.trim();
+            const cvv = document.getElementById('cvv').value.trim();
+
+            if (!cardName || !cardNumber || !expiryDate || !cvv) {
+                showErrorMessage('❌ Silakan lengkapi detail kartu kredit');
+                console.warn('[CHECKOUT-BRIDGE] Card validation failed');
+                return false;
+            }
+
+            if (cardNumber.length < 13 || cardNumber.length > 19 || !/^\d+$/.test(cardNumber)) {
+                showErrorMessage('❌ Nomor kartu tidak valid');
+                return false;
+            }
+
+            if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
+                showErrorMessage('❌ Format tanggal kadaluarsa harus MM/YY');
+                return false;
+            }
+
+            if (!/^\d{3}$/.test(cvv)) {
+                showErrorMessage('❌ CVV harus 3 digit');
+                return false;
+            }
+        }
+
+        if (selectedPaymentMethod === 'qrcode') {
+            const qrcodeConfirm = document.getElementById('qrcodeConfirm');
+            if (!qrcodeConfirm || !qrcodeConfirm.checked) {
+                showErrorMessage('❌ Silakan konfirmasi bahwa Anda telah melakukan pembayaran QR Code');
+                console.warn('[CHECKOUT-BRIDGE] QR code confirmation not checked');
+                return false;
+            }
+        }
+
+        console.log('[CHECKOUT-BRIDGE] All validations passed, proceeding to step 3');
+        goToStep(3);
+        return true;
+
+    } catch (error) {
+        console.error('[CHECKOUT-BRIDGE] Error validating form:', error);
+        showErrorMessage('❌ Terjadi kesalahan validasi form');
+        return false;
+    }
+}
+
+// Update confirmation data on step 3
+function updateConfirmationData() {
+    try {
+        console.log('[CHECKOUT-BRIDGE] Updating confirmation data...');
+
+        // Get form data
+        const name = document.getElementById('customerName').value;
+        const email = document.getElementById('customerEmail').value;
+        const phone = document.getElementById('customerPhone').value;
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+        const total = window.checkoutTotal ? '$' + window.checkoutTotal.toFixed(2) : '$0.00';
+
+        // Map payment method names
+        const paymentMethodNames = {
+            'card': 'Kartu Kredit/Debit',
+            'transfer': 'Transfer Bank',
+            'ewallet': 'E-Wallet (GCash/PayMaya)',
+            'cod': 'Bayar di Tempat (COD)',
+            'qrcode': 'QR Code / Barcode'
+        };
+
+        // Update confirmation display
+        const confirmName = document.getElementById('confirmName');
+        const confirmEmail = document.getElementById('confirmEmail');
+        const confirmPhone = document.getElementById('confirmPhone');
+        const confirmPaymentMethod = document.getElementById('confirmPaymentMethod');
+        const confirmTotal = document.getElementById('confirmTotal');
+        const paymentAmountBtn = document.getElementById('paymentAmount');
+
+        if (confirmName) confirmName.textContent = name;
+        if (confirmEmail) confirmEmail.textContent = email;
+        if (confirmPhone) confirmPhone.textContent = phone;
+        if (confirmPaymentMethod) confirmPaymentMethod.textContent = paymentMethodNames[paymentMethod] || paymentMethod;
+        if (confirmTotal) confirmTotal.textContent = total;
+        if (paymentAmountBtn) paymentAmountBtn.textContent = total;
+
+        console.log('[CHECKOUT-BRIDGE] Confirmation data updated:', {
+            name, email, phone, paymentMethod, total
+        });
+
+    } catch (error) {
+        console.error('[CHECKOUT-BRIDGE] Error updating confirmation data:', error);
     }
 }
 
@@ -76,6 +335,9 @@ function initializeCheckout() {
 
         // Bind payment form
         bindPaymentForm();
+
+        // MUTE checkout form on initial load (Step 1)
+        muteCheckoutForm();
 
         console.log('[CHECKOUT] Initialization complete');
     } catch (error) {
@@ -183,7 +445,7 @@ function displayOrderItems(items) {
 
         if (!items || items.length === 0) {
             console.warn('[CHECKOUT-BRIDGE] No items to display');
-            container.innerHTML = '<p class="text-muted">No items in cart</p>';
+            container.innerHTML = '<p class="text-muted text-light">No items in cart</p>';
             return;
         }
 
@@ -195,7 +457,7 @@ function displayOrderItems(items) {
                 itemElement.innerHTML = `
                     <span>
                         <strong>${item.product}</strong><br>
-                        <small class="text-muted">Qty: ${item.quantity} × $${item.price}</small>
+                        <small class=" text-secondary">Qty: ${item.quantity} × $${item.price}</small>
                     </span>
                     <span class="text-warning fw-bold">$${itemTotal}</span>
                 `;
@@ -302,19 +564,37 @@ function selectPaymentMethod(element, method) {
 
         // Show/hide card details
         const cardDetails = document.getElementById('cardDetails');
+        const qrcodeDetails = document.getElementById('qrcodeDetails');
+
         if (!cardDetails) {
             console.warn('[CHECKOUT-BRIDGE] cardDetails element not found');
             return;
         }
 
+        if (!qrcodeDetails) {
+            console.warn('[CHECKOUT-BRIDGE] qrcodeDetails element not found');
+            return;
+        }
+
         if (method === 'card') {
             cardDetails.style.display = 'block';
-            // Set as required
+            qrcodeDetails.style.display = 'none';
             setCardFieldsRequired(true);
+            console.log('[CHECKOUT-BRIDGE] Card payment activated');
+        } else if (method === 'qrcode') {
+            cardDetails.style.display = 'none';
+            qrcodeDetails.style.display = 'block';
+            setCardFieldsRequired(false);
+            // Get total amount and show QR code
+            const totalAmount = window.checkoutTotal ? window.checkoutTotal.toFixed(2) : '$0.00';
+            const totalStr = typeof totalAmount === 'string' ? totalAmount : '$' + totalAmount;
+            showQRCodeDetails(totalStr);
+            console.log('[CHECKOUT-BRIDGE] QR Code payment activated, amount:', totalStr);
         } else {
             cardDetails.style.display = 'none';
-            // Remove required
+            qrcodeDetails.style.display = 'none';
             setCardFieldsRequired(false);
+            console.log('[CHECKOUT-BRIDGE] Other payment method:', method);
         }
 
         console.log('[CHECKOUT] Payment method selected:', method);
@@ -334,11 +614,174 @@ function setCardFieldsRequired(required) {
     });
 }
 
+// ===========================
+// QR CODE / BARCODE PAYMENT
+// ===========================
+
+// Generate QR Code for payment
+function generateQRCode(amount, referenceNumber) {
+    try {
+        console.log('[CHECKOUT-BRIDGE] Generating QR Code for amount:', amount, 'ref:', referenceNumber);
+
+        const qrcodeCanvas = document.getElementById('qrcodeCanvas');
+        if (!qrcodeCanvas) {
+            console.error('[CHECKOUT-BRIDGE] qrcodeCanvas element not found');
+            return false;
+        }
+
+        // Create QR code data string
+        // Format: PAYMENT|AMOUNT|REF|TIMESTAMP
+        const timestamp = new Date().toISOString();
+        const qrData = `PAYMENT|${amount}|${referenceNumber}|${timestamp}`;
+
+        console.log('[CHECKOUT-BRIDGE] QR Code data:', qrData);
+
+        // Clear previous QR code
+        qrcodeCanvas.innerHTML = '';
+
+        // Create canvas element for QR code
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Simple QR Code placeholder with barcode-like pattern
+        generateSimpleQRPattern(canvas, qrData, referenceNumber, amount);
+
+        qrcodeCanvas.appendChild(canvas);
+        console.log('[CHECKOUT-BRIDGE] QR Code generated successfully');
+        return true;
+    } catch (error) {
+        console.error('[CHECKOUT-BRIDGE] Error generating QR code:', error);
+        return false;
+    }
+}
+
+// Generate simple QR pattern (mock for demo)
+function generateSimpleQRPattern(canvas, data, referenceNumber, amount) {
+    const size = 250;
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    // Background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, size, size);
+
+    // Generate pattern based on data
+    const pattern = generateBarcodePattern(data);
+    const cellSize = size / 25; // 25x25 grid
+
+    ctx.fillStyle = '#000000';
+    for (let i = 0; i < pattern.length; i++) {
+        for (let j = 0; j < pattern[i].length; j++) {
+            if (pattern[i][j]) {
+                ctx.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
+            }
+        }
+    }
+
+    // Add border
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(0, 0, size, size);
+
+    // Add reference number text at bottom
+    ctx.fillStyle = '#000000';
+    ctx.font = 'bold 12px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('REF: ' + referenceNumber, size / 2, size - 10);
+}
+
+// Generate barcode pattern from data
+function generateBarcodePattern(data) {
+    const pattern = [];
+    const rows = 25;
+    const cols = 25;
+
+    // Initialize pattern
+    for (let i = 0; i < rows; i++) {
+        pattern[i] = [];
+        for (let j = 0; j < cols; j++) {
+            pattern[i][j] = false;
+        }
+    }
+
+    // Hash data to generate pattern
+    let hash = 0;
+    for (let i = 0; i < data.length; i++) {
+        const char = data.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+
+    // Create pattern from hash
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            const bit = (hash >> ((i * cols + j) % 32)) & 1;
+            pattern[i][j] = bit === 1;
+        }
+    }
+
+    // Add quiet zone (white border)
+    for (let i = 0; i < rows; i++) {
+        pattern[i][0] = false;
+        pattern[i][cols - 1] = false;
+    }
+    for (let j = 0; j < cols; j++) {
+        pattern[0][j] = false;
+        pattern[rows - 1][j] = false;
+    }
+
+    return pattern;
+}
+
+// Show QR Code details
+function showQRCodeDetails(amount) {
+    try {
+        console.log('[CHECKOUT-BRIDGE] Showing QR Code details for amount:', amount);
+
+        // Generate reference number
+        const referenceNumber = generateQRReference();
+
+        // Update QR code reference and amount fields
+        const refField = document.getElementById('qrcodeReference');
+        const amountField = document.getElementById('qrcodeAmount');
+
+        if (refField) {
+            refField.value = referenceNumber;
+            console.log('[CHECKOUT-BRIDGE] Reference number set:', referenceNumber);
+        }
+
+        if (amountField) {
+            amountField.value = amount;
+            console.log('[CHECKOUT-BRIDGE] Amount set:', amount);
+        }
+
+        // Generate QR Code
+        generateQRCode(amount, referenceNumber);
+
+        console.log('[CHECKOUT-BRIDGE] QR Code details displayed');
+        return referenceNumber;
+    } catch (error) {
+        console.error('[CHECKOUT-BRIDGE] Error showing QR code details:', error);
+        return null;
+    }
+}
+
+// Generate QR Reference Number
+function generateQRReference() {
+    const timestamp = Date.now().toString().slice(-6);
+    const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+    const reference = `QR${timestamp}${random}`;
+    console.log('[CHECKOUT-BRIDGE] Generated QR reference:', reference);
+    return reference;
+}
+
 // Bind payment form submission
 function bindPaymentForm() {
     try {
-        console.log('[CHECKOUT-BRIDGE] Binding payment form...');
+        console.log('[CHECKOUT-BRIDGE] Binding payment forms...');
 
+        // Bind main payment form (step 1-2)
         const form = document.getElementById('paymentForm');
         if (!form) {
             console.error('[CHECKOUT-BRIDGE] paymentForm element not found');
@@ -347,13 +790,25 @@ function bindPaymentForm() {
 
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-            console.log('[CHECKOUT-BRIDGE] Payment form submitted');
-            processPayment();
+            console.log('[CHECKOUT-BRIDGE] Payment form submitted - this form is for navigation only');
         });
 
-        console.log('[CHECKOUT-BRIDGE] Payment form bound successfully');
+        // Bind step 3 confirmation form
+        const form3 = document.getElementById('paymentFormStep3');
+        if (form3) {
+            form3.addEventListener('submit', function (e) {
+                e.preventDefault();
+                console.log('[CHECKOUT-BRIDGE] Step 3 confirmation form submitted');
+                processPayment();
+            });
+            console.log('[CHECKOUT-BRIDGE] Step 3 form bound successfully');
+        } else {
+            console.warn('[CHECKOUT-BRIDGE] paymentFormStep3 element not found');
+        }
+
+        console.log('[CHECKOUT-BRIDGE] Payment forms bound successfully');
     } catch (error) {
-        console.error('[CHECKOUT-BRIDGE] Error binding payment form:', error);
+        console.error('[CHECKOUT-BRIDGE] Error binding payment forms:', error);
     }
 }
 
@@ -416,22 +871,37 @@ function validateCheckoutForm() {
         }
     }
 
-    console.log('[CHECKOUT] Validation passed');
-    return true;
+    // Validate QR Code payment
+    if (method === 'qrcode') {
+        const qrcodeConfirm = document.getElementById('qrcodeConfirm');
+        if (!qrcodeConfirm || !qrcodeConfirm.checked) {
+            showErrorMessage('Please confirm that you have completed QR Code payment');
+            console.warn('[CHECKOUT] Validation failed: QR code payment not confirmed');
+            return false;
+        }
+        console.log('[CHECKOUT-BRIDGE] QR Code payment validation passed');
+    }
+
+    console.log('[CHECKOUT] Validation passed for method:', method);
+    return true;;
 }
 
 // Process payment
 function processPayment() {
     try {
-        console.log('[CHECKOUT-BRIDGE] Starting payment process...');
+        console.log('[CHECKOUT-BRIDGE] Starting payment process from step 3...');
 
-        if (!validateCheckoutForm()) {
-            console.warn('[CHECKOUT-BRIDGE] Form validation failed');
+        // Get form data (validation sudah dilakukan di step sebelumnya)
+        const agreeTerms = document.getElementById('agreeTerms');
+
+        if (!agreeTerms || !agreeTerms.checked) {
+            showErrorMessage('❌ Silakan setujui syarat dan ketentuan pembayaran');
+            console.warn('[CHECKOUT-BRIDGE] Terms & conditions not accepted');
             return;
         }
 
-        console.log('[CHECKOUT-BRIDGE] Form validation passed');
-        showLoader('Processing Payment...');
+        console.log('[CHECKOUT-BRIDGE] All checks passed, starting payment processing...');
+        showLoader('🔄 Memproses Pembayaran...');
         console.log('[CHECKOUT-BRIDGE] Loader shown, waiting for payment processing...');
 
         // Simulate payment processing (2 seconds)
@@ -443,7 +913,7 @@ function processPayment() {
     } catch (error) {
         console.error('[CHECKOUT-BRIDGE] Error processing payment:', error);
         hideLoader();
-        showErrorMessage('Payment processing failed');
+        showErrorMessage('❌ Terjadi kesalahan saat memproses pembayaran');
     }
 }
 
@@ -456,6 +926,9 @@ function completePayment() {
         const orderNumber = generateOrderNumber();
         console.log('[CHECKOUT-BRIDGE] Order number generated:', orderNumber);
 
+        // Get payment method
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
         // Collect payment data
         const paymentData = {
             orderNumber: orderNumber,
@@ -463,13 +936,28 @@ function completePayment() {
             customerEmail: document.getElementById('customerEmail').value,
             customerPhone: document.getElementById('customerPhone').value,
             deliveryAddress: document.getElementById('deliveryAddress').value,
-            paymentMethod: document.querySelector('input[name="paymentMethod"]:checked').value,
+            paymentMethod: paymentMethod,
             subtotal: window.checkoutSubtotal,
             tax: window.checkoutTax,
             deliveryFee: window.checkoutDelivery,
             total: window.checkoutTotal,
             timestamp: new Date().toISOString()
         };
+
+        // Add QR Code specific data if payment method is QR Code
+        if (paymentMethod === 'qrcode') {
+            const qrcodeReference = document.getElementById('qrcodeReference').value;
+            const qrcodeAmount = document.getElementById('qrcodeAmount').value;
+
+            paymentData.qrcodeReference = qrcodeReference;
+            paymentData.qrcodeAmount = qrcodeAmount;
+            paymentData.qrcodeConfirmed = true;
+
+            console.log('[CHECKOUT-BRIDGE] QR Code payment data added:', {
+                qrcodeReference: qrcodeReference,
+                qrcodeAmount: qrcodeAmount
+            });
+        }
 
         console.log('[CHECKOUT-BRIDGE] Payment data prepared:', paymentData);
 
@@ -533,16 +1021,23 @@ function showPaymentSuccess(orderNumber) {
 
         hideLoader();
 
-        // Hide form, show success message
+        // Hide all step contents
+        const step1Content = document.getElementById('step1Content');
+        const step2Content = document.getElementById('step2Content');
+        const step3Content = document.getElementById('step3Content');
         const checkoutForm = document.getElementById('checkoutForm');
         const successDiv = document.getElementById('paymentSuccess');
 
-        if (!checkoutForm || !successDiv) {
+        if (step1Content) step1Content.style.display = 'none';
+        if (step2Content) step2Content.style.display = 'none';
+        if (step3Content) step3Content.style.display = 'none';
+        if (checkoutForm) checkoutForm.style.display = 'none';
+
+        if (!successDiv) {
             console.warn('[CHECKOUT-BRIDGE] Success elements not found');
             return;
         }
 
-        checkoutForm.style.display = 'none';
         successDiv.classList.add('show');
 
         const orderNumberElement = document.getElementById('successOrderNumber');
@@ -551,11 +1046,14 @@ function showPaymentSuccess(orderNumber) {
             console.log('[CHECKOUT-BRIDGE] Order number displayed:', orderNumber);
         }
 
+        // Update step indicator to step 3 (completion)
+        updateStepIndicator(3);
+
         // Show toast notification
         Swal.fire({
             icon: 'success',
-            title: 'Payment Successful!',
-            html: `Your order <strong>${orderNumber}</strong> has been confirmed.<br>Pesanan akan dikirim dalam 30 menit.`,
+            title: '✅ Pembayaran Berhasil!',
+            html: `Pesanan <strong>${orderNumber}</strong> telah dikonfirmasi.<br>Pesanan akan dikirim dalam 30 menit.`,
             toast: true,
             position: 'top-end',
             showConfirmButton: false,

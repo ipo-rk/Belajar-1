@@ -74,41 +74,134 @@
             </div>
 
             <div class="row">
-                <!-- Left Column: Order Summary -->
+                <!-- Left Column: Order Summary / Review -->
                 <div class="col-12 col-lg-7">
-                    <div class="checkout-card p-4 p-md-5">
-                        <div class="checkout-header">
-                            <h1><i class="fas fa-receipt me-2"></i>Order Summary</h1>
-                        </div>
+                    <!-- STEP 1: Order Review -->
+                    <div id="step1Content" class="step-content active">
+                        <div class="checkout-card p-4 p-md-5">
+                            <div class="checkout-header">
+                                <h1><i class="fas fa-receipt me-2"></i>Order Summary</h1>
+                            </div>
 
-                        <!-- Order Items -->
-                        <div id="checkoutOrderItems" class="mb-4">
-                            <!-- Populated by JavaScript -->
-                        </div>
+                            <!-- Order Items -->
+                            <div id="checkoutOrderItems" class="mb-4">
+                                <!-- Populated by JavaScript -->
+                            </div>
 
-                        <!-- Order Summary -->
-                        <div class="order-summary-card">
-                            <div class="summary-item">
-                                <span>Subtotal</span>
-                                <span id="subtotal">$0.00</span>
+                            <!-- Order Summary -->
+                            <div id="orderSummaryCard" class="order-summary-card">
+                                <div class="summary-item">
+                                    <span>Subtotal</span>
+                                    <span id="subtotal">$0.00</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Tax (10%)</span>
+                                    <span id="taxAmount">$0.00</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Delivery Fee</span>
+                                    <span id="deliveryFee">$0.00</span>
+                                </div>
+                                <div class="summary-total">
+                                    <span>Total Amount</span>
+                                    <span id="checkoutTotal">$0.00</span>
+                                </div>
                             </div>
-                            <div class="summary-item">
-                                <span>Tax (10%)</span>
-                                <span id="taxAmount">$0.00</span>
+
+                            <!-- Step 1 Navigation -->
+                            <div class="step-navigation mt-4">
+                                <button type="button" class="btn btn-outline-warning w-100" onclick="goToStep(2)">
+                                    <i class="fas fa-arrow-right me-2"></i>Lanjut ke Payment
+                                </button>
                             </div>
-                            <div class="summary-item">
-                                <span>Delivery Fee</span>
-                                <span id="deliveryFee">$0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Payment Method Selection (Left side) -->
+                    <div id="step2Content" class="step-content" style="display: none;">
+                        <div class="checkout-card p-4 p-md-5">
+                            <div class="checkout-header">
+                                <h2><i class="fas fa-wallet me-2"></i>Pilih Metode Pembayaran</h2>
                             </div>
-                            <div class="summary-total">
-                                <span>Total Amount</span>
-                                <span id="checkoutTotal">$0.00</span>
+
+                            <!-- Info Message -->
+                            <div class="alert alert-warning" role="alert">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Catatan:</strong> Pilih metode pembayaran di form di sebelah kanan untuk
+                                melanjutkan.
                             </div>
+
+                            <!-- Step 2 Navigation -->
+                            <div class="step-navigation">
+                                <button type="button" class="btn btn-outline-warning w-100" onclick="goToStep(1)">
+                                    <i class="fas fa-arrow-left me-2"></i>Kembali
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Payment Form -->
+                    <div id="step3Content" class="step-content" style="display: none;">
+                        <div class="checkout-card p-4 p-md-5">
+                            <div class="checkout-header">
+                                <h2><i class="fas fa-lock me-2"></i>Konfirmasi Pembayaran</h2>
+                            </div>
+
+                            <form id="paymentFormStep3">
+                                <!-- Customer Information Summary -->
+                                <div class="mb-4">
+                                    <h6 class="text-warning fw-bold mb-3"><i class="fas fa-user me-2"></i>Detail
+                                        Pengiriman</h6>
+                                    <div class="order-summary-card mb-3">
+                                        <div class="summary-item">
+                                            <span>Nama</span>
+                                            <span id="confirmName" class="text-warning">-</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <span>Email</span>
+                                            <span id="confirmEmail" class="text-warning">-</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <span>No. Telepon</span>
+                                            <span id="confirmPhone" class="text-warning">-</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <span>Metode Bayar</span>
+                                            <span id="confirmPaymentMethod" class="text-warning">-</span>
+                                        </div>
+                                        <div class="summary-total">
+                                            <span>Total Pembayaran</span>
+                                            <span id="confirmTotal">$0.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Terms & Conditions -->
+                                <div class="mb-4 form-check">
+                                    <input type="checkbox" class="form-check-input" id="agreeTerms" name="agreeTerms"
+                                        required>
+                                    <label class="form-check-label text-light" for="agreeTerms">
+                                        Saya setuju dengan syarat dan ketentuan pembayaran
+                                    </label>
+                                </div>
+
+                                <!-- Step 3 Navigation -->
+                                <div class="step-navigation">
+                                    <button type="button" class="btn btn-outline-warning w-50 mb-2"
+                                        onclick="goToStep(2)">
+                                        <i class="fas fa-arrow-left me-2"></i>Kembali ke Payment
+                                    </button>
+                                    <button type="submit" class="btn btn-complete-payment w-100">
+                                        <i class="fas fa-lock me-2"></i>Konfirmasi & Bayar - <span
+                                            id="paymentAmount">$0.00</span>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Column: Payment & Customer Info -->
+                <!-- Right Column: Payment & Customer Info Form -->
                 <div class="col-12 col-lg-5">
                     <!-- Payment Success Message -->
                     <div id="paymentSuccess" class="checkout-card payment-success p-4 p-md-5">
@@ -119,7 +212,7 @@
                         <p class="text-light mb-4">Terima kasih telah melakukan pemesanan di Enauto Coffee. Pesanan Anda
                             sedang diproses.</p>
                         <div class="order-number" id="successOrderNumber">ORD-000000</div>
-                        <p class="text-muted small mb-4">Pesanan Anda akan dikirim dalam 30 menit</p>
+                        <p class="text-muted small text-light mb-4">Pesanan Anda akan dikirim dalam 30 menit</p>
                         <div class="text-center">
                             <button type="button" class="btn btn-warning fw-bold"
                                 onclick="window.location.href='index.html#order'">
@@ -128,7 +221,7 @@
                         </div>
                     </div>
 
-                    <!-- Checkout Form -->
+                    <!-- Checkout Form (Shown on Steps 1 & 2) -->
                     <div id="checkoutForm" class="checkout-card p-4 p-md-5">
                         <div class="checkout-header">
                             <h2><i class="fas fa-credit-card me-2"></i>Payment Details</h2>
@@ -160,7 +253,7 @@
                                 </div>
                             </div>
 
-                            <!-- Payment Method -->
+                            <!-- Payment Method (Sidebar) -->
                             <div class="mb-4">
                                 <h5 class="text-warning fw-bold mb-3"><i class="fas fa-wallet me-2"></i>Payment Method
                                 </h5>
@@ -183,6 +276,54 @@
                                     <input type="radio" name="paymentMethod" value="cod">
                                     <i class="fas fa-money-bill me-2 text-warning"></i>
                                     <span class="fw-bold">Cash on Delivery</span>
+                                </div>
+                                <div class="payment-method" onclick="selectPaymentMethod(this, 'qrcode')">
+                                    <input type="radio" name="paymentMethod" value="qrcode">
+                                    <i class="fas fa-qrcode me-2 text-warning"></i>
+                                    <span class="fw-bold">QR Code / Barcode</span>
+                                </div>
+                            </div>
+
+                            <!-- QR Code / Barcode Details (shown only for qrcode payment) -->
+                            <div id="qrcodeDetails" class="mb-4" style="display: none;">
+                                <div class="qrcode-container">
+                                    <div class="qrcode-header">
+                                        <h6 class="text-warning fw-bold">
+                                            <i class="fas fa-qrcode me-2"></i>Scan QR Code / Barcode
+                                        </h6>
+                                        <p class="text-light small mb-2">Silakan scan QR code di bawah menggunakan
+                                            aplikasi pembayaran Anda</p>
+                                    </div>
+
+                                    <!-- QR Code Display -->
+                                    <div class="qrcode-display">
+                                        <div id="qrcodeCanvas" class="qrcode-canvas">
+                                            <!-- QR Code will be generated here -->
+                                        </div>
+                                    </div>
+
+                                    <!-- Reference Number -->
+                                    <div class="mb-3 mt-4">
+                                        <label for="qrcodeReference" class="form-label">Reference Number</label>
+                                        <input type="text" class="form-control" id="qrcodeReference"
+                                            name="qrcodeReference" readonly>
+                                    </div>
+
+                                    <!-- Payment Amount Display -->
+                                    <div class="mb-3">
+                                        <label for="qrcodeAmount" class="form-label">Amount to Pay</label>
+                                        <input type="text" class="form-control" id="qrcodeAmount" name="qrcodeAmount"
+                                            readonly>
+                                    </div>
+
+                                    <!-- Confirmation Checkbox -->
+                                    <div class="form-check mb-3">
+                                        <input type="checkbox" class="form-check-input" id="qrcodeConfirm"
+                                            name="qrcodeConfirm">
+                                        <label class="form-check-label text-light small" for="qrcodeConfirm">
+                                            Saya telah melakukan pembayaran melalui QR Code
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -211,18 +352,10 @@
                                 </div>
                             </div>
 
-                            <!-- Terms & Conditions -->
-                            <div class="mb-4 form-check">
-                                <input type="checkbox" class="form-check-input" id="agreeTerms" name="agreeTerms"
-                                    required>
-                                <label class="form-check-label text-light" for="agreeTerms">
-                                    I agree to the Terms & Conditions
-                                </label>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <button type="submit" class="btn btn-complete-payment w-100">
-                                <i class="fas fa-lock me-2"></i>Complete Payment - <span id="paymentAmount">$0.00</span>
+                            <!-- Button to proceed to Step 3 -->
+                            <button type="button" class="btn btn-warning w-100 fw-bold"
+                                onclick="validateAndGoToStep3()">
+                                <i class="fas fa-arrow-right me-2"></i>Lanjut ke Konfirmasi
                             </button>
                         </form>
                     </div>

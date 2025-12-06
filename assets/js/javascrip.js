@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const cancelBtn = loginForm.querySelector('button[data-bs-dismiss]');
 
             // Check registered users before proceeding
-            const registeredUsers = JSON.parse(localStorage.getItem('enauto_coffe_registered_users') || '{}');
+            const registeredUsers = JSON.parse(localStorage.getItem('enauto_registered_users') || '{}');
             if (!registeredUsers[id]) {
                 showTemporaryMessage('Email/Username tidak terdaftar. Silakan register terlebih dahulu.', 'error');
                 return;
@@ -522,6 +522,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 localStorage.removeItem('enauto_logged');
                 localStorage.removeItem('enauto_user');
                 localStorage.removeItem('enauto_email');
+                localStorage.removeItem('enauto_photo');
                 disableCartButtons();
             }
         } catch (e) {

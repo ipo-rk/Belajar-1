@@ -57,6 +57,7 @@
   align-items: center;
   padding: 0.8rem 0;
   border-bottom: 1px solid rgba(255, 193, 7, 0.1);
+  color: #fff;
 }
 
 .summary-item:last-child {
@@ -288,4 +289,191 @@
   .step {
     font-size: 0.85rem;
   }
+}
+
+/* ===========================
+   QR CODE / BARCODE PAYMENT
+   =========================== */
+
+.qrcode-container {
+  background: rgba(255, 193, 7, 0.05);
+  border: 2px solid rgba(255, 193, 7, 0.2);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.qrcode-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.qrcode-header h6 {
+  color: #ffc107;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.qrcode-header p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.qrcode-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.qrcode-canvas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qrcode-canvas canvas {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: qrcode-appear 0.5s ease-out;
+}
+
+@keyframes qrcode-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.qrcode-container .form-label {
+  color: #ffc107;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.qrcode-container .form-control {
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 193, 7, 0.2);
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.8rem;
+}
+
+.qrcode-container .form-control:focus {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ffc107;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.2);
+}
+
+.qrcode-container .form-check-input {
+  border: 2px solid rgba(255, 193, 7, 0.4);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.qrcode-container .form-check-input:checked {
+  background: #ffc107;
+  border-color: #ffc107;
+  box-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
+}
+
+.qrcode-container .form-check-label {
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .qrcode-display {
+    padding: 1rem;
+  }
+
+  .qrcode-container {
+    padding: 1rem;
+  }
+
+  .qrcode-canvas canvas {
+    max-width: 200px;
+  }
+}
+
+/* ===========================
+   STEP NAVIGATION & CONTENT
+   =========================== */
+
+.step-content {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.step-content.active {
+  display: block !important;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step-navigation {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.step-navigation button {
+  transition: all 0.3s ease;
+}
+
+.step-navigation .btn-outline-warning:hover {
+  background: rgba(255, 193, 7, 0.1);
+  border-color: #ffc107;
+  color: #ffc107;
+}
+
+.step-navigation .btn-complete-payment {
+  flex: 1;
+}
+
+/* Summary card for confirmation */
+.order-summary-card {
+  background: rgba(255, 193, 7, 0.05);
+  border-left: 4px solid #ffc107;
+}
+
+/* Muted/Disabled State for Checkout Form */
+.checkout-card.muted {
+  opacity: 0.5;
+  pointer-events: none;
+  border-color: rgba(255, 193, 7, 0.1);
+}
+
+.checkout-card.muted .form-control,
+.checkout-card.muted .payment-method,
+.checkout-card.muted button {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.checkout-card.muted .checkout-header h2 {
+  opacity: 0.6;
 }
