@@ -69,7 +69,7 @@
                 const userPhoto = (function () {
                     try { return localStorage.getItem('enauto_photo') || null; } catch (e) { return null; }
                 })();
-                console.log('[PROFILE] Rendering profile card:', {name, email, hasPhoto: !!userPhoto});
+                console.log('[PROFILE] Rendering profile card:', { name, email, hasPhoto: !!userPhoto });
 
                 // Create profile card in top-right
                 const profileCardDiv = document.createElement('div');
@@ -156,13 +156,13 @@
                 profileCardDiv.querySelector('.profile-logout-btn').addEventListener('click', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    try { 
+                    try {
                         const currentUser = localStorage.getItem('enauto_user');
-                        localStorage.removeItem('enauto_user'); 
+                        localStorage.removeItem('enauto_user');
                         localStorage.removeItem('enauto_email');
                         localStorage.removeItem('enauto_photo');
                         console.log('[LOGOUT] User logged out:', currentUser);
-                    } catch (err) { 
+                    } catch (err) {
                         console.error('[LOGOUT] Error clearing user data:', err);
                     }
                     if (typeof setLoggedInState === 'function') setLoggedInState(false);

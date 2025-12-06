@@ -312,8 +312,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     } else {
                         localStorage.removeItem('enauto_photo');
                     }
-                    console.log('[LOGIN] User logged in:', {email: id, name: registeredUsers[id].name, hasPhoto: !!registeredUsers[id].photo});
-                } catch (e) { 
+                    console.log('[LOGIN] User logged in:', { email: id, name: registeredUsers[id].name, hasPhoto: !!registeredUsers[id].photo });
+                } catch (e) {
                     console.error('[LOGIN] Error setting user data:', e);
                 }
                 setLoggedInState(true);
@@ -402,10 +402,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 const maxSize = 2 * 1024 * 1024; // 2MB
                 if (photoFile.size > maxSize) {
                     showTemporaryMessage('Foto terlalu besar. Maksimal 2MB.', 'error');
-                    console.warn('[REGISTER] Photo file too large:', {filename: photoFile.name, size: photoFile.size});
+                    console.warn('[REGISTER] Photo file too large:', { filename: photoFile.name, size: photoFile.size });
                     return;
                 }
-                console.log('[REGISTER] Photo file selected:', {filename: photoFile.name, size: photoFile.size});
+                console.log('[REGISTER] Photo file selected:', { filename: photoFile.name, size: photoFile.size });
             }
 
             // Loading
@@ -452,8 +452,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         photo: photoBase64 || null
                     };
                     localStorage.setItem('enauto_registered_users', JSON.stringify(regUsers));
-                    console.log('[REGISTER] User registered:', {email, name, hasPhoto: !!photoBase64});
-                } catch (err) { 
+                    console.log('[REGISTER] User registered:', { email, name, hasPhoto: !!photoBase64 });
+                } catch (err) {
                     console.error('[REGISTER] Error saving user data:', err);
                 }
 
@@ -465,8 +465,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         localStorage.setItem('enauto_photo', photoBase64);
                         console.log('[LOGIN] Photo saved to localStorage');
                     }
-                    console.log('[LOGIN] User logged in after registration:', {name, email});
-                } catch (e) { 
+                    console.log('[LOGIN] User logged in after registration:', { name, email });
+                } catch (e) {
                     console.error('[LOGIN] Error setting login state:', e);
                 }
                 setLoggedInState(true);
@@ -751,7 +751,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 totalPesananElement.textContent = '$' + total.toFixed(2);
             }
 
-            console.log('[CART] Total updated:', {itemCount, total: total.toFixed(2)});
+            console.log('[CART] Total updated:', { itemCount, total: total.toFixed(2) });
             return total;
         } catch (error) {
             console.error('[CART] Error updating total:', error);
@@ -885,48 +885,65 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (rows.length === 0) {
                 showTemporaryMessage('⚠ Keranjang masih kosong. Pilih produk terlebih dahulu!', 'warning');
+                console.warn('[CHECKOUT] Cart is empty');
                 return;
             }
 
-            // Get total
-            const totalPesananElement = document.getElementById('totalPesanan');
-            const total = totalPesananElement ? totalPesananElement.textContent : '$0.00';
+            try {
+                // Get total
+                const totalPesananElement = document.getElementById('totalPesanan');
+                const total = totalPesananElement ? totalPesananElement.textContent : '$0.00';
+                const totalAmount = parseFloat(total.replace('$', ''));
 
-            // Collect order data
-            const orderItems = [];
-            rows.forEach((row, index) => {
-                const menuCell = row.querySelector('td:nth-child(2)');
-                const priceCell = row.querySelector('td:nth-child(3)');
-                const qtyCell = row.querySelector('.quantity-input');
+                // Collect order data
+                const orderItems = [];
+                rows.forEach((row, index) => {
+                    const menuCell = row.querySelector('td:nth-child(2)');
+                    const priceCell = row.querySelector('td:nth-child(3)');
+                    const qtyCell = row.querySelector('.quantity-input');
 
-                if (menuCell && priceCell && qtyCell) {
-                    const productName = menuCell.textContent.trim();
-                    const price = priceCell.textContent;
-                    const qty = qtyCell.value;
+                    if (menuCell && priceCell && qtyCell) {
+                        const productName = menuCell.textContent.trim().split('\n')[0];
+                        const price = parseFloat(priceCell.textContent.replace('$', ''));
+                        const qty = parseInt(qtyCell.value);
 
-                    orderItems.push({
-                        no: index + 1,
-                        product: productName,
-                        price: price,
-                        quantity: qty
-                    });
-                }
-            });
+                        orderItems.push({
+                            no: index + 1,
+                            product: productName,
+                            price: price.toFixed(2),
+                            quantity: qty
+                        });
+                    }
+                });
 
-            // Show checkout message
-            let itemsText = orderItems.map(item => `${item.product} (${item.quantity}x)`).join(', ');
-            showTemporaryMessage(`✓ Checkout berhasil! Total: ${total} | Items: ${itemsText}`, 'success');
+                // Save order data to sessionStorage for checkout page
+                const checkoutData = {
+                    items: orderItems,
+                    total: total,
+                    totalAmount: totalAmount,
+                    timestamp: new Date().toISOString()
+                };
+                
+                sessionStorage.setItem('checkoutData', JSON.stringify(checkoutData));
+                console.log('[CHECKOUT] Order data saved to sessionStorage:', {
+                    itemCount: orderItems.length,
+                    total: total
+                });
 
-            // Optional: Clear cart after checkout
-            setTimeout(() => {
-                const table = document.querySelector('.order-table tbody');
-                if (table) {
-                    const rowsToRemove = table.querySelectorAll('tr:not(:last-child)');
-                    rowsToRemove.forEach(row => row.remove());
-                    updateTotal();
-                    showTemporaryMessage('✓ Terima kasih! Pesanan Anda sedang diproses', 'success');
-                }
-            }, 2000);
+                // Show success message
+                let itemsText = orderItems.map(item => `${item.product} (${item.quantity}x)`).join(', ');
+                showTemporaryMessage(`✓ Redirecting to checkout... Total: ${total} | Items: ${itemsText}`, 'success');
+
+                // Redirect to checkout page
+                setTimeout(() => {
+                    console.log('[CHECKOUT] Redirecting to checkout page');
+                    window.location.href = 'checkout.html';
+                }, 1500);
+
+            } catch (error) {
+                console.error('[CHECKOUT] Error during checkout:', error);
+                showTemporaryMessage('Error processing checkout. Please try again.', 'error');
+            }
         });
     }
 });
